@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using SimpleScanner;
 using SimpleParser;
+using SimpleLang.Visitors;
 
 namespace SimpleCompiler
 {
@@ -29,6 +30,9 @@ namespace SimpleCompiler
                     //foreach (var st in parser.root.StList)
                     //Console.WriteLine(st);
                 }
+                var assCounter = new AssignCountVisitor();
+                parser.root.Visit(assCounter);
+                Console.WriteLine(assCounter.AssignCount);
             }
             catch (FileNotFoundException)
             {

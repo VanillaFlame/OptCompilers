@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SimpleLang;
+using System.Collections.Generic;
 
 namespace ProgramTree
 {
@@ -10,50 +11,62 @@ namespace ProgramTree
 
     public enum VariableType { Int, Float, Bool }
 
-    public class Node // базовый класс для всех узлов    
+    public abstract class Node // базовый класс для всех узлов    
     {
+        public abstract void Visit(Visitor v);
     }
 
-    public class ExprNode : Node // базовый класс для всех выражений
+    public abstract class ExprNode : Node // базовый класс для всех выражений
     {
-    }
-
-    public class BinOpNode : ExprNode
-    {
-
     }
 
     public class IdNode : ExprNode
     {
         public string Name { get; set; }
         public IdNode(string name) { Name = name; }
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class IntNumNode : ExprNode
     {
         public int Num { get; set; }
         public IntNumNode(int num) { Num = num; }
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class FloatNumNode : ExprNode
     {
         public double Num { get; set; }
         public FloatNumNode(double num) { Num = num; }
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class BoolValNode : ExprNode
     {
         public bool Val { get; set; }
         public BoolValNode(bool val) { Val = val; }
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
-    public class StatementNode : Node // базовый класс для всех операторов
+    public abstract class StatementNode : Node // базовый класс для всех операторов
     {
     }
 
     public class ListExprNode : Node
     {
-        public List<ExprNode> ExprList = new List<ExprNode>();
+        public List<ExprNode> ExprList { get; set; } = new List<ExprNode>();
         public ListExprNode(ExprNode expr)
         {
             ExprList.Add(expr);
@@ -62,6 +75,11 @@ namespace ProgramTree
         public void Add(ExprNode expr)
         {
             ExprList.Add(expr);
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -76,6 +94,11 @@ namespace ProgramTree
             Right = right;
             OpType = type;
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class UnoExprNode : ExprNode
@@ -86,6 +109,11 @@ namespace ProgramTree
         {
             Expr = expr;
             OpType = type;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -99,6 +127,11 @@ namespace ProgramTree
             Id = id;
             Expr = expr;
             AssOp = assop;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -115,6 +148,11 @@ namespace ProgramTree
             End = end;
             Stat = stat;
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class WhileNode : StatementNode
@@ -126,6 +164,11 @@ namespace ProgramTree
             Condition = condition;
             Stat = stat;
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class GotoNode : StatementNode
@@ -135,16 +178,26 @@ namespace ProgramTree
         {
             Label = label;
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class LabeledStatementNode : StatementNode
     {
         public int Label { get; set; }
-        StatementNode Stat { get; set; }
+        public StatementNode Stat { get; set; }
         public LabeledStatementNode(int label, StatementNode stat)
         {
             Label = label;
             Stat = stat;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -165,17 +218,27 @@ namespace ProgramTree
             Stat = stat;
             ElseStat = elseStat;
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class WriteNode : StatementNode
     {
-        public ListExprNode ExprList;
+        public ListExprNode ExprList { get; set; }
         public bool WriteLine { get; set; }
 
         public WriteNode(ListExprNode exprList, bool writeLine)
         {
             ExprList = exprList;
             WriteLine = writeLine;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -185,6 +248,11 @@ namespace ProgramTree
         public ReadNode(IdNode ident)
         {
             Ident = ident;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 
@@ -199,6 +267,11 @@ namespace ProgramTree
         {
             StList.Add(stat);
         }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
+        }
     }
 
     public class DeclarationNode : StatementNode
@@ -211,6 +284,11 @@ namespace ProgramTree
         {
             IdentList = identList;
             Type = type;
+        }
+
+        public override void Visit(Visitor v)
+        {
+            v.Visit(this);
         }
     }
 }
