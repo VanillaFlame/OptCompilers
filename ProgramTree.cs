@@ -11,6 +11,80 @@ namespace ProgramTree
 
     public enum VariableType { Int, Float, Bool }
 
+    public static class AssignTypeExtensions
+    {
+        public static string ToFriendlyString(this AssignType me)
+        {
+            switch (me)
+            {
+                case AssignType.Assign:
+                    return "=";
+                case AssignType.AssignPlus:
+                    return "+=";
+                case AssignType.AssignMult:
+                    return "*=";
+                case AssignType.AssignMinus:
+                    return "-=";
+                case AssignType.AssignDivide:
+                    return "/=";
+                default:
+                    return "ErrorAssignType";
+            }
+        }
+    }
+
+    public static class BinOpTypeExtensions
+    {
+        public static string ToFriendlyString(this BinOpType me)
+        {
+            switch (me)
+            {
+                case BinOpType.Or:
+                    return "|";
+                case BinOpType.And:
+                    return "&";
+                case BinOpType.Plus:
+                    return "+";
+                case BinOpType.Minus:
+                    return "-";
+                case BinOpType.Prod:
+                    return "*";
+                case BinOpType.Div:
+                    return "/";
+                case BinOpType.Less:
+                    return "<";
+                case BinOpType.LessOrEqual:
+                    return "<=";
+                case BinOpType.Greater:
+                    return ">";
+                case BinOpType.GreaterOrEqual:
+                    return ">=";
+                case BinOpType.Equal:
+                    return "==";
+                case BinOpType.NotEqual:
+                    return "!=";
+                default:
+                    return "ErrorBinOpType";
+            }
+        }
+    }
+
+    public static class UnoOpTypeExtensions
+    {
+        public static string ToFriendlyString(this UnoOpType me)
+        {
+            switch (me)
+            {
+                case UnoOpType.Minus:
+                    return "-";
+                case UnoOpType.Not:
+                    return "!";
+                default:
+                    return "ErrorUnoOpType";
+            }
+        }
+    }
+
     public abstract class Node // базовый класс для всех узлов    
     {
         public abstract void Visit(Visitor v);

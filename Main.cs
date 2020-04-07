@@ -30,9 +30,16 @@ namespace SimpleCompiler
                     //foreach (var st in parser.root.StList)
                     //Console.WriteLine(st);
                 }
+
                 var assCounter = new AssignCountVisitor();
                 parser.root.Visit(assCounter);
-                Console.WriteLine(assCounter.AssignCount);
+                Console.WriteLine("AssignCount = " + assCounter.AssignCount);
+                Console.WriteLine();
+                
+
+                var prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
             }
             catch (FileNotFoundException)
             {
