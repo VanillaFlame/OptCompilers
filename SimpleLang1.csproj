@@ -52,6 +52,7 @@
     <Compile Include="SimpleYacc.cs" />
     <Compile Include="Visitors\AssignCountVisitor.cs" />
     <Compile Include="Visitors\AutoVisitor.cs" />
+    <Compile Include="Visitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\PrettyPrinterVisitor.cs" />
     <Compile Include="Visitors\Visitor.cs" />
   </ItemGroup>
