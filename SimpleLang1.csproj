@@ -52,12 +52,17 @@
     <Compile Include="SimpleYacc.cs" />
     <Compile Include="Visitors\AssignCountVisitor.cs" />
     <Compile Include="Visitors\AutoVisitor.cs" />
-    <Compile Include="Visitors\FindFalseVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\ChangeVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />
+    <Compile Include="Visitors\EnterExitVisitor.cs" />
+    <Compile Include="Visitors\FillParentsVisitor.cs" />
     <Compile Include="Visitors\PrettyPrinterVisitor.cs" />
     <Compile Include="Visitors\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="a.txt" />
+    <Content Include="b.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />
