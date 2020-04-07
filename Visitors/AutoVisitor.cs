@@ -54,9 +54,9 @@ namespace SimpleLang.Visitors
         }
         public override void Visit(BlockNode node)
         { 
-            foreach (var s in node.StList)
+            for (int i = node.StList.Count - 1; i >= 0; --i)
             {
-                s.Visit(this);
+                node.StList[i].Visit(this);
             }
         }
         public override void Visit(DeclarationNode node)

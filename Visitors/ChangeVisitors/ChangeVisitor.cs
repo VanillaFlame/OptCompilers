@@ -58,17 +58,62 @@ namespace SimpleLang.Visitors.ChangeVisitors
                         if (declarationNode.IdentList[i] == to)
                         {
                             declarationNode.IdentList[i] = to as IdNode;
+                            break;
                         }
                     }
                     break;
                 case ListExprNode listExprNode:
                     for (int i = 0; i < listExprNode.ExprList.Count; ++i)
                     {
-                        listExprNode.ExprList[i] = to;
+                        if (listExprNode.ExprList[i] == from)
+                        {
+                            listExprNode.ExprList[i] = to;
+                            break;
+                        }
                     }
                     break;
                 default:
                     throw new ArgumentException("ReplaceExpr: wrong parent type");
+            }
+        }
+
+        public void ReplaceStatement(StatementNode from, StatementNode to)
+        {
+            var p = from.Parent;
+            to.Parent = p;
+            switch (p)
+            {
+                case ForNode forNode:
+                    forNode.Stat = to as BlockNode;
+                    break;
+                case WhileNode whileNode:
+                    whileNode.Stat = to as BlockNode;
+                    break;
+                case LabeledStatementNode labeledStatement:
+                    labeledStatement.Stat = to;
+                    break;
+                case IfNode ifNode:
+                    if (ifNode.Stat == from)
+                    {
+                        ifNode.Stat = to as BlockNode;
+                    } 
+                    else if (ifNode.ElseStat == from)
+                    {
+                        ifNode.ElseStat = to as BlockNode;
+                    }
+                    break;
+                case BlockNode blockNode:
+                    for (int i = 0; i < blockNode.StList.Count; ++i)
+                    {
+                        if (blockNode.StList[i] == from)
+                        {
+                            blockNode.StList[i] = to;
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("ReplaceStatement: wrong parent type");
             }
         }
     }

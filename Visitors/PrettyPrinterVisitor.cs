@@ -109,7 +109,6 @@ namespace SimpleLang.Visitors
             ProgramBuilder.Append(")");
             NewLine();
             node.Stat.Visit(this);
-            NewLine();
         }
         public override void Visit(GotoNode node)
         {
@@ -135,6 +134,7 @@ namespace SimpleLang.Visitors
             node.Stat.Visit(this);
             if (node.ElseStat != null)
             {
+                WriteIndent();
                 ProgramBuilder.Append("else");
                 NewLine();
                 node.ElseStat.Visit(this);

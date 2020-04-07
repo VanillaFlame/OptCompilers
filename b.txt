@@ -1,5 +1,5 @@
 {
-  int a, b;
+  int a, b, c;
   for i = 3 .. 5
   {
     if a >= a
@@ -10,12 +10,27 @@
         {
           a = a + 1;
         }
+        else
+        {
+          a = a + 2;
+        }
         read(c);
       }
     }
+    else 
+    {
+      write(c);
+    }
   }
-  if b <=b
+  if a == b
   {
-      read(c);
+    read(c);
+  }
+  else 
+  {
+    if a == a
+    {
+      read(a);
+    }
   }
 }
