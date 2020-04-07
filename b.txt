@@ -1,0 +1,21 @@
+{
+  int a, b;
+  for i = 3 .. 5
+  {
+    if a >= a
+    {
+      while a < b
+      {
+        if a == a
+        {
+          a = a + 1;
+        }
+        read(c);
+      }
+    }
+  }
+  if b <=b
+  {
+      read(c);
+  }
+}

@@ -87,6 +87,7 @@ namespace ProgramTree
 
     public abstract class Node // базовый класс для всех узлов    
     {
+        public Node Parent { get; set; }
         public abstract void Visit(Visitor v);
     }
 

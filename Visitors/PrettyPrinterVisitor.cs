@@ -62,7 +62,7 @@ namespace SimpleLang.Visitors
         }
         public override void Visit(BoolValNode node)
         {
-            ProgramBuilder.Append(node.Val);
+            ProgramBuilder.Append(node.Val.ToString().ToLower());
         }
         public override void Visit(BinExprNode node)
         {
