@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ParserHelper.cs" />
     <Compile Include="ProgramTree.cs" />

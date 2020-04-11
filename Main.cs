@@ -43,7 +43,7 @@ namespace SimpleCompiler
                 */
 
                 var prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
+                /*parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
 
                 var trueOpt = new TrueConditionOptVisitor();
@@ -55,6 +55,22 @@ namespace SimpleCompiler
                 Console.WriteLine(prettyPrinter.FormattedProgram);
 
                 var trueIfOpt = new TrueIfOptVisitor();
+                parser.root.Visit(trueIfOpt);
+
+                Console.WriteLine("========================================================================");*/
+                prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
+                var falseOpt = new FindFalseVisitor();
+                parser.root.Visit(falseOpt);
+
+                Console.WriteLine("========================================================================");
+                prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
+                var trueIfOpt = new IfFalseVisitor();
                 parser.root.Visit(trueIfOpt);
 
                 Console.WriteLine("========================================================================");
