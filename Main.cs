@@ -12,7 +12,7 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\b.txt";
+            string FileName = @"..\..\c.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -41,7 +41,7 @@ namespace SimpleCompiler
                 Console.WriteLine("AssignCount = " + assCounter.AssignCount);
                 Console.WriteLine();
                 */
-
+                /*
                 var prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
@@ -61,7 +61,13 @@ namespace SimpleCompiler
                 prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
-
+                */
+                var TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+                foreach (var c in TACGenerator.TACCommands)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
             }
             catch (FileNotFoundException)
             {

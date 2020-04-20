@@ -50,6 +50,7 @@
     <Compile Include="ShiftReduceParserCode.cs" />
     <Compile Include="SimpleLex.cs" />
     <Compile Include="SimpleYacc.cs" />
+    <Compile Include="TACCommand.cs" />
     <Compile Include="Visitors\AssignCountVisitor.cs" />
     <Compile Include="Visitors\AutoVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\ChangeVisitor.cs" />
@@ -58,11 +59,13 @@
     <Compile Include="Visitors\EnterExitVisitor.cs" />
     <Compile Include="Visitors\FillParentsVisitor.cs" />
     <Compile Include="Visitors\PrettyPrinterVisitor.cs" />
+    <Compile Include="Visitors\TACGenerationVisitor.cs" />
     <Compile Include="Visitors\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="a.txt" />
     <Content Include="b.txt" />
+    <Content Include="c.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />
