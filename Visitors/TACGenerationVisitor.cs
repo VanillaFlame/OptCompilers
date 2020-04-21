@@ -31,6 +31,21 @@ namespace SimpleLang.Visitors
             AddCommand("", "", "", "", label2);
         }
 
+        public override void Visit(WhileNode node)
+        {
+            var label1 = GenerateTempLabel();
+            var label2 = GenerateTempLabel();
+            var label3 = GenerateTempLabel();
+            AddCommand("", "", "", "", label1);
+            var genCond = GenerateExprTAC(node.Condition);
+            AddCommand("if goto", genCond, label2, "");
+            AddCommand("goto", label3, "", "");
+            AddCommand("", "", "", "", label2);
+            node.Stat.Visit(this);
+            AddCommand("goto", label1, "", "");
+            AddCommand("", "", "", "", label3);
+        }
+
         private string GenerateExprTAC(ExprNode ex)
         {
             if (ex.GetType() == typeof(BinExprNode))

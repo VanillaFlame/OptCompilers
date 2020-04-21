@@ -51,8 +51,11 @@
     <Compile Include="SimpleLex.cs" />
     <Compile Include="SimpleYacc.cs" />
     <Compile Include="TACCommand.cs" />
+    <Compile Include="TACOptimizers\AlgebraicIdentitiesOptimizer.cs" />
+    <Compile Include="TACOptimizers\ConstantFoldingOptimizer.cs" />
     <Compile Include="Visitors\AssignCountVisitor.cs" />
     <Compile Include="Visitors\AutoVisitor.cs" />
+    <Compile Include="Visitors\AutoVisitorInversedOrder.cs" />
     <Compile Include="Visitors\ChangeVisitors\ChangeVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />
@@ -66,6 +69,7 @@
     <Content Include="a.txt" />
     <Content Include="b.txt" />
     <Content Include="c.txt" />
+    <Content Include="d.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />

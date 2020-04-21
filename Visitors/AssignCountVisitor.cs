@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimpleLang.Visitors
 {
-    class AssignCountVisitor : AutoVisitor
+    class AssignCountVisitor : AutoVisitorInversedOrder
     {
         public int AssignCount;
         public override void Visit(AssignNode node)
