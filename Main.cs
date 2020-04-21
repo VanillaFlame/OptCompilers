@@ -12,7 +12,7 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\b.txt";
+            string FileName = @"..\..\a.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -35,12 +35,12 @@ namespace SimpleCompiler
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
 
-                /*
+                
                 var assCounter = new AssignCountVisitor();
                 parser.root.Visit(assCounter);
                 Console.WriteLine("AssignCount = " + assCounter.AssignCount);
                 Console.WriteLine();
-                */
+                
 
                 var prettyPrinter = new PrettyPrinterVisitor();
                 /*parser.root.Visit(prettyPrinter);
@@ -57,7 +57,7 @@ namespace SimpleCompiler
                 var trueIfOpt = new TrueIfOptVisitor();
                 parser.root.Visit(trueIfOpt);
 
-                Console.WriteLine("========================================================================");*/
+                Console.WriteLine("========================================================================");
                 prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
@@ -65,18 +65,18 @@ namespace SimpleCompiler
                 var falseOpt = new FindFalseVisitor();
                 parser.root.Visit(falseOpt);
 
-                Console.WriteLine("========================================================================");
+                Console.WriteLine("========================================================================");*/
                 prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
 
-                var trueIfOpt = new IfFalseVisitor();
-                parser.root.Visit(trueIfOpt);
-
-                Console.WriteLine("========================================================================");
+                var treeLewCode = new TreeLeverCodeVisitor();
+                parser.root.Visit(treeLewCode);
+                treeLewCode.PrintProgramm();
+                /*Console.WriteLine("========================================================================");
                 prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);
+                Console.WriteLine(prettyPrinter.FormattedProgram);*/
 
             }
             catch (FileNotFoundException)
