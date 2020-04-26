@@ -5,16 +5,15 @@ using System.Text;
 
 namespace SimpleLang.TACOptimizers
 {
-    public class AlgebraicIdentitiesOptimizer
+    public class AlgebraicIdentitiesOptimizer : TACOptimizer
     {
-        public List<TACCommand> TACCommands { get; set; }
-        public AlgebraicIdentitiesOptimizer(List<TACCommand> commands)
+        public AlgebraicIdentitiesOptimizer(List<TACInstruction> instructions) : base(instructions)
         {
-            TACCommands = commands;
         }
-        public void Execute()
+
+        public override void Run()
         {
-            foreach (var c in TACCommands)
+            foreach (var c in Instructions)
             {
                 if (c.Operation.Equals("+"))
                 {
@@ -29,7 +28,7 @@ namespace SimpleLang.TACOptimizers
                         c.Argument2 = "";
                         c.Operation = "=";
                     }
-                }   
+                }
 
                 if (c.Operation.Equals("-"))
                 {

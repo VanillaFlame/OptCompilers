@@ -5,19 +5,17 @@ using System.Text;
 
 namespace SimpleLang.TACOptimizers
 {
-    public class ConstantFoldingOptimizer
+    public class ConstantFoldingOptimizer : TACOptimizer
     {
-        public List<TACCommand> TACCommands { get; set; }
-        public ConstantFoldingOptimizer(List<TACCommand> commands)
+        public ConstantFoldingOptimizer(List<TACInstruction> instructions) : base(instructions)
         {
-            TACCommands = commands;
         }
 
-        public void Execute()
+        public override void Run()
         {
-            foreach (var c in TACCommands)
+            foreach (var c in Instructions)
             {
-                if (c.Operation.Equals("+") || 
+                if (c.Operation.Equals("+") ||
                     c.Operation.Equals("-") ||
                     c.Operation.Equals("*") ||
                     c.Operation.Equals("/"))
@@ -51,6 +49,5 @@ namespace SimpleLang.TACOptimizers
                 }
             }
         }
-
     }
 }

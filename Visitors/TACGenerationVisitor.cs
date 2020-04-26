@@ -8,27 +8,28 @@ namespace SimpleLang.Visitors
 {
     public class TACGenerationVisitor : AutoVisitor
     {
-        public List<TACCommand> TACCommands = new List<TACCommand>();
+        public List<TACInstruction> Instructions = new List<TACInstruction>();
 
         private static string TEMP_NAME_PREFIX = "#t";
         private static string TEMP_LABEL_PREFIX = "#L";
+
         public override void Visit(AssignNode node)
         {
-            var tmp = GenerateExprTAC(node.Expr);
-            AddCommand(node.AssOp.ToFriendlyString(), tmp, "", node.Id.Name);
+            var tmp = GenerateTACExpr(node.Expr);
+            AddInstruction(node.AssOp.ToFriendlyString(), tmp, "", node.Id.Name);
         }
 
         public override void Visit(IfNode node)
         {
-            var genCond = GenerateExprTAC(node.Condition);
+            var genCond = GenerateTACExpr(node.Condition);
             var label1 = GenerateTempLabel();
             var label2 = GenerateTempLabel();
-            AddCommand("if goto", genCond, label1, "");
+            AddInstruction("if goto", genCond, label1, "");
             node.ElseStat.Visit(this);
-            AddCommand("goto", label2, "", "");
-            AddCommand("", "", "", "", label1);
+            AddInstruction("goto", label2, "", "");
+            AddInstruction("", "", "", "", label1);
             node.Stat.Visit(this);
-            AddCommand("", "", "", "", label2);
+            AddInstruction("", "", "", "", label2);
         }
 
         public override void Visit(WhileNode node)
@@ -36,33 +37,33 @@ namespace SimpleLang.Visitors
             var label1 = GenerateTempLabel();
             var label2 = GenerateTempLabel();
             var label3 = GenerateTempLabel();
-            AddCommand("", "", "", "", label1);
-            var genCond = GenerateExprTAC(node.Condition);
-            AddCommand("if goto", genCond, label2, "");
-            AddCommand("goto", label3, "", "");
-            AddCommand("", "", "", "", label2);
+            AddInstruction("", "", "", "", label1);
+            var genCond = GenerateTACExpr(node.Condition);
+            AddInstruction("if goto", genCond, label2, "");
+            AddInstruction("goto", label3, "", "");
+            AddInstruction("", "", "", "", label2);
             node.Stat.Visit(this);
-            AddCommand("goto", label1, "", "");
-            AddCommand("", "", "", "", label3);
+            AddInstruction("goto", label1, "", "");
+            AddInstruction("", "", "", "", label3);
         }
 
-        private string GenerateExprTAC(ExprNode ex)
+        private string GenerateTACExpr(ExprNode ex)
         {
             if (ex.GetType() == typeof(BinExprNode))
             {
                 var bin = ex as BinExprNode;
-                string tmp1 = GenerateExprTAC(bin.Left);
-                string tmp2 = GenerateExprTAC(bin.Right);
+                string tmp1 = GenerateTACExpr(bin.Left);
+                string tmp2 = GenerateTACExpr(bin.Right);
                 string tmp = GenerateTempName();
-                AddCommand(bin.OpType.ToFriendlyString(), tmp1, tmp2, tmp);
+                AddInstruction(bin.OpType.ToFriendlyString(), tmp1, tmp2, tmp);
                 return tmp;
             }
             if (ex.GetType() == typeof(UnoExprNode))
             {
                 var uno = ex as UnoExprNode;
-                string tmp1 = GenerateExprTAC(uno.Expr);
+                string tmp1 = GenerateTACExpr(uno.Expr);
                 string tmp = GenerateTempName();
-                AddCommand(uno.OpType.ToFriendlyString(), tmp1, "", tmp);
+                AddInstruction(uno.OpType.ToFriendlyString(), tmp1, "", tmp);
                 return tmp;
             }
             if (ex is IdNode id)
@@ -84,9 +85,9 @@ namespace SimpleLang.Visitors
             return "";
         }
 
-        private void AddCommand(string operation, string arg1, string arg2, string result, string label = "")
+        private void AddInstruction(string operation, string arg1, string arg2, string result, string label = "")
         {
-            TACCommands.Add(new TACCommand(operation, arg1, arg2, result, label));
+            Instructions.Add(new TACInstruction(operation, arg1, arg2, result, label));
         }
 
         private int tempVariableCounter = 0;

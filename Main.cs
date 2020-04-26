@@ -65,20 +65,17 @@ namespace SimpleCompiler
                 */
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.TACCommands)
+                foreach (var c in TACGenerator.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }
 
                 Console.WriteLine("================================================================================");
 
-                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.TACCommands);
-                AIOptimizer.Execute();
+                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.Instructions);
+                AIOptimizer.Run();
 
-                var CFOptimizer = new AlgebraicIdentitiesOptimizer(AIOptimizer.TACCommands);
-                CFOptimizer.Execute();
-
-                foreach (var c in CFOptimizer.TACCommands)
+                foreach (var c in AIOptimizer.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }
