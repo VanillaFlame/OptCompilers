@@ -5,6 +5,7 @@ using SimpleScanner;
 using SimpleParser;
 using SimpleLang.Visitors;
 using SimpleLang.Visitors.ChangeVisitors;
+using SimpleLang.TACOptimizers;
 
 namespace SimpleCompiler
 {
@@ -12,7 +13,7 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\c.txt";
+            string FileName = @"..\..\d.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -64,7 +65,17 @@ namespace SimpleCompiler
                 */
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.TACCommands)
+                foreach (var c in TACGenerator.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
+
+                Console.WriteLine("================================================================================");
+
+                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.Instructions);
+                AIOptimizer.Run();
+
+                foreach (var c in AIOptimizer.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }

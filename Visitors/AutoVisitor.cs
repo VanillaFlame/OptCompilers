@@ -53,8 +53,8 @@ namespace SimpleLang.Visitors
             node.Ident.Visit(this);
         }
         public override void Visit(BlockNode node)
-        { 
-            for (int i = node.StList.Count - 1; i >= 0; --i)
+        {
+            for (int i = 0; i < node.StList.Count; ++i)
             {
                 node.StList[i].Visit(this);
             }
@@ -67,7 +67,7 @@ namespace SimpleLang.Visitors
             }
         }
         public override void Visit(ListExprNode node)
-        { 
+        {
             foreach (var e in node.ExprList)
             {
                 e.Visit(this);

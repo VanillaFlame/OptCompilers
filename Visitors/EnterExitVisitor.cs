@@ -6,7 +6,7 @@ using ProgramTree;
 
 namespace SimpleLang.Visitors
 {
-    public class EnterExitVisitor : AutoVisitor
+    public class EnterExitVisitor : AutoVisitorInversedOrder
     {
         public virtual void OnEnter(Node node)
         {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    public class ChangeVisitor : AutoVisitor
+    public class ChangeVisitor : AutoVisitorInversedOrder
     {
         public void ReplaceExpr(ExprNode from, ExprNode to)
         {
