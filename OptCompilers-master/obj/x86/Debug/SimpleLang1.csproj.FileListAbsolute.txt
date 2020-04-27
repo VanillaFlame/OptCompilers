@@ -1,0 +1,5 @@
+C:\Users\Александр\Desktop\OptCompilers-master (1)\OptCompilers-master\bin\Debug\SimpleLang.exe
+C:\Users\Александр\Desktop\OptCompilers-master (1)\OptCompilers-master\bin\Debug\SimpleLang.pdb
+C:\Users\Александр\Desktop\OptCompilers-master (1)\OptCompilers-master\obj\x86\Debug\SimpleLang1.csprojAssemblyReference.cache
+C:\Users\Александр\Desktop\OptCompilers-master (1)\OptCompilers-master\obj\x86\Debug\SimpleLang.exe
+C:\Users\Александр\Desktop\OptCompilers-master (1)\OptCompilers-master\obj\x86\Debug\SimpleLang.pdb
