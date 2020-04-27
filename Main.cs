@@ -12,7 +12,7 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\a.txt";
+            string FileName = @"..\..\c.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -35,15 +35,15 @@ namespace SimpleCompiler
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
 
-                
+                /*
                 var assCounter = new AssignCountVisitor();
                 parser.root.Visit(assCounter);
                 Console.WriteLine("AssignCount = " + assCounter.AssignCount);
                 Console.WriteLine();
-                
-
+                */
+                /*
                 var prettyPrinter = new PrettyPrinterVisitor();
-                /*parser.root.Visit(prettyPrinter);
+                parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
 
                 var trueOpt = new TrueConditionOptVisitor();
@@ -61,23 +61,13 @@ namespace SimpleCompiler
                 prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
-
-                var falseOpt = new FindFalseVisitor();
-                parser.root.Visit(falseOpt);
-
-                Console.WriteLine("========================================================================");*/
-                prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);
-
-                var treeLewCode = new TreeLeverCodeVisitor();
-                parser.root.Visit(treeLewCode);
-                treeLewCode.PrintProgramm();
-                /*Console.WriteLine("========================================================================");
-                prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);*/
-
+                */
+                var TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+                foreach (var c in TACGenerator.TACCommands)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
             }
             catch (FileNotFoundException)
             {
