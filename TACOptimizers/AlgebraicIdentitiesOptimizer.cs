@@ -16,7 +16,7 @@ namespace SimpleLang.TACOptimizers
             foreach (var c in Instructions)
             {
                 if (c.Operation.Equals("+"))
-                {
+                {                    
                     if (c.Argument1.Equals("0"))
                     {
                         c.Argument1 = c.Argument2;

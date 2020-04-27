@@ -13,7 +13,7 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\d.txt";
+            string FileName = @"..\..\CE.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -64,7 +64,7 @@ namespace SimpleCompiler
                 Console.WriteLine(prettyPrinter.FormattedProgram);
                 */
                 var TACGenerator = new TACGenerationVisitor();
-                parser.root.Visit(TACGenerator);
+                /*parser.root.Visit(TACGenerator);
                 foreach (var c in TACGenerator.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
@@ -76,6 +76,21 @@ namespace SimpleCompiler
                 AIOptimizer.Run();
 
                 foreach (var c in AIOptimizer.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }*/
+                Console.WriteLine("================================================================================");
+                TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+                foreach (var c in TACGenerator.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
+                Console.WriteLine("================================================================================");
+                var CEOptimizer = new CommonExpressionsOptimizer(TACGenerator.Instructions);
+                CEOptimizer.Run();
+
+                foreach (var c in CEOptimizer.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }

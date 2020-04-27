@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TACOptimizers\CommonExpressionsOptimizer.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
     <Compile Include="Main.cs" />
@@ -73,6 +74,7 @@
     <Content Include="a.txt" />
     <Content Include="b.txt" />
     <Content Include="c.txt" />
+    <Content Include="CE.txt" />
     <Content Include="d.txt" />
   </ItemGroup>
   <ItemGroup>
