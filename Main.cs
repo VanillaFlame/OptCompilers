@@ -13,7 +13,8 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\d.txt";
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+            string FileName = @"..\..\b.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -76,6 +77,16 @@ namespace SimpleCompiler
                 AIOptimizer.Run();
 
                 foreach (var c in AIOptimizer.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
+
+                Console.WriteLine("================================================================================");
+
+                var GTOptimizer = new GotoOptimizer(AIOptimizer.Instructions);
+                GTOptimizer.Run();
+
+                foreach (var c in GTOptimizer.Instructions)
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }

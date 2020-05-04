@@ -25,7 +25,8 @@ namespace SimpleLang.Visitors
             var label1 = GenerateTempLabel();
             var label2 = GenerateTempLabel();
             AddInstruction("if goto", genCond, label1, "");
-            node.ElseStat.Visit(this);
+            if (node.ElseStat != null)
+                node.ElseStat.Visit(this);
             AddInstruction("goto", label2, "", "");
             AddInstruction("", "", "", "", label1);
             node.Stat.Visit(this);
