@@ -35,17 +35,44 @@ namespace SimpleLang.Visitors
 
         public override void Visit(WhileNode node)
         {
-            var label1 = GenerateTempLabel();
-            var label2 = GenerateTempLabel();
-            var label3 = GenerateTempLabel();
-            AddInstruction("", "", "", "", label1);
+            var loopBeginLabel = GenerateTempLabel();
+            var loopBodyLabel = GenerateTempLabel();
+            var loopEndLabel = GenerateTempLabel();
+            AddInstruction("", "", "", "", loopBeginLabel);
             var genCond = GenerateTACExpr(node.Condition);
-            AddInstruction("if goto", genCond, label2, "");
-            AddInstruction("goto", label3, "", "");
-            AddInstruction("", "", "", "", label2);
+            AddInstruction("if goto", genCond, loopBodyLabel, "");
+            AddInstruction("goto", loopEndLabel, "", "");
+            AddInstruction("", "", "", "", loopBodyLabel);
             node.Stat.Visit(this);
-            AddInstruction("goto", label1, "", "");
-            AddInstruction("", "", "", "", label3);
+            AddInstruction("goto", loopBeginLabel, "", "");
+            AddInstruction("", "", "", "", loopEndLabel);
+        }
+
+        public override void Visit(GotoNode node)
+        {
+            AddInstruction("goto", node.Label.ToString(), "", "");
+        }
+
+        public override void Visit(LabeledStatementNode node)
+        {
+            AddInstruction("", "", "", "", node.Label.ToString());
+            node.Stat.Visit(this);
+        }
+        
+        public override void Visit(ForNode node)
+        {
+            var loopBeginLabel = GenerateTempLabel();
+            var loopEndLabel = GenerateTempLabel();
+            var begin = GenerateTACExpr(node.Begin);
+            AddInstruction(AssignType.Assign.ToFriendlyString(), begin, "", node.Counter.Name);
+            var end = GenerateTACExpr(node.End);
+            var condVariable = GenerateTempName();
+            AddInstruction(BinOpType.LessOrEqual.ToFriendlyString(), node.Counter.Name, end, condVariable, loopBeginLabel);
+            AddInstruction("if goto", condVariable, loopEndLabel, "");
+            node.Stat.Visit(this);
+            AddInstruction(BinOpType.Plus.ToFriendlyString(), node.Counter.Name, "1", node.Counter.Name);
+            AddInstruction("goto", loopBeginLabel, "", "");
+            AddInstruction("", "", "", "", loopEndLabel);
         }
 
         private string GenerateTACExpr(ExprNode ex)

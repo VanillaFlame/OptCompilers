@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TACOptimizers\GotoOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
     <Compile Include="Main.cs" />
@@ -53,10 +53,10 @@
     <Compile Include="ShiftReduceParserCode.cs" />
     <Compile Include="SimpleLex.cs" />
     <Compile Include="SimpleYacc.cs" />
-    <Compile Include="TACInstruction.cs" />
-    <Compile Include="TACOptimizers\AlgebraicIdentitiesOptimizer.cs" />
-    <Compile Include="TACOptimizers\ConstantFoldingOptimizer.cs" />
-    <Compile Include="TACOptimizers\TACOptimizer.cs" />
+    <Compile Include="TAC\TACInstruction.cs" />
+    <Compile Include="TAC\TACOptimizers\AlgebraicIdentitiesOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\ConstantFoldingOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\TACOptimizer.cs" />
     <Compile Include="Visitors\AssignCountVisitor.cs" />
     <Compile Include="Visitors\AutoVisitor.cs" />
     <Compile Include="Visitors\AutoVisitorInversedOrder.cs" />
@@ -71,10 +71,10 @@
     <Compile Include="Visitors\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="a.txt" />
-    <Content Include="b.txt" />
-    <Content Include="c.txt" />
-    <Content Include="d.txt" />
+    <Content Include="TestSuite\a.txt" />
+    <Content Include="TestSuite\b.txt" />
+    <Content Include="TestSuite\c.txt" />
+    <Content Include="TestSuite\d.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />
