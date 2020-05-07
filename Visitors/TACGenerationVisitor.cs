@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ProgramTree;
+using SimpleLang.TAC;
 
 namespace SimpleLang.Visitors
 {
     public class TACGenerationVisitor : AutoVisitor
     {
-        public List<TACInstruction> Instructions = new List<TACInstruction>();
+        public List<TACInstruction> Instructions { get; private set; }
+        public ThreeAddressCode TAC { get; private set; }
+
+        public TACGenerationVisitor()
+        {
+            Instructions = new List<TACInstruction>();
+            TAC = new ThreeAddressCode(Instructions);
+        }
 
         private static string TEMP_NAME_PREFIX = "#t";
         private static string TEMP_LABEL_PREFIX = "#L";
@@ -67,7 +75,7 @@ namespace SimpleLang.Visitors
             AddInstruction(AssignType.Assign.ToFriendlyString(), begin, "", node.Counter.Name);
             var end = GenerateTACExpr(node.End);
             var condVariable = GenerateTempName();
-            AddInstruction(BinOpType.LessOrEqual.ToFriendlyString(), node.Counter.Name, end, condVariable, loopBeginLabel);
+            AddInstruction(BinOpType.Greater.ToFriendlyString(), node.Counter.Name, end, condVariable, loopBeginLabel);
             AddInstruction("if goto", condVariable, loopEndLabel, "");
             node.Stat.Visit(this);
             AddInstruction(BinOpType.Plus.ToFriendlyString(), node.Counter.Name, "1", node.Counter.Name);

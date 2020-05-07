@@ -14,7 +14,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\b.txt";
+            string FileName = @"..\..\TestSuite\a.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -38,12 +38,7 @@ namespace SimpleCompiler
                 parser.root.Visit(parentFiller);
 
                 /*
-                var assCounter = new AssignCountVisitor();
-                parser.root.Visit(assCounter);
-                Console.WriteLine("AssignCount = " + assCounter.AssignCount);
-                Console.WriteLine();
-                */
-                /*
+                // Tree optimizations
                 var prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
@@ -64,32 +59,27 @@ namespace SimpleCompiler
                 parser.root.Visit(prettyPrinter);
                 Console.WriteLine(prettyPrinter.FormattedProgram);
                 */
+
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
-
+                Console.WriteLine("Three Address Code:");
+                Console.WriteLine(TACGenerator.TAC);
                 Console.WriteLine("================================================================================");
 
-                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.Instructions);
+                /*
+                // TAC optimizations
+                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.TAC);
                 AIOptimizer.Run();
-
-                foreach (var c in AIOptimizer.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
+                Console.WriteLine("Algebraic Identities Optimizer:");
+                Console.WriteLine(AIOptimizer.TAC);
 
                 Console.WriteLine("================================================================================");
 
-                var GTOptimizer = new GotoOptimizer(AIOptimizer.Instructions);
+                var GTOptimizer = new GotoOptimizer(TACGenerator.TAC);
                 GTOptimizer.Run();
-
-                foreach (var c in GTOptimizer.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
+                Console.WriteLine("GOTO Optimizer:");
+                Console.WriteLine(GTOptimizer.TAC);
+                */
             }
             catch (FileNotFoundException)
             {

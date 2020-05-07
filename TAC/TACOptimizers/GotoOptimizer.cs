@@ -1,13 +1,14 @@
-﻿using System;
+﻿using SimpleLang.TAC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace SimpleLang.TACOptimizers
 {
-    class GotoOptimizer:TACOptimizer
+    class GotoOptimizer: TACOptimizer
     {
-        public GotoOptimizer(List<TACInstruction> instructions) : base(instructions)
+        public GotoOptimizer(ThreeAddressCode tac) : base(tac)
         {
         }
 

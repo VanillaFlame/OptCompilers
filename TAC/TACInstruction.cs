@@ -22,5 +22,48 @@ namespace SimpleLang
             Result = res;
             Label = label;
         }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(Label + '\t');
+
+            if (!Result.Equals(""))
+            {
+                if (!Operation.Equals("="))
+                {
+                    // AddInstruction(LessOrEqual, counter, end, cond, label);
+                    // AddInstruction(Plus, a, b, temp, label);
+                    stringBuilder.Append(Result + " = " + Argument1 + ' ' + Operation + ' ' + Argument2);
+                }
+                else
+                {
+                    // AddInstruction(Assign, a, "", temp);
+                    stringBuilder.Append(Result + ' ' + Operation + ' ' + Argument1);
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            switch (Operation)
+            {
+                case "if goto":
+                    stringBuilder.Append("if " + Argument1 + " goto " + Argument2);
+                    break;
+
+                case "goto":
+                    stringBuilder.Append("goto " + Argument1);
+                    break;
+
+                case "":
+                    break;
+
+                default:
+                    stringBuilder.Append("Unexpected operation");
+                    break;
+            }
+
+            return stringBuilder.ToString();
+        }
     }
 }
