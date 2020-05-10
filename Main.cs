@@ -36,33 +36,7 @@ namespace SimpleCompiler
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
 
-                /*
-                var assCounter = new AssignCountVisitor();
-                parser.root.Visit(assCounter);
-                Console.WriteLine("AssignCount = " + assCounter.AssignCount);
-                Console.WriteLine();
-                */
-                /*
-                var prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);
 
-                var trueOpt = new TrueConditionOptVisitor();
-                parser.root.Visit(trueOpt);
-
-                Console.WriteLine("========================================================================");
-                prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);
-
-                var trueIfOpt = new TrueIfOptVisitor();
-                parser.root.Visit(trueIfOpt);
-
-                Console.WriteLine("========================================================================");
-                prettyPrinter = new PrettyPrinterVisitor();
-                parser.root.Visit(prettyPrinter);
-                Console.WriteLine(prettyPrinter.FormattedProgram);
-                */
                 var TACGenerator = new TACGenerationVisitor();
                 /*parser.root.Visit(TACGenerator);
                 foreach (var c in TACGenerator.Instructions)
@@ -94,6 +68,21 @@ namespace SimpleCompiler
                 {
                     Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
                 }
+                /*Console.WriteLine("================================================================================");
+                TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+                foreach (var c in TACGenerator.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }
+                Console.WriteLine("================================================================================");
+                var CFoptimizer = new ConstantFoldingOptimizer(TACGenerator.Instructions);
+                CFoptimizer.Run();
+
+                foreach (var c in CEOptimizer.Instructions)
+                {
+                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
+                }*/
             }
             catch (FileNotFoundException)
             {

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basic Block.cs" />
+    <Compile Include="Control Flow Graph.cs" />
     <Compile Include="TACOptimizers\CommonExpressionsOptimizer.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
