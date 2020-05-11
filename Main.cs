@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SimpleScanner;
 using SimpleParser;
 using SimpleLang.Visitors;
+using SimpleLang.TAC;
 using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
 
@@ -80,6 +81,16 @@ namespace SimpleCompiler
                 Console.WriteLine("GOTO Optimizer:");
                 Console.WriteLine(GTOptimizer.TAC);
                 */
+
+                /*
+                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                TACBlocks.GenBaseBlocks();
+
+                Console.WriteLine(TACBlocks.ToString());
+
+                Console.WriteLine("================================================================================");
+                */
+
             }
             catch (FileNotFoundException)
             {

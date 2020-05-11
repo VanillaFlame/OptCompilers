@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TAC\TACBaseBlocks.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
