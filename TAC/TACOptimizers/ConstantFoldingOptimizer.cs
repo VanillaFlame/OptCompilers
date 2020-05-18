@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleLang.TAC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace SimpleLang.TACOptimizers
 {
     public class ConstantFoldingOptimizer : TACOptimizer
     {
-        public ConstantFoldingOptimizer(List<TACInstruction> instructions) : base(instructions)
+        public ConstantFoldingOptimizer(ThreeAddressCode tac) : base(tac)
         {
         }
 

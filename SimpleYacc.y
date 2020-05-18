@@ -1,6 +1,5 @@
 %{
-// Эти объявления добавляются в класс GPPGParser, представляющий собой парсер, генерируемый системой gppg
-    public BlockNode root; // Корневой узел синтаксического дерева 
+    public BlockNode root;
     public Parser(AbstractScanner<ValueType, LexLocation> scanner) : base(scanner) { }
 %}
 

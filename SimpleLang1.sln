@@ -5,11 +5,6 @@ VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLang1", "SimpleLang1.csproj", "{12B9D996-7B4A-4EE4-9AD8-2E24EAF3F574}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4A7E3A7-9496-4A48-8469-6E99C895FCA0}"
-	ProjectSection(SolutionItems) = preProject
-		d.txt = d.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

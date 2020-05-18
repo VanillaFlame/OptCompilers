@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SimpleScanner;
 using SimpleParser;
 using SimpleLang.Visitors;
+using SimpleLang.TAC;
 using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
 
@@ -13,7 +14,8 @@ namespace SimpleCompiler
     {
         public static void Main()
         {
-            string FileName = @"..\..\CE.txt";
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+            string FileName = @"..\..\TestSuite\a.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -36,53 +38,59 @@ namespace SimpleCompiler
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
 
+                /*
+                // Tree optimizations
+                var prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
+                var trueOpt = new TrueConditionOptVisitor();
+                parser.root.Visit(trueOpt);
+
+                Console.WriteLine("========================================================================");
+                prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
+                var trueIfOpt = new TrueIfOptVisitor();
+                parser.root.Visit(trueIfOpt);
+
+                Console.WriteLine("========================================================================");
+                prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+                */
 
                 var TACGenerator = new TACGenerationVisitor();
-                /*parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
-
+                parser.root.Visit(TACGenerator);
+                Console.WriteLine("Three Address Code:");
+                Console.WriteLine(TACGenerator.TAC);
                 Console.WriteLine("================================================================================");
 
-                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.Instructions);
+                /*
+                // TAC optimizations
+                var AIOptimizer = new AlgebraicIdentitiesOptimizer(TACGenerator.TAC);
                 AIOptimizer.Run();
+                Console.WriteLine("Algebraic Identities Optimizer:");
+                Console.WriteLine(AIOptimizer.TAC);
 
-                foreach (var c in AIOptimizer.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }*/
                 Console.WriteLine("================================================================================");
-                TACGenerator = new TACGenerationVisitor();
-                parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
-                Console.WriteLine("================================================================================");
-                var CEOptimizer = new CommonExpressionsOptimizer(TACGenerator.Instructions);
-                CEOptimizer.Run();
 
-                foreach (var c in CEOptimizer.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
-                /*Console.WriteLine("================================================================================");
-                TACGenerator = new TACGenerationVisitor();
-                parser.root.Visit(TACGenerator);
-                foreach (var c in TACGenerator.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }
-                Console.WriteLine("================================================================================");
-                var CFoptimizer = new ConstantFoldingOptimizer(TACGenerator.Instructions);
-                CFoptimizer.Run();
+                var GTOptimizer = new GotoOptimizer(TACGenerator.TAC);
+                GTOptimizer.Run();
+                Console.WriteLine("GOTO Optimizer:");
+                Console.WriteLine(GTOptimizer.TAC);
+                */
 
-                foreach (var c in CEOptimizer.Instructions)
-                {
-                    Console.WriteLine(c.Label + ": \t" + c.Operation + '\t' + c.Argument1 + '\t' + c.Argument2 + '\t' + c.Result);
-                }*/
+                /*
+                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                TACBlocks.GenBaseBlocks();
+
+                Console.WriteLine(TACBlocks.ToString());
+
+                Console.WriteLine("================================================================================");
+                */
+
             }
             catch (FileNotFoundException)
             {
