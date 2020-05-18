@@ -49,5 +49,12 @@ namespace SimpleLang
             _Out = new List<Basic_Block>();
             _In = new List<Basic_Block>();
         }
+
+        public Basic_Block(List<TACInstruction> instr)
+        {
+            instructions = instr;
+            _Out = new List<Basic_Block>();
+            _In = new List<Basic_Block>();
+        }
     }
 }

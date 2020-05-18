@@ -8,30 +8,64 @@ namespace SimpleLang.TAC
     public class TACBaseBlocks
     {
 
-        public  List<List<TACInstruction>> blocks { get; private set; } //&?
+        //public  List<List<TACInstruction>> blocks { get; private set; } //&?
+        public List<Basic_Block> blocks { get; private set; }
         private List<TACInstruction> instructions;
 
         public TACBaseBlocks(List<TACInstruction> instructions)
         {
             this.instructions = instructions;
-            blocks = new List<List<TACInstruction>>();
+            blocks = new List<Basic_Block>();
         }
 
         public void GenBaseBlocks()
         {
-            var block = new List<TACInstruction>();
-            block.Add(instructions[0]);
+            var baseBlocks = new List<List<TACInstruction>>();
+            var labels = new HashSet<string>();
+
+            var list = new List<int>();
+            list.Add(0);
 
             for (int i = 1; i < instructions.Count; ++i)
             {
-                if (instructions[i].HasLabel || instructions[i - 1].Operation.Contains("goto"))
+                if (instructions[i - 1].Operation.Contains("goto"))
                 {
-                    blocks.Add(block);
-                    block = new List<TACInstruction>();
+                    var label = "";
+                    if (instructions[i - 1].Operation.Equals("goto"))
+                        label = instructions[i - 1].Argument1;
+                    else if (instructions[i - 1].Operation.Equals("if goto"))
+                        label = instructions[i - 1].Argument2;
+
+                    for (int j = 1; j < instructions.Count; ++j)
+                    {
+                        if (instructions[j].HasLabel && instructions[j].Label.Equals(label))
+                            list.Add(j);
+                    }
+                    list.Add(i);
                 }
-                block.Add(instructions[i]);
             }
-            blocks.Add(block);
+
+            var result = list.Distinct().ToList();
+            result.Sort();
+
+            for (int i = 0; i < result.Count - 1; ++i)
+            {
+                var block = new List<TACInstruction>();
+                for (int j = result[i]; j < result[i + 1]; ++j)
+                {
+                    block.Add(instructions[j]);
+                }
+                var baseBlock = new Basic_Block(block);
+                blocks.Add(baseBlock);
+            }
+
+            var last = new List<TACInstruction>();
+            for (int i = result[result.Count - 1]; i < instructions.Count; ++i)
+            {
+                last.Add(instructions[i]);
+            }
+            var lastBaseBlock = new Basic_Block(last);
+            blocks.Add(lastBaseBlock);
         }
 
         public List<TACInstruction> BlockMerging()
@@ -40,7 +74,7 @@ namespace SimpleLang.TAC
 
             foreach (var block in blocks)
             {
-                foreach (var instr in block)
+                foreach (var instr in block.Instructions)
                 {
                     merging.Add(instr);
                 }
@@ -54,10 +88,10 @@ namespace SimpleLang.TAC
 
             foreach (var block in blocks)
             {
-                
-                foreach (var instr in block)
+
+                foreach (var instr in block.Instructions)
                 {
-                    stringBuilder.Append(instr.ToString() +'\n');
+                    stringBuilder.Append(instr.ToString() + '\n');
                 }
                 stringBuilder.Append("_______________\n");
             }
