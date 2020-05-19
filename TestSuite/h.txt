@@ -1,0 +1,15 @@
+{
+  c = 0;
+  c = c/c/1;
+  if 1*a + 1*b
+  {
+     writeln(z,c);
+  }
+
+  while a/1 > 0
+  {
+     writeln(z,c);
+  }
+  q = 0 + c;
+  q = c + 0;
+}
