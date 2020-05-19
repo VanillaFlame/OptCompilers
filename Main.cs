@@ -7,7 +7,7 @@ using SimpleLang.Visitors;
 using SimpleLang.TAC;
 using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
-
+using SimpleLang.CFG;
 namespace SimpleCompiler
 {
     public class SimpleCompilerMain
@@ -15,7 +15,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuite\a.txt";
+            string FileName = @"..\..\TestSuite\g.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -61,11 +61,13 @@ namespace SimpleCompiler
                 Console.WriteLine(prettyPrinter.FormattedProgram);
                 */
 
+                /*
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
                 Console.WriteLine("Three Address Code:");
                 Console.WriteLine(TACGenerator.TAC);
                 Console.WriteLine("================================================================================");
+                */
 
                 /*
                 // TAC optimizations
@@ -83,11 +85,19 @@ namespace SimpleCompiler
                 
                 */
 
+                /*
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
 
                 Console.WriteLine(TACBlocks);
                 Console.WriteLine("================================================================================");
+                */
+                var TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                TACBlocks.GenBaseBlocks();
+                Console.WriteLine(TACBlocks.ToString());
+                var a = new ControlFlowGraph(TACBlocks.blocks);
             }
             catch (FileNotFoundException)
             {
