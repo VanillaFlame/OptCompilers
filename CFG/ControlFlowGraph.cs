@@ -24,9 +24,9 @@ namespace SimpleLang.CFG
         /// <param name="blocks"> Упорядоченная коллекция базовых блоков</param>
         public ControlFlowGraph(List<Basic_Block> blocks)
         {
+            this.blocks = blocks;
             if (blocks.Count == 0)
                 return;
-            this.blocks = blocks;
             CreateCFG();
         }
 
@@ -70,6 +70,7 @@ namespace SimpleLang.CFG
             if (!(blocks[blocks.Count - 1].Instructions.Last().Operation is "goto"))
             {
                 end.In.Add(blocks[blocks.Count - 1]);
+                blocks[blocks.Count - 1].Out.Add(end);
             }
         }
     }
