@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SimpleLang
 {
-    public class Basic_Block
+    public class BasicBlock
     {
         private List<TACInstruction> instructions = new List<TACInstruction>();
-        private List<Basic_Block> _Out = new List<Basic_Block>();
-        private List<Basic_Block> _In = new List<Basic_Block>();
+        private List<BasicBlock> _Out = new List<BasicBlock>();
+        private List<BasicBlock> _In = new List<BasicBlock>();
         public List<TACInstruction> Instructions
         {
             get
@@ -18,7 +18,7 @@ namespace SimpleLang
             }
 
         }
-        public List<Basic_Block> In
+        public List<BasicBlock> In
         {
             get
             {
@@ -31,7 +31,7 @@ namespace SimpleLang
 
         }
 
-        public List<Basic_Block> Out
+        public List<BasicBlock> Out
         {
             get
             {
@@ -43,18 +43,18 @@ namespace SimpleLang
             }
 
         }
-        public Basic_Block()
+        public BasicBlock()
         {
             instructions = new List<TACInstruction>();
-            _Out = new List<Basic_Block>();
-            _In = new List<Basic_Block>();
+            _Out = new List<BasicBlock>();
+            _In = new List<BasicBlock>();
         }
 
-        public Basic_Block(List<TACInstruction> instr)
+        public BasicBlock(List<TACInstruction> instr)
         {
             instructions = instr;
-            _Out = new List<Basic_Block>();
-            _In = new List<Basic_Block>();
+            _Out = new List<BasicBlock>();
+            _In = new List<BasicBlock>();
         }
     }
 }

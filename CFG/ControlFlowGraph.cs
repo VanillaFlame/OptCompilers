@@ -9,20 +9,20 @@ namespace SimpleLang.CFG
         /// <summary>
         /// Пустой блок начала
         /// </summary>
-        public Basic_Block start = new Basic_Block();
+        public BasicBlock start = new BasicBlock();
 
         /// <summary>
         /// Пустой блок конца
         /// </summary>
-        public Basic_Block end = new Basic_Block();
+        public BasicBlock end = new BasicBlock();
 
-        List<Basic_Block> blocks;
+        List<BasicBlock> blocks;
 
         /// <summary>
         /// Создает Control Flow Graph
         /// </summary>
         /// <param name="blocks"> Упорядоченная коллекция базовых блоков</param>
-        public ControlFlowGraph(List<Basic_Block> blocks)
+        public ControlFlowGraph(List<BasicBlock> blocks)
         {
             this.blocks = blocks;
             if (blocks.Count == 0)
@@ -45,7 +45,7 @@ namespace SimpleLang.CFG
                 {
                     // ищем на какой блок идет переход
                     var label = lastLine.Argument2 == "" ? lastLine.Argument1 : lastLine.Argument2;
-                    Basic_Block targetBlock = null;
+                    BasicBlock targetBlock = null;
                     // Ищем метку в первой строчке
                     foreach (var block in blocks)
                         if (block.Instructions.First().Label == label)

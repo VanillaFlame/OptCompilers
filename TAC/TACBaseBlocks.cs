@@ -9,13 +9,13 @@ namespace SimpleLang.TAC
     {
 
         //public  List<List<TACInstruction>> blocks { get; private set; } //&?
-        public List<Basic_Block> blocks { get; private set; }
+        public List<BasicBlock> blocks { get; private set; }
         private List<TACInstruction> instructions;
 
         public TACBaseBlocks(List<TACInstruction> instructions)
         {
             this.instructions = instructions;
-            blocks = new List<Basic_Block>();
+            blocks = new List<BasicBlock>();
         }
 
         public void GenBaseBlocks()
@@ -55,7 +55,7 @@ namespace SimpleLang.TAC
                 {
                     block.Add(instructions[j]);
                 }
-                var baseBlock = new Basic_Block(block);
+                var baseBlock = new BasicBlock(block);
                 blocks.Add(baseBlock);
             }
 
@@ -64,7 +64,7 @@ namespace SimpleLang.TAC
             {
                 last.Add(instructions[i]);
             }
-            var lastBaseBlock = new Basic_Block(last);
+            var lastBaseBlock = new BasicBlock(last);
             blocks.Add(lastBaseBlock);
         }
 
