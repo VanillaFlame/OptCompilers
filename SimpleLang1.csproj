@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="CFG\ControlFlowGraph.cs" />
+    <Compile Include="CFG\ControlFlowGraph.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
+    <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
@@ -79,6 +80,10 @@
     <Content Include="TestSuite\b.txt" />
     <Content Include="TestSuite\c.txt" />
     <Content Include="TestSuite\d.txt" />
+    <Content Include="TestSuite\e.txt" />
+    <Content Include="TestSuite\f.txt" />
+    <Content Include="TestSuite\g.txt" />
+    <Content Include="TestSuite\h.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />

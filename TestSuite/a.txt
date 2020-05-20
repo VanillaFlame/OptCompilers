@@ -1,22 +1,7 @@
 {
   b = 2;
-  for i = 3 .. 5
-  {
-  a = b +b;
-  goto 1;
-  while(true) {
-    b = a;
-    c = a;
-  }
-  }
-  b = a+2;
- 
-  
-  1: if a==b
-  {
-    a = 3;
-  } else
-  {
-   b=3;
-  }
+  a = 3;
+  c = a;
+  b = 3;
+  b = 4;
  }

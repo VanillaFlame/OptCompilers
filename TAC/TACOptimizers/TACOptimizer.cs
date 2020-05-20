@@ -8,7 +8,7 @@ namespace SimpleLang.TACOptimizers
 {
     public abstract class TACOptimizer
     {
-        public ThreeAddressCode TAC { get; private set; }
+        public ThreeAddressCode TAC { get; protected set; }
         public List<TACInstruction> Instructions { get; set; }
         public TACOptimizer(ThreeAddressCode tac)
         {

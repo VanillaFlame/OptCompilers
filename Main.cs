@@ -15,7 +15,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuite\g.txt";
+            string FileName = @"..\..\TestSuite\a.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -97,7 +97,22 @@ namespace SimpleCompiler
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
                 Console.WriteLine(TACBlocks.ToString());
-                var a = new ControlFlowGraph(TACBlocks.blocks);
+                Console.WriteLine("================================================================================");
+
+                /*var DefUseOptimizer = new DefUseOptimizer(TACGenerator.TAC);
+                DefUseOptimizer.Run();
+                Console.WriteLine("Def use Optimizer:");
+                Console.WriteLine(DefUseOptimizer.TAC);*/
+
+                foreach (var block in TACBlocks.blocks)
+                {
+                    var DefUseOptimizer = new DefUseOptimizer(new ThreeAddressCode(block.Instructions));
+                    DefUseOptimizer.Run();
+                    Console.WriteLine("Def use Optimizer:");
+                    Console.WriteLine(DefUseOptimizer.TAC);
+                }
+
+                //var a = new ControlFlowGraph(TACBlocks.blocks);
             }
             catch (FileNotFoundException)
             {
