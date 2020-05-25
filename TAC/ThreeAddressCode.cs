@@ -7,7 +7,7 @@ namespace SimpleLang.TAC
 {
     public class ThreeAddressCode
     {
-        public List<TACInstruction> Instructions { get; private set; }
+        public List<TACInstruction> Instructions { get; set; }
 
         public ThreeAddressCode(List<TACInstruction> instructions)
         {

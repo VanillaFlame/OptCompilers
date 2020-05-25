@@ -77,14 +77,14 @@
     <Compile Include="Visitors\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestSuite\a.txt" />
-    <Content Include="TestSuite\b.txt" />
-    <Content Include="TestSuite\c.txt" />
-    <Content Include="TestSuite\d.txt" />
-    <Content Include="TestSuite\e.txt" />
-    <Content Include="TestSuite\f.txt" />
-    <Content Include="TestSuite\g.txt" />
-    <Content Include="TestSuite\h.txt" />
+    <Content Include="TestSuiteTxt\a.txt" />
+    <Content Include="TestSuiteTxt\b.txt" />
+    <Content Include="TestSuiteTxt\c.txt" />
+    <Content Include="TestSuiteTxt\d.txt" />
+    <Content Include="TestSuiteTxt\e.txt" />
+    <Content Include="TestSuiteTxt\f.txt" />
+    <Content Include="TestSuiteTxt\g.txt" />
+    <Content Include="TestSuiteTxt\h.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleLex.lex" />
