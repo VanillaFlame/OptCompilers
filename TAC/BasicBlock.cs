@@ -7,9 +7,14 @@ namespace SimpleLang
 {
     public class BasicBlock
     {
+        private static int index;
+
         private List<TACInstruction> instructions = new List<TACInstruction>();
         private List<BasicBlock> _Out = new List<BasicBlock>();
         private List<BasicBlock> _In = new List<BasicBlock>();
+
+        public int Index { get; private set; }
+
         public List<TACInstruction> Instructions
         {
             get
@@ -48,6 +53,7 @@ namespace SimpleLang
             instructions = new List<TACInstruction>();
             _Out = new List<BasicBlock>();
             _In = new List<BasicBlock>();
+            Index = index++;
         }
 
         public BasicBlock(List<TACInstruction> instr)
@@ -55,6 +61,26 @@ namespace SimpleLang
             instructions = instr;
             _Out = new List<BasicBlock>();
             _In = new List<BasicBlock>();
+            Index = index++;
+        }
+
+        public override int GetHashCode()
+        {
+            return Index;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            var second = obj as BasicBlock;
+            if (second == null)
+            {
+                return false;
+            }
+            return second.Index == Index;
         }
     }
 }

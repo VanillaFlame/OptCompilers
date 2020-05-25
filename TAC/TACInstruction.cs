@@ -5,6 +5,21 @@ using System.Text;
 
 namespace SimpleLang
 {
+    public static class StringExtensions
+    {
+        private static HashSet<string> ArithmeticOperations = new HashSet<string>() { "+", "-", "*", "/" };
+
+        public static bool IsArithmetic(this string str)
+        {
+            return ArithmeticOperations.Contains(str);
+        }
+
+        public static bool IsVariable(this string str)
+        {
+            return !(str.Equals("")) && (char.IsLetter(str[0]) || str[0] is '#');
+        }
+    }
+
     public class TACInstruction
     {
         public string Operation { get; set; }

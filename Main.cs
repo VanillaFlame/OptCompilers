@@ -8,6 +8,8 @@ using SimpleLang.TAC;
 using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
 using SimpleLang.CFG;
+using SimpleLang.TAC.TACOptimizers;
+
 namespace SimpleCompiler
 {
     public class SimpleCompilerMain
@@ -104,6 +106,7 @@ namespace SimpleCompiler
                 Console.WriteLine("Def use Optimizer:");
                 Console.WriteLine(DefUseOptimizer.TAC);*/
 
+                /*
                 foreach (var block in TACBlocks.blocks)
                 {
                     var DefUseOptimizer = new DefUseOptimizer(new ThreeAddressCode(block.Instructions));
@@ -111,8 +114,14 @@ namespace SimpleCompiler
                     Console.WriteLine("Def use Optimizer:");
                     Console.WriteLine(DefUseOptimizer.TAC);
                 }
+                */
 
-                //var a = new ControlFlowGraph(TACBlocks.blocks);
+                var cfg = new ControlFlowGraph(TACBlocks.blocks);
+                var availableExprOptimizer = new AvailableExpressionsOptimizer();
+                availableExprOptimizer.Run(cfg, TACBlocks.blocks);
+                Console.WriteLine(TACBlocks.ToString());
+                Console.WriteLine("================================================================================");
+
             }
             catch (FileNotFoundException)
             {

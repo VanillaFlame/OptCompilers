@@ -48,6 +48,7 @@
     <Compile Include="TAC\TACBaseBlocks.cs" />
     <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />

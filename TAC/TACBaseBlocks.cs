@@ -93,7 +93,7 @@ namespace SimpleLang.TAC
                 {
                     stringBuilder.Append(instr.ToString() + '\n');
                 }
-                stringBuilder.Append("_______________\n");
+                stringBuilder.Append("______________________________________________________\n");
             }
             return stringBuilder.ToString();
         }
