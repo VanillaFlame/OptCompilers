@@ -85,6 +85,14 @@ namespace SimpleCompiler
                 Console.WriteLine("GOTO Optimizer:");
                 Console.WriteLine(GTOptimizer.TAC);
                 
+                Console.WriteLine("================================================================================");
+                
+                var GoTotoGoTOptimizer = new GoTotoGoTo_EmptyOptimizer(TACGenerator.TAC);
+                GoTotoGoTOptimizer.Run();
+                Console.WriteLine("Before GoTo to GoTo & Empty Remove Optimizer:");
+                Console.WriteLine(GoTotoGoTOptimizer.TAC);
+                
+                Console.WriteLine("================================================================================");
                 */
 
                 /*
