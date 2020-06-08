@@ -46,10 +46,12 @@
     <Compile Include="CFG\ControlFlowGraph.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
+    <Compile Include="TAC\TACOptimizers\DeadAliveOptimize.cs" />
     <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
+    <Compile Include="Visitors\ChangeVisitors\AllVisitorsOptimization.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
     <Compile Include="Main.cs" />
@@ -67,6 +69,9 @@
     <Compile Include="Visitors\AutoVisitor.cs" />
     <Compile Include="Visitors\AutoVisitorInversedOrder.cs" />
     <Compile Include="Visitors\ChangeVisitors\ChangeVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\MinisSelf.cs" />
+    <Compile Include="Visitors\ChangeVisitors\MultiplayOnZero.cs" />
+    <Compile Include="Visitors\ChangeVisitors\MultiplayOnZero2.cs" />
     <Compile Include="Visitors\ChangeVisitors\TreeLeverCodeVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />

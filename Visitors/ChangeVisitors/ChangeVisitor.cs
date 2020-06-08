@@ -8,6 +8,7 @@ namespace SimpleLang.Visitors.ChangeVisitors
 {
     public class ChangeVisitor : AutoVisitorInversedOrder
     {
+        public bool IsChanged = false;
         public void ReplaceExpr(ExprNode from, ExprNode to)
         {
             var p = from.Parent;

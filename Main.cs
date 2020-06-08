@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuite\a.txt";
+            string FileName = @"..\..\TestSuiteTxt\d.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -39,6 +39,13 @@ namespace SimpleCompiler
 
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
+
+                AllVisitorsOptimization.Optimization(parser);
+                
+                var prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
 
                 /*
                 // Tree optimizations
