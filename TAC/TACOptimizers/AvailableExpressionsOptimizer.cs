@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimpleLang.TAC.TACOptimizers
+namespace SimpleLang.TACOptimizers
 {
     public class AvailableExpressionsOptimizer
     {

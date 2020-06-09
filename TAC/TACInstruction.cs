@@ -20,7 +20,7 @@ namespace SimpleLang
         }
     }
 
-    public class TACInstruction
+    public class TACInstruction: IEquatable<TACInstruction>
     {
         public string Operation { get; set; }
         public string Argument1 { get; set; }
@@ -79,6 +79,32 @@ namespace SimpleLang
             }
 
             return stringBuilder.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TACInstruction) {
+                return Equals((TACInstruction)obj);
+            }
+            return false;
+        }
+        public override int GetHashCode() {
+            int hash = 0;
+            hash += Operation.GetHashCode();
+            hash += Argument1.GetHashCode();
+            hash += Argument2.GetHashCode();
+            hash += Result.GetHashCode();
+            hash += Label.GetHashCode();
+            return hash;
+        }
+
+        public bool Equals(TACInstruction temp)
+        {
+            if (temp.Operation == this.Operation && temp.Result == this.Result
+                    && temp.Argument1 == this.Argument1 && temp.Argument2 == this.Argument2
+                    && temp.Label == this.Label && temp.HasLabel == this.HasLabel)
+                return true;
+            return false;
         }
     }
 }

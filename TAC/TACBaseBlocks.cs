@@ -9,7 +9,7 @@ namespace SimpleLang.TAC
     {
 
         //public  List<List<TACInstruction>> blocks { get; private set; } //&?
-        public List<BasicBlock> blocks { get; private set; }
+        public List<BasicBlock> blocks { get;  set; }
         private List<TACInstruction> instructions;
 
         public TACBaseBlocks(List<TACInstruction> instructions)

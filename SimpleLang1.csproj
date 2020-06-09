@@ -46,6 +46,7 @@
     <Compile Include="CFG\ControlFlowGraph.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
+    <Compile Include="TAC\TACOptimizers\AllTacOptimization.cs" />
     <Compile Include="TAC\TACOptimizers\DeadAliveOptimize.cs" />
     <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
