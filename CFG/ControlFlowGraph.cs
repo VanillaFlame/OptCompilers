@@ -16,7 +16,8 @@ namespace SimpleLang.CFG
         /// </summary>
         public BasicBlock end = new BasicBlock();
 
-        List<BasicBlock> blocks;
+        public List<BasicBlock> blocks;
+        public int BlockCount => blocks.Count;
 
         /// <summary>
         /// Создает Control Flow Graph

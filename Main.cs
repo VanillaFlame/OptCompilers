@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuiteTxt\a.txt";
+            string FileName = @"..\..\TestSuiteTxt\e.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -116,20 +116,20 @@ namespace SimpleCompiler
                 Console.WriteLine("================================================================================");
                 */
 
-                /*
+               
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
 
-                Console.WriteLine(TACBlocks);
-                Console.WriteLine("================================================================================");
+                //Console.WriteLine(TACBlocks);
+                //Console.WriteLine("================================================================================");
                 
-                var TACGenerator = new TACGenerationVisitor();
-                parser.root.Visit(TACGenerator);
-                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
-                TACBlocks.GenBaseBlocks();
-                Console.WriteLine(TACBlocks.ToString());
-                Console.WriteLine("================================================================================");
-                */
+                //var TACGenerator = new TACGenerationVisitor();
+                //parser.root.Visit(TACGenerator);
+                //var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                //TACBlocks.GenBaseBlocks();
+                //Console.WriteLine(TACBlocks.ToString());
+                //Console.WriteLine("================================================================================");
+                
 
                 /*var DefUseOptimizer = new DefUseOptimizer(TACGenerator.TAC);
                 DefUseOptimizer.Run();
@@ -145,13 +145,16 @@ namespace SimpleCompiler
                     Console.WriteLine(DefUseOptimizer.TAC);
                 }
                 */
-                /*
+                
                 var cfg = new ControlFlowGraph(TACBlocks.blocks);
-                var availableExprOptimizer = new AvailableExpressionsOptimizer();
-                availableExprOptimizer.Run(cfg, TACBlocks.blocks);
-                Console.WriteLine(TACBlocks.ToString());
-                Console.WriteLine("================================================================================");
-                */
+                var dt = new DominatorsTree(cfg);
+                var tr = dt.GenDominatorsTree();
+                
+                //var availableExprOptimizer = new AvailableExpressionsOptimizer();
+                //availableExprOptimizer.Run(cfg, TACBlocks.blocks);
+                //Console.WriteLine(TACBlocks.ToString());
+                //Console.WriteLine("================================================================================");
+               
             }
             catch (FileNotFoundException)
             {
