@@ -149,12 +149,17 @@ namespace SimpleCompiler
                 var cfg = new ControlFlowGraph(TACBlocks.blocks);
                 var dt = new DominatorsTree(cfg);
                 var tr = dt.GenDominatorsTree();
-                
+
                 //var availableExprOptimizer = new AvailableExpressionsOptimizer();
                 //availableExprOptimizer.Run(cfg, TACBlocks.blocks);
                 //Console.WriteLine(TACBlocks.ToString());
                 //Console.WriteLine("================================================================================");
-               
+
+                //var rdo = new ReachingDefinitionOptimizer(cfg);
+                //rdo.Run();
+
+
+
             }
             catch (FileNotFoundException)
             {

@@ -55,6 +55,7 @@
     <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\ReachingDefinitionOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\AllVisitorsOptimization.cs" />
     <Compile Include="Visitors\ChangeVisitors\AlwaysIfOrElseVisitor.cs" />
