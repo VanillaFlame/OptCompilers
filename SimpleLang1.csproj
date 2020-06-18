@@ -43,16 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CFG\EdgeType.cs" />
     <Compile Include="CFG\ControlFlowGraph.cs" />
+    <Compile Include="CFG\DominatorsTree.cs" />
+    <Compile Include="CFG\InOutVector.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
     <Compile Include="TAC\TACOptimizers\AllTacOptimization.cs" />
+    <Compile Include="TAC\TACOptimizers\CopyAndConstantsOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\DeadAliveOptimize.cs" />
     <Compile Include="TAC\TACOptimizers\DefUseOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\AllVisitorsOptimization.cs" />
+    <Compile Include="Visitors\ChangeVisitors\AlwaysIfOrElseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\FindFalseVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\IfFalseVisitor.cs" />
     <Compile Include="Main.cs" />
@@ -78,6 +83,7 @@
     <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />
     <Compile Include="Visitors\EnterExitVisitor.cs" />
     <Compile Include="Visitors\FillParentsVisitor.cs" />
+    <Compile Include="Visitors\NumberEqualityVisitor.cs" />
     <Compile Include="Visitors\PrettyPrinterVisitor.cs" />
     <Compile Include="Visitors\TACGenerationVisitor.cs" />
     <Compile Include="Visitors\Visitor.cs" />
