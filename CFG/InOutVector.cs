@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using SimpleLang.TAC;
@@ -38,6 +38,11 @@ namespace SimpleLang.CFG
                 data[assignList.IndexOf(assign)] = true;
         }
 
+        public InOutVector(int c)
+        {
+            data = new BitArray(c, false);
+        }
+
         InOutVector(BitArray a)
         {
             data = a;
@@ -47,7 +52,6 @@ namespace SimpleLang.CFG
         {
             get => data[key];
             set => data[key] = value;
-            //ошибка? да и пусть летит
         }
 
         public static InOutVector operator+(InOutVector a, InOutVector b)
@@ -72,6 +76,23 @@ namespace SimpleLang.CFG
             return new InOutVector(c);
         }
 
+        public static bool operator==(InOutVector a, InOutVector b)
+        {
+            var d = a.data.Count;
+            if (d != b.data.Count)
+                throw new Exception("Vectors have different size, how is that even possible?!");
+
+            for (int i = 0; i < d; i++)
+                if (a[i] != b[i])
+                    return false;
+            return true;
+        }
+
+        public static bool operator !=(InOutVector a, InOutVector b)
+        {
+            return a == -b;
+        }
+
         public static InOutVector operator-(InOutVector a)
         {
             var d = a.data.Count;
@@ -79,6 +100,18 @@ namespace SimpleLang.CFG
             for (int i = 0; i < d; i++)
                 c[i] = !a[i];
             return new InOutVector(c);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var vector = obj as InOutVector;
+            return vector != null &&
+                   EqualityComparer<BitArray>.Default.Equals(data, vector.data);
+        }
+
+        public override int GetHashCode()
+        {
+            return 1768953197 + EqualityComparer<BitArray>.Default.GetHashCode(data);
         }
     }
 }
