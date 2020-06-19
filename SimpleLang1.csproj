@@ -36,6 +36,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CFG\IterAlgoGeneric.cs" />
     <Compile Include="CFG\EdgeType.cs" />
     <Compile Include="CFG\ControlFlowGraph.cs" />
     <Compile Include="CFG\DominatorsTree.cs" />
     <Compile Include="CFG\InOutVector.cs" />
+    <Compile Include="CFG\TransferFuncReachingDef.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
     <Compile Include="TAC\TACOptimizers\AllTacOptimization.cs" />
@@ -100,6 +105,7 @@
     <Content Include="TestSuiteTxt\h.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="SimpleLex.lex" />
     <None Include="SimpleYacc.y" />
   </ItemGroup>
