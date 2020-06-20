@@ -13,6 +13,7 @@ namespace SimpleLang.TAC
         {
             var result = new List<(BasicBlock, BasicBlock)>();
             var queue = new Queue<BasicBlock>();
+            var used = new HashSet<(BasicBlock, BasicBlock)>();
             queue.Enqueue(cfg.start);
             while (queue.Count != 0) //просто обход в ширину
             {
@@ -20,11 +21,20 @@ namespace SimpleLang.TAC
                 queue.Dequeue();
                 foreach (var edgeEnd in cur.Out)
                 {
-                    if (dominators[edgeEnd].Contains(cur)) //обратное ребро
+                    if (edgeEnd == cfg.start || edgeEnd == cfg.end)
                     {
-                        result.Add((cur, edgeEnd));
+                        continue;
                     }
-                    queue.Enqueue(edgeEnd);
+
+                    if (!used.Contains((cur, edgeEnd)))
+                    {
+                        if (dominators.ContainsKey(cur) && dominators[cur].Contains(edgeEnd)) //обратное ребро
+                        {
+                            result.Add((cur, edgeEnd));
+                        }
+                        used.Add((cur, edgeEnd));
+                        queue.Enqueue(edgeEnd);
+                    }
                 }
             }
             return result;
@@ -36,12 +46,12 @@ namespace SimpleLang.TAC
             var backEdges = GetBackEdges(cfg, dominators);
             foreach (var edge in backEdges)
             {
-                result.Add(GetNaturalLoop(edge));
+                result.Add(GetNaturalLoop(cfg, edge));
             }
             return result;
         }
 
-        public static NaturalLoop GetNaturalLoop((BasicBlock, BasicBlock) edge)
+        public static NaturalLoop GetNaturalLoop(ControlFlowGraph cfg, (BasicBlock, BasicBlock) edge)
         {
             var result = new NaturalLoop(edge.Item2, edge.Item1);
             var used = new HashSet<BasicBlock>();
@@ -56,6 +66,11 @@ namespace SimpleLang.TAC
                 result.Blocks.Add(cur);
                 foreach (var edgeStart in cur.In)
                 {
+                    if (edgeStart == cfg.start || edgeStart == cfg.end)
+                    {
+                        continue;
+                    }
+
                     if (!used.Contains(edgeStart))
                     {
                         used.Add(edgeStart);

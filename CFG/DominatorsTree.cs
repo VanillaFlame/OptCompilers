@@ -5,10 +5,10 @@ using System.Text;
 
 namespace SimpleLang.CFG
 {
-    class DominatorsTree
+    public class DominatorsTree
     {
-        Dictionary<BasicBlock, List<BasicBlock>> dominators;
-        ControlFlowGraph controlFlow;
+        public Dictionary<BasicBlock, List<BasicBlock>> dominators;
+        public ControlFlowGraph controlFlow;
 
         public DominatorsTree(ControlFlowGraph cfg)
         {

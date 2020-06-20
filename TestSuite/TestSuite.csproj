@@ -54,6 +54,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
+    <Compile Include="TAC\TACNaturalLoopsTests.cs" />
     <Compile Include="TAC\TACTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
