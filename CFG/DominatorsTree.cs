@@ -26,7 +26,7 @@ namespace SimpleLang.CFG
             List<BasicBlock> previos;
             // считаем все блоки доминирует над всеми
             for (int i = 1; i < controlFlow.BlockCount; i++)
-                dominators.Add(controlFlow.blocks[i], controlFlow.blocks);
+                dominators.Add(controlFlow.blocks[i], controlFlow.blocks.ToList());
             
             // iteratively eliminate nodes that are not dominators
 
@@ -38,8 +38,17 @@ namespace SimpleLang.CFG
                         temp = dominators[controlFlow.blocks[i].In[0]].ToList();
                     else
                         for (int j = 0; j < controlFlow.blocks[i].In.Count - 1; j++)
-                            temp = temp.Intersect(dominators[controlFlow.blocks[i].In[j]]
-                                .Intersect(dominators[controlFlow.blocks[i].In[j + 1]])).ToList();
+                        {
+                            var intersect = dominators[controlFlow.blocks[i].In[j]]
+                                .Intersect(dominators[controlFlow.blocks[i].In[j + 1]]).ToList();
+                            if (temp.Count != 0)
+                            {
+                                temp = temp.Intersect(intersect).ToList();
+                            } else
+                            {
+                                temp = intersect;
+                            }
+                        }
                     //сам блок
                     temp.Add(controlFlow.blocks[i]);
                     dominators[controlFlow.blocks[i]] = temp.ToList();

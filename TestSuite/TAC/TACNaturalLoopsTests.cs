@@ -114,5 +114,42 @@ goto 1;
 
             Assert.IsTrue(LoopsAreEqual(actual, expected), "Loops are not equal");
         }
+
+        [Test]
+        public void ManyLoops()
+        {
+            var actual = GetLoops(
+@"
+{
+z = 0;
+1: x = 0;
+y = 1;
+goto 2;
+2: x = 1;
+goto 1;
+y = 123;
+}
+");
+            var loop1 = GetLoopFromBlocksCode(
+@"
+{
+1: x = 0;
+y = 1;
+goto 2;
+}
+",
+@"
+{
+2: x = 1;
+goto 1;
+}
+");
+            var expected = new List<NaturalLoop>()
+            {
+                loop1
+            };
+
+            Assert.IsTrue(LoopsAreEqual(actual, expected), "Loops are not equal");
+        }
     }
 }
