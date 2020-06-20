@@ -80,12 +80,8 @@ namespace SimpleLang.CFG
                 }                
             }
 
-            // если в конце последнего блока безусловный goto, то это бесконечный цикл
-            if (!(blocks[blocks.Count - 1].Instructions.Last().Operation is "goto"))
-            {
                 end.In.Add(blocks[blocks.Count - 1]);
                 blocks[blocks.Count - 1].Out.Add(end);
-            }
         }
     }
 }
