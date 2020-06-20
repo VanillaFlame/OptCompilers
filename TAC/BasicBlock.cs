@@ -89,6 +89,7 @@ namespace SimpleLang
             foreach (var i in Instructions)
             {
                 builder.Append(i.ToString().Trim());
+                builder.Append('\n');
             }
             return builder.ToString();
         }

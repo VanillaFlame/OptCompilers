@@ -59,6 +59,26 @@ namespace SimpleLang.TAC
             return true;
         }
 
+        public bool EqualsToString(string[] second)
+        {
+            var first = Blocks.Select(b => b.ToString().Trim());
+            foreach (var str in first)
+            {
+                if (!second.Contains(str))
+                {
+                    return false;
+                }
+            }
+            foreach (var str in second)
+            {
+                if (!first.Contains(str))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public override int GetHashCode()
         {
             return 54238299 + EqualityComparer<List<BasicBlock>>.Default.GetHashCode(Blocks);

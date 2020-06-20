@@ -37,6 +37,11 @@ namespace TestSuite.TAC
             return result;
         }
 
+        public bool RawLoopsAreEqual(NaturalLoop first, string[] second)
+        {
+            return first.EqualsToString(second);
+        }
+
         public bool LoopsAreEqual(List<NaturalLoop> first, List<NaturalLoop> second)
         {
             if (first.Count != second.Count)
@@ -116,40 +121,107 @@ goto 1;
         }
 
         [Test]
+        public void OneLoop2()
+        {
+            var actual = GetLoops(
+@"
+{
+n = 4;
+1: c = n + 5;
+if a + 3 > 4 * 2
+{
+a = a + 3;
+}
+else
+{
+b = 5;
+}
+s = 8;
+goto 1;
+i = 3;
+} 
+");
+            var expected = new string[] {
+"1\n" +
+"#t0 = n + 5\n" +
+"c = #t0\n" +
+"#t1 = a + 3\n" +
+"#t2 = 4 * 2\n" +
+"#t3 = #t1 > #t2\n" +
+"if #t3 goto #L0",
+
+"#L1\n" +
+"s = 8\n" +
+"goto 1",
+
+"b = 5\n" +
+"goto #L1",
+
+"#L0\n" +
+"#t4 = a + 3\n" +
+"a = #t4"
+            };
+            Assert.IsTrue(actual.Count == 1, "Loops are not equal");
+            Assert.IsTrue(RawLoopsAreEqual(actual[0], expected), "Loops are not equal");
+        }
+
+        [Test]
         public void ManyLoops()
         {
             var actual = GetLoops(
 @"
 {
-z = 0;
-1: x = 0;
-y = 1;
-goto 2;
-2: x = 1;
-goto 1;
-y = 123;
-}
-");
-            var loop1 = GetLoopFromBlocksCode(
-@"
+3: q = 1;
+if q 
 {
-1: x = 0;
-y = 1;
-goto 2;
+goto 3;
 }
-",
-@"
+n = 4;
+1: c = n + 5;
+if a + 3 > 4 * 2
 {
-2: x = 1;
-goto 1;
+a = a + 3;
 }
+else
+{
+b = 5;
+}
+s = 8;
+goto 1;
+i = 3;
+} 
 ");
-            var expected = new List<NaturalLoop>()
-            {
-                loop1
+
+            var loop1 = new string[] {
+"#L0\ngoto 3",
+
+"3\nq = 1\nif q goto #L0"
             };
 
-            Assert.IsTrue(LoopsAreEqual(actual, expected), "Loops are not equal");
+            var loop2 = new string[] {
+"1\n" +
+"#t0 = n + 5\n" +
+"c = #t0\n" +
+"#t1 = a + 3\n" +
+"#t2 = 4 * 2\n" +
+"#t3 = #t1 > #t2\n" +
+"if #t3 goto #L2",
+
+"#L3\n" +
+"s = 8\n" +
+"goto 1",
+
+"b = 5\n" +
+"goto #L3",
+
+"#L2\n" +
+"#t4 = a + 3\n" +
+"a = #t4"
+            };
+
+            Assert.IsTrue(actual.Count == 2, "Loops are not equal");
+            Assert.IsTrue(RawLoopsAreEqual(actual[0], loop1), "Loops are not equal");
+            Assert.IsTrue(RawLoopsAreEqual(actual[1], loop2), "Loops are not equal");
         }
     }
 }
