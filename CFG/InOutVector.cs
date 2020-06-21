@@ -7,17 +7,28 @@ namespace SimpleLang.CFG
     public class InOutVectorCreator
     {
         static List<TACInstruction> assignList;
+	
         public InOutVectorCreator(ThreeAddressCode a)
         {
             changeCode(a);
         }
-
-        public void changeCode(ThreeAddressCode a)
+	    
+	public void changeCode(ThreeAddressCode a)
         {
             assignList = new List<TACInstruction>();
             foreach (var instr in a.Instructions)
                 if (instr.Operation is "=")
                     assignList.Add(instr);
+        }
+	    
+	public InOutVectorCreator(List<TACInstruction> aL)
+        {
+            changeAssignList(aL);
+        }
+	    
+	public void changeAssignList(List<TACInstruction> aL)
+        {
+            assignList = aL;
         }
 
         public InOutVector getVector(IEnumerable<TACInstruction> assigns)
@@ -28,7 +39,7 @@ namespace SimpleLang.CFG
 
     public class InOutVector
     {
-		BitArray data;
+	BitArray data;
         public BitArray Data => data;
 
         public InOutVector(IEnumerable<TACInstruction> assigns, List<TACInstruction> assignList)
