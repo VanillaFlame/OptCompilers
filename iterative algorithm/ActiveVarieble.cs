@@ -33,12 +33,13 @@ using SimpleLang.CFG;
             if(cur_b!= cfg.end)
             {
                 if (cur_b != cfg.start && !cheked.Contains(cur_b.Index))
-                {   Filling(cur_b);
-                    cheked.Add(cur_b.Index);
-                }
-                foreach(var blok in cur_b.Out)
                 {
-                    Find_Atktiv_Ver(blok, cfg,cheked);
+                    Filling(cur_b);
+                    cheked.Add(cur_b.Index);
+                    foreach (var blok in cur_b.Out)
+                    {
+                        Find_Atktiv_Ver(blok, cfg, cheked);
+                    }
                 }
             }
         }
