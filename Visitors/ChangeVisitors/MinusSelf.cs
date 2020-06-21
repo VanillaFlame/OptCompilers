@@ -6,20 +6,22 @@ using ProgramTree;
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    class MultiplayOnZero2 : ChangeVisitor
+    class MinusSelf : ChangeVisitor
     {
         public override void PostVisit(Node binop)
         {
             if (binop is BinExprNode bi)
             {
-                if (bi.Right is ExprNode && bi.Left is IntNumNode && ((bi.Left as IntNumNode).Num == 0)
-                            && bi.OpType == BinOpType.Prod)
+                if (bi.Left is IdNode && bi.Right is IdNode && ((bi.Left as IdNode).Name == (bi.Right as IdNode).Name)
+                && bi.OpType == BinOpType.Minus)
                 {
-                    bi.Left.Visit(this);
                     ReplaceExpr(bi, new IntNumNode(0));
                     IsChanged = true;
                 }
-                else IsChanged = false;
+                else
+                {
+                    IsChanged = false;
+                }
             }
         }
     }

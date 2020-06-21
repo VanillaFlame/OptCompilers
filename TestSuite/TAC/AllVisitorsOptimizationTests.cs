@@ -96,7 +96,7 @@ namespace TestSuite.TAC
   b = 14;
   while (x < b)
   {
-    x = x * ( a - a);
+    x = (x * (a - a)) * 1;
     b = b;
   }
 }
@@ -145,7 +145,7 @@ namespace TestSuite.TAC
   b = 14;
   while (7 == 3)
   {
-    x = x * ( a - a);
+    x = x * (a - a);
     b = b;
   }
 }
@@ -186,7 +186,7 @@ namespace TestSuite.TAC
   b = 14;
   if (a != a)
   {
-    x = x * ( a - a);
+    x = x * (a - a);
     b = b;
   }
 }
@@ -211,6 +211,128 @@ namespace TestSuite.TAC
             {
                 "x = 13",
                 "b = 14"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void OptimizationPipeline1()
+        {
+            var Text =
+@"
+{
+  x = 13;
+  b = 14;
+  if (2 < 1)
+  {
+    x = x * (a - a);
+    b = b;
+  }
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "x = 13",
+                "b = 14"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void OptimizationPipeline2()
+        {
+            var Text =
+@"
+{
+  x = 13;
+  b = 14;
+  if (x - x + 2 < a - a + 1 + 0)
+  {
+    x = x * (a - a);
+    b = b;
+  }
+  if (true) 
+  {
+    a = 1;
+  } 
+  else 
+  {
+    a = 1;
+  }
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "x = 13",
+                "b = 14",
+                "a = 1"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void OptimizationPipeline3()
+        {
+            var Text =
+@"
+{
+  x = a - ((a - a) + a);
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "x = 0"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

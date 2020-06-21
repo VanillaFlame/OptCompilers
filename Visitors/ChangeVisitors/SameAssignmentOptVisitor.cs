@@ -13,16 +13,15 @@ namespace SimpleLang.Visitors.ChangeVisitors
         {
             if (n is AssignNode a)
             {
-                if (a.Expr is IdNode && (a.Expr as IdNode).Name == a.Id.Name)
+                if (a.Expr is IdNode idNode && idNode.Name == a.Id.Name)
                 {
-                    ReplaceStatement(a, null);
+                    ReplaceStatement(a, new EmptyStatement());
                 }
             }
             else if (n is BlockNode bl)
             {
-                bl.StList = bl.StList.Where(x => x != null).ToList();
-            }
-
+                bl.StList = bl.StList.Where(x => !(x is EmptyStatement)).ToList();
+            } 
         }
     }
 }
