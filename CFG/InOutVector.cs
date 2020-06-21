@@ -93,7 +93,6 @@ namespace SimpleLang.CFG
             var d = a.data.Count;
             if (d != b.data.Count)
                 throw new Exception("Vectors have different size, how is that even possible?!");
-
             for (int i = 0; i < d; i++)
                 if (a[i] != b[i])
                     return false;
@@ -102,7 +101,7 @@ namespace SimpleLang.CFG
 
         public static bool operator !=(InOutVector a, InOutVector b)
         {
-            return a == -b;
+            return !(a == b);
         }
 
         public static InOutVector operator -(InOutVector a)

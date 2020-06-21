@@ -89,6 +89,8 @@
     <Compile Include="Visitors\ChangeVisitors\MinisSelf.cs" />
     <Compile Include="Visitors\ChangeVisitors\MultiplayOnZero.cs" />
     <Compile Include="Visitors\ChangeVisitors\MultiplayOnZero2.cs" />
+    <Compile Include="Visitors\ChangeVisitors\NullIfElseOptVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\SameAssignmentOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TreeLeverCodeVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />
