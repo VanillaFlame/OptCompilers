@@ -17,9 +17,11 @@ namespace SimpleLang.Visitors.ChangeVisitors
                     || node.OpType == BinOpType.GreaterOrEqual))
             {
                 ReplaceExpr(node, new BoolValNode(true));
+                IsChanged = true;
             } 
             else
             {
+                IsChanged = false;
                 base.Visit(node);
             }
         }

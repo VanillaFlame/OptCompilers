@@ -20,7 +20,7 @@ namespace SimpleLang
         }
     }
 
-    public class TACInstruction
+    public class TACInstruction: IEquatable<TACInstruction>
     {
         public string Operation { get; set; }
         public string Argument1 { get; set; }
@@ -79,6 +79,78 @@ namespace SimpleLang
             }
 
             return stringBuilder.ToString();
+        }
+
+        public string StringRepresentation()
+        {
+            var stringBuilder = new StringBuilder();
+            if (HasLabel)
+            {
+                stringBuilder.Append(Label + ": ");
+            }
+
+            if (!Result.Equals(""))
+            {
+                if (!Operation.Equals("="))
+                {
+                    // AddInstruction(LessOrEqual, counter, end, cond, label);
+                    // AddInstruction(Plus, a, b, temp, label);
+                    stringBuilder.Append(Result + " = " + Argument1 + ' ' + Operation + ' ' + Argument2);
+                }
+                else
+                {
+                    // AddInstruction(Assign, a, "", temp);
+                    stringBuilder.Append(Result + ' ' + Operation + ' ' + Argument1);
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            switch (Operation)
+            {
+                case "if goto":
+                    stringBuilder.Append("if " + Argument1 + " goto " + Argument2);
+                    break;
+
+                case "goto":
+                    stringBuilder.Append("goto " + Argument1);
+                    break;
+
+                case "":
+                    break;
+
+                default:
+                    stringBuilder.Append("Unexpected operation");
+                    break;
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TACInstruction) {
+                return Equals((TACInstruction)obj);
+            }
+            return false;
+        }
+        public override int GetHashCode() {
+            int hash = 0;
+            hash += Operation.GetHashCode();
+            hash += Argument1.GetHashCode();
+            hash += Argument2.GetHashCode();
+            hash += Result.GetHashCode();
+            hash += Label.GetHashCode();
+            return hash;
+        }
+
+        public bool Equals(TACInstruction temp)
+        {
+            if (temp.Operation == this.Operation && temp.Result == this.Result
+                    && temp.Argument1 == this.Argument1 && temp.Argument2 == this.Argument2
+                    && temp.Label == this.Label && temp.HasLabel == this.HasLabel)
+                return true;
+            return false;
         }
     }
 }

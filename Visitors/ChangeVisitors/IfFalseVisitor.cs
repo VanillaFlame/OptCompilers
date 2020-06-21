@@ -15,9 +15,11 @@ namespace SimpleLang.Visitors.ChangeVisitors
                 {
                     Visit(node.ElseStat);
                     ReplaceStatement(node, node.ElseStat);
+                    IsChanged = true;
                 }
                 else
                 {
+                    IsChanged = false;
                     base.Visit(node);
                 }
             }

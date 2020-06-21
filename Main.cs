@@ -8,7 +8,7 @@ using SimpleLang.TAC;
 using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
 using SimpleLang.CFG;
-using SimpleLang.TAC.TACOptimizers;
+
 
 namespace SimpleCompiler
 {
@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuiteTxt\a.txt";
+            string FileName = @"..\..\TestSuiteTxt\e.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -39,6 +39,27 @@ namespace SimpleCompiler
 
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
+
+                AllVisitorsOptimization.Optimization(parser);
+                
+                var prettyPrinter = new PrettyPrinterVisitor();
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine(prettyPrinter.FormattedProgram);
+
+
+                var TACGenerator = new TACGenerationVisitor();
+                parser.root.Visit(TACGenerator);
+
+                //var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                //TACBlocks.GenBaseBlocks();
+
+                //Console.WriteLine(TACBlocks);
+                //Console.WriteLine("================================================================================");
+
+                var BaseBlock = AllTacOptimization.Optimize(parser);
+                BaseBlock.GenBaseBlocks();
+                Console.WriteLine(BaseBlock);
+                Console.WriteLine("================================================================================");
 
                 /*
                 // Tree optimizations
@@ -95,19 +116,20 @@ namespace SimpleCompiler
                 Console.WriteLine("================================================================================");
                 */
 
-                /*
+               
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
 
-                Console.WriteLine(TACBlocks);
-                Console.WriteLine("================================================================================");
-                */
-                var TACGenerator = new TACGenerationVisitor();
-                parser.root.Visit(TACGenerator);
-                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
-                TACBlocks.GenBaseBlocks();
-                Console.WriteLine(TACBlocks.ToString());
-                Console.WriteLine("================================================================================");
+                //Console.WriteLine(TACBlocks);
+                //Console.WriteLine("================================================================================");
+                
+                //var TACGenerator = new TACGenerationVisitor();
+                //parser.root.Visit(TACGenerator);
+                //var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                //TACBlocks.GenBaseBlocks();
+                //Console.WriteLine(TACBlocks.ToString());
+                //Console.WriteLine("================================================================================");
+                
 
                 /*var DefUseOptimizer = new DefUseOptimizer(TACGenerator.TAC);
                 DefUseOptimizer.Run();
@@ -123,12 +145,20 @@ namespace SimpleCompiler
                     Console.WriteLine(DefUseOptimizer.TAC);
                 }
                 */
-
+                
                 var cfg = new ControlFlowGraph(TACBlocks.blocks);
-                var availableExprOptimizer = new AvailableExpressionsOptimizer();
-                availableExprOptimizer.Run(cfg, TACBlocks.blocks);
-                Console.WriteLine(TACBlocks.ToString());
-                Console.WriteLine("================================================================================");
+                var dt = new DominatorsTree(cfg);
+                var tr = dt.GenDominatorsTree();
+
+                //var availableExprOptimizer = new AvailableExpressionsOptimizer();
+                //availableExprOptimizer.Run(cfg, TACBlocks.blocks);
+                //Console.WriteLine(TACBlocks.ToString());
+                //Console.WriteLine("================================================================================");
+
+                //var rdo = new ReachingDefinitionOptimizer(cfg);
+                //rdo.Run();
+
+
 
             }
             catch (FileNotFoundException)
