@@ -23,8 +23,8 @@ namespace SimpleLang.TACOptimizers
         {
             if (TAC == null)
                 throw new System.Exception("Отсутствует TAC");
-            OptimizeCopy();
             OptimizeConstants();
+            OptimizeCopy();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (current.Result != "")
+                if (!(current.Result.Equals("") || current.Result.Contains("#")))
                 {
                     if (knownVariables.Contains(current.Argument1))
                     {
@@ -77,7 +77,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (current.Result != "")
+                if (!(current.Result.Equals("") || current.Result.Contains("#")))
                 {
                     if (knownConstants.Contains(current.Argument1))
                     {

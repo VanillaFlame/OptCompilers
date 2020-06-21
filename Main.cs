@@ -50,11 +50,11 @@ namespace SimpleCompiler
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
 
-                //var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
-                //TACBlocks.GenBaseBlocks();
+                var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
+                TACBlocks.GenBaseBlocks();
 
-                //Console.WriteLine(TACBlocks);
-                //Console.WriteLine("================================================================================");
+                Console.WriteLine(TACBlocks);
+                Console.WriteLine("===============TACBlocks====================================================");
 
                 var BaseBlock = AllTacOptimization.Optimize(parser);
                 BaseBlock.GenBaseBlocks();
