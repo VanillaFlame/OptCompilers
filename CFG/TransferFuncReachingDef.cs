@@ -17,7 +17,7 @@ namespace SimpleLang.CFG
             List<TACInstruction> defs = new List<TACInstruction>();
             foreach (var block in blocks)
                 foreach (var instruction in block.Instructions)
-                    if (instruction.Operation == "assign")
+                    if (instruction.Operation == "=")
                         defs.Add(instruction);
             def_b = defs.ToLookup(x => x.Result, x => x);
         }
@@ -31,7 +31,7 @@ namespace SimpleLang.CFG
                 var flag = new HashSet<string>();
                 foreach (var instruction in block.Instructions.Reverse<TACInstruction>())
                 { 
-                    if (!flag.Contains(instruction.Result) && instruction.Operation == "assign")
+                    if (!flag.Contains(instruction.Result) && instruction.Operation == "=")
                     {
                         gen.Add((block, instruction));
                         flag.Add(instruction.Result);
