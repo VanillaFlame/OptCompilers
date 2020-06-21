@@ -32,8 +32,6 @@ namespace TestSuite.TAC
             var parentFiller = new FillParentsVisitor();
             parser.root.Visit(parentFiller);
 
-            //var trueOpt = new TrueConditionOptVisitor();
-            //parser.root.Visit(trueOpt);
             AllVisitorsOptimization.Optimization(parser);
 
             var prettyPrinter = new PrettyPrinterVisitor();
@@ -70,8 +68,6 @@ namespace TestSuite.TAC
             var parentFiller = new FillParentsVisitor();
             parser.root.Visit(parentFiller);
 
-            //var trueOpt = new TrueConditionOptVisitor();
-            //parser.root.Visit(trueOpt);
             AllVisitorsOptimization.Optimization(parser);
 
             var prettyPrinter = new PrettyPrinterVisitor();
@@ -112,8 +108,6 @@ namespace TestSuite.TAC
             var parentFiller = new FillParentsVisitor();
             parser.root.Visit(parentFiller);
 
-            //var trueOpt = new TrueConditionOptVisitor();
-            //parser.root.Visit(trueOpt);
             AllVisitorsOptimization.Optimization(parser);
 
             var prettyPrinter = new PrettyPrinterVisitor();
@@ -135,6 +129,88 @@ namespace TestSuite.TAC
                 "x = 0",
                 "goto #L0",
                 "#L2"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        public void WhileFalseOptimization()
+        {
+            var Text =
+@"
+{
+  x = 13;
+  b = 14;
+  while (7 == 3)
+  {
+    x = x * ( a - a);
+    b = b;
+  }
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "x = 13",
+                "b = 14"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        public void IfFalseOptimization()
+        {
+            var Text =
+@"
+{
+  x = 13;
+  b = 14;
+  if (a != a)
+  {
+    x = x * ( a - a);
+    b = b;
+  }
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "x = 13",
+                "b = 14"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

@@ -32,7 +32,6 @@ namespace SimpleLang.Visitors.ChangeVisitors
                     ChangeVisitorsOptimization[countOptimization].IsChanged = false;
                     countOptimization = 0;
                 }
-                    
                 else countOptimization++;
             }
         }

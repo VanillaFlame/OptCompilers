@@ -11,6 +11,7 @@ namespace SimpleLang.Visitors.ChangeVisitors
         public bool IsChanged = false;
         public void ReplaceExpr(ExprNode from, ExprNode to)
         {
+            IsChanged = true;
             var p = from.Parent;
             to.Parent = p;
             switch (p) {
@@ -80,6 +81,7 @@ namespace SimpleLang.Visitors.ChangeVisitors
 
         public void ReplaceStatement(StatementNode from, StatementNode to)
         {
+            IsChanged = true;
             var p = from.Parent;
             to.Parent = p;
             switch (p)
