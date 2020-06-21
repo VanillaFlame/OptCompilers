@@ -20,9 +20,6 @@ namespace SimpleLang.TAC
 
         public void GenBaseBlocks()
         {
-            var baseBlocks = new List<List<TACInstruction>>();
-            var labels = new HashSet<string>();
-
             var list = new List<int>();
             list.Add(0);
 
@@ -45,8 +42,17 @@ namespace SimpleLang.TAC
                 }
             }
 
+            if (instructions[instructions.Count - 1].Operation.Equals("goto"))
+                for (int j = 1; j < instructions.Count; ++j)
+                {
+                    if (instructions[j].HasLabel && instructions[j].Label.Equals(instructions[instructions.Count - 1].Argument1))
+                        list.Add(j);
+                }
+
+
             var result = list.Distinct().ToList();
             result.Sort();
+
 
             for (int i = 0; i < result.Count - 1; ++i)
             {

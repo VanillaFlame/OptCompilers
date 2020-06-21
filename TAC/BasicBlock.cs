@@ -82,5 +82,16 @@ namespace SimpleLang
             }
             return second.Index == Index;
         }
+
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            foreach (var i in Instructions)
+            {
+                builder.Append(i.ToString().Trim());
+                builder.Append('\n');
+            }
+            return builder.ToString();
+        }
     }
 }

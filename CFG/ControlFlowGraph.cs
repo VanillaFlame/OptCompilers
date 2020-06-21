@@ -15,8 +15,10 @@ namespace SimpleLang.CFG
         /// Пустой блок конца
         /// </summary>
         public BasicBlock end = new BasicBlock();
-
-        List<BasicBlock> blocks;
+        public List<List<(int vertex, BasicBlock block)>> _children;
+        public List<List<(int vertex, BasicBlock block)>> _parents;
+        public List<BasicBlock> blocks;
+        public int BlockCount => blocks.Count;
 
         /// <summary>
         /// Создает Control Flow Graph
@@ -25,6 +27,8 @@ namespace SimpleLang.CFG
         public ControlFlowGraph(List<BasicBlock> blocks)
         {
             this.blocks = blocks;
+            _children = new List<List<(int, BasicBlock)>>(blocks.Count);
+            _parents = new List<List<(int, BasicBlock)>>(blocks.Count);
             if (blocks.Count == 0)
                 return;
             CreateCFG();
@@ -34,6 +38,11 @@ namespace SimpleLang.CFG
         {
             start.Out.Add(blocks[0]);
             blocks[0].In.Add(start);
+            for (var i = 0; i < blocks.Count; ++i)
+            {
+                _children.Add(new List<(int, BasicBlock)>());
+                _parents.Add(new List<(int, BasicBlock)>());
+            }
             // каждый блок является началом последующего
             for (int i = 0; i < blocks.Count - 1; i++)
             {
@@ -51,9 +60,12 @@ namespace SimpleLang.CFG
                         if (block.Instructions.First().Label == label)
                             targetBlock = block;
 
+                    var gotoOutBlock = blocks.FindIndex(block =>
+                                string.Equals(block.Instructions.First().Label, label));
                     if (targetBlock == null)
                         throw new Exception("Goto ведет к несуществующей метке");
-
+                    _children[i].Add((gotoOutBlock, blocks[gotoOutBlock]));
+                    _parents[gotoOutBlock].Add((i, blocks[i]));
                     curBlock.Out.Add(targetBlock);
                     targetBlock.In.Add(curBlock);
                 }
@@ -63,15 +75,13 @@ namespace SimpleLang.CFG
                     var nextBlock = blocks[i + 1];
                     curBlock.Out.Add(nextBlock);
                     nextBlock.In.Add(curBlock);
+                    _children[i].Add((i + 1, blocks[i + 1]));
+                    _parents[i + 1].Add((i, blocks[i]));
                 }                
             }
 
-            // если в конце последнего блока безусловный goto, то это бесконечный цикл
-            if (!(blocks[blocks.Count - 1].Instructions.Last().Operation is "goto"))
-            {
                 end.In.Add(blocks[blocks.Count - 1]);
                 blocks[blocks.Count - 1].Out.Add(end);
-            }
         }
     }
 }
