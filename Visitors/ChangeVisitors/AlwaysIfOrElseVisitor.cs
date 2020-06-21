@@ -10,12 +10,12 @@ namespace SimpleLang.Visitors.ChangeVisitors
             {
                 if (expr.Val == true)
                 {
-                    base.Visit(ifnode.Stat);
+                    Visit(ifnode.Stat);
                     ReplaceStatement(ifnode, ifnode.Stat);
                 }
                 else
                 {
-                    base.Visit(ifnode.ElseStat);
+                    Visit(ifnode.ElseStat);
                     ReplaceStatement(ifnode, ifnode.ElseStat);
                 }
             }     
@@ -24,6 +24,5 @@ namespace SimpleLang.Visitors.ChangeVisitors
                 base.Visit(ifnode);
             }
         }
-
     }
 }
