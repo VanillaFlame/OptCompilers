@@ -17,6 +17,7 @@ namespace SimpleLang.CFG
         public BasicBlock end = new BasicBlock();
         public List<List<(int vertex, BasicBlock block)>> _children;
         public List<List<(int vertex, BasicBlock block)>> _parents;
+        public readonly Dictionary<BasicBlock, int> _indexBlock;
         public List<BasicBlock> blocks;
         public int BlockCount => blocks.Count;
 
@@ -29,6 +30,7 @@ namespace SimpleLang.CFG
             this.blocks = blocks;
             _children = new List<List<(int, BasicBlock)>>(blocks.Count);
             _parents = new List<List<(int, BasicBlock)>>(blocks.Count);
+            _indexBlock = blocks.Select((b, index) => new { b, index }).ToDictionary(vertex => vertex.b, vertex => vertex.index);
             if (blocks.Count == 0)
                 return;
             CreateCFG();
@@ -80,8 +82,12 @@ namespace SimpleLang.CFG
                 }                
             }
 
+            // если в конце последнего блока безусловный goto, то это бесконечный цикл
+            if (!(blocks[blocks.Count - 1].Instructions.Last().Operation is "goto"))
+            {
                 end.In.Add(blocks[blocks.Count - 1]);
                 blocks[blocks.Count - 1].Out.Add(end);
+            }
         }
     }
 }

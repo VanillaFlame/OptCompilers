@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,7 @@ using System.Text;
 namespace SimpleLang.CFG
 {
     public enum directed { forward, back }
-
-    public abstract class IterAlgoGeneric<T> where T : IEnumerable<T>
+     public abstract class IterAlgoGeneric<T> where T : IEnumerable
     {
         public abstract Func<T, T, T> CollectingOperator { get; }
         public abstract Func<T, T, bool> Compare { get; }
@@ -36,13 +36,13 @@ namespace SimpleLang.CFG
             return data;
         }
 
-        private void GetInitData(ControlFlowGraph graph, out IEnumerable<BasicBlock> blocks, out InOutData<T> data, out Func<BasicBlock, IEnumerable<BasicBlock>> InitBlocks, out Func<BasicBlock, T> InitVals, out Func<T, T, (T, T)> combine)
+        private void GetInitData(ControlFlowGraph graph, out IEnumerable<BasicBlock> blocks, out InOutData<T> data, out Func<BasicBlock, IEnumerable<BasicBlock>> InitBlocks, out Func<BasicBlock, T> InitVals, out Func<T, T, (T, T)> combine) 
         {
             var start = directed == directed.back
                 ? graph.blocks.Last()
                 : graph.blocks.First();
             blocks = graph.blocks.Except(new[] { start });
-
+            
             var dataTemp = new InOutData<T>
             {
                 [start] = (InitFirst, InitFirst)
@@ -56,13 +56,12 @@ namespace SimpleLang.CFG
             switch (directed)
             {
                 case directed.forward:
-                    InitBlocks = x => graph._parents[x.Index].Select(z => z.block);
-
+                    InitBlocks = x => graph._parents[graph._indexBlock[x]].Select(z => z.block);
                     InitVals = x => dataTemp[x].Out;
                     combine = (x, y) => (x, y);
                     break;
                 case directed.back:
-                    InitBlocks = x => graph._children[x.Index].Select(z => z.block);
+                    InitBlocks = x => graph._children[graph._indexBlock[x]].Select(z => z.block);
                     InitVals = x => dataTemp[x].In;
                     combine = (x, y) => (y, x);
                     break;
@@ -71,8 +70,7 @@ namespace SimpleLang.CFG
             }
         }
     }
-    public class InOutData<T> : Dictionary<BasicBlock, (T In, T Out)>
-       where T : IEnumerable<T>
+    public class InOutData<T> : Dictionary<BasicBlock, (T In, T Out)> where T : IEnumerable
     {
         public override string ToString()
         {
