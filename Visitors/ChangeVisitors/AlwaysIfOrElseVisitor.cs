@@ -10,13 +10,13 @@ namespace SimpleLang.Visitors.ChangeVisitors
             {
                 if (expr.Val == true)
                 {
-                    ReplaceStatement(ifnode, ifnode.Stat);
                     base.Visit(ifnode.Stat);
+                    ReplaceStatement(ifnode, ifnode.Stat);
                 }
                 else
                 {
-                    ReplaceStatement(ifnode, ifnode.ElseStat);
                     base.Visit(ifnode.ElseStat);
+                    ReplaceStatement(ifnode, ifnode.ElseStat);
                 }
             }     
             else
