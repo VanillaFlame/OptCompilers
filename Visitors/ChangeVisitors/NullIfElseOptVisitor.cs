@@ -16,7 +16,7 @@ namespace SimpleLang.Visitors.ChangeVisitors
                 if ((ifN.Stat.StList.Count == 0 && ifN.ElseStat == null) ||
                     (ifN.Stat.StList.Count == 0 && ifN.ElseStat.StList.Count == 0))
                 {
-                    ReplaceStatement(ifN, null);
+                    ReplaceStatement(ifN, new EmptyStatement());
                 }
                 if (ifN.ElseStat != null && ifN.ElseStat.StList.Count == 0)
                 {
@@ -25,7 +25,9 @@ namespace SimpleLang.Visitors.ChangeVisitors
             }
             else if (n is BlockNode bl)
             {
-                bl.StList = bl.StList.Where(x => x != null).ToList();
+                var prevLength = bl.StList.Count;
+                bl.StList = bl.StList.Where(x => !(x is EmptyStatement)).ToList();
+                IsChanged = prevLength != bl.StList.Count;
             }
         }
     }

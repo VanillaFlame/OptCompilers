@@ -143,7 +143,7 @@ namespace TestSuite.TAC
 {
   x = 13;
   b = 14;
-  while (7 == 3)
+  while (7 - 7 == 3 - 1)
   {
     x = x * (a - a);
     b = b;
@@ -333,6 +333,59 @@ namespace TestSuite.TAC
             var expected = new List<string>()
             {
                 "x = 0"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void OptimizationPipeline4()
+        {
+            /*
+             * 
+  c = 3;
+  if (2 > 1) 
+  {
+    a = a;
+  }
+  else 
+  {
+    b = b;
+    if (3 > 2) 
+    {
+      a = a;
+    }
+  }
+  */
+            var Text =
+@"
+{
+  if (a > b) 
+  {
+    a = a;
+  }
+  c = 3;
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "c = 3"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

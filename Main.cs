@@ -116,10 +116,10 @@ namespace SimpleCompiler
                 Console.WriteLine("================================================================================");
                 */
 
-               
+               /*
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
-
+                */
                 //Console.WriteLine(TACBlocks);
                 //Console.WriteLine("================================================================================");
                 

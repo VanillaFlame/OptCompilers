@@ -94,6 +94,7 @@
     <Compile Include="Visitors\ChangeVisitors\MultiplyOnZero.cs" />
     <Compile Include="Visitors\ChangeVisitors\MultiplyOnZero2.cs" />
     <Compile Include="Visitors\ChangeVisitors\NullIfElseOptVisitor.cs" />
+    <Compile Include="Visitors\ChangeVisitors\RemoveEmptyStatementVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\SameAssignmentOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TreeLeverCodeVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />

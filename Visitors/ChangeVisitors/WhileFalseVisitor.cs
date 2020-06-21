@@ -19,5 +19,15 @@ namespace SimpleLang.Visitors.ChangeVisitors
                 base.Visit(node);
             }
         }
+
+        public override void PostVisit(Node n)
+        {
+            if (n is BlockNode bl)
+            {
+                var prevLength = bl.StList.Count;
+                bl.StList = bl.StList.Where(x => !(x is EmptyStatement)).ToList();
+                IsChanged = prevLength != bl.StList.Count;
+            }
+        }
     }
 }
