@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFG\ControlFlowGraph.cs" />
+    <Compile Include="iterative algorithm\ActiveVarieble.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />
     <Compile Include="TAC\TACOptimizers\AllTacOptimization.cs" />
