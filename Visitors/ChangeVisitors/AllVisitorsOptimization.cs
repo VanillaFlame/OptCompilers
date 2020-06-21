@@ -28,7 +28,11 @@ namespace SimpleLang.Visitors.ChangeVisitors
             {
                 parser.root.Visit(ChangeVisitorsOptimization[countOptimization]);
                 if (ChangeVisitorsOptimization[countOptimization].IsChanged)
+                {
+                    ChangeVisitorsOptimization[countOptimization].IsChanged = false;
                     countOptimization = 0;
+                }
+                    
                 else countOptimization++;
             }
         }
