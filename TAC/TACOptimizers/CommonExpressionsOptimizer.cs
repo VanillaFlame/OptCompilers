@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleLang.TAC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,10 @@ namespace SimpleLang.TACOptimizers
 {
     class CommonExpressionsOptimizer : TACOptimizer
     {
-        public CommonExpressionsOptimizer(List<TACInstruction> instructions) : base(instructions)
+        public CommonExpressionsOptimizer(ThreeAddressCode tac) : base(tac)
         {
         }
+
         private bool Check_Varieble(string varieble, int start, int border)
         {
             bool res=true;

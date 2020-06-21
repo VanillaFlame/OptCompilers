@@ -12,13 +12,18 @@ namespace SimpleLang.Visitors.ChangeVisitors
     {
         public static List<ChangeVisitor> ChangeVisitorsOptimization = new List<ChangeVisitor>
         {
-            new MinisSelf(),
+            new SameAssignmentOptVisitor(),
+            new NumberEqualityVisitor(),
+            new MinusSelf(),
             new FindFalseVisitor(),
-            new MultiplayOnZero(),
-            new MultiplayOnZero2(),
+            new MultiplyOnZero(),
+            new MultiplyOnZero2(),
             new TrueConditionOptVisitor(),
             new TrueIfOptVisitor(),
-            new IfFalseVisitor()
+            new ConstantFoldingVisitor(),
+            new IfFalseVisitor(),
+            new AlgebraicIdentityProdDiv1Visitor(),
+            new AlgebraicIdentitySum0Visitor()
         };
 
         public static void Optimization(Parser parser)

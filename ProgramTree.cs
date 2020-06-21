@@ -139,6 +139,15 @@ namespace ProgramTree
     {
     }
 
+    public class EmptyStatement : StatementNode
+    {
+        public EmptyStatement() { }
+
+        public override void Visit(Visitor v)
+        {
+        }
+    }
+
     public class ListExprNode : Node
     {
         public List<ExprNode> ExprList { get; set; } = new List<ExprNode>();
