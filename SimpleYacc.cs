@@ -4,7 +4,7 @@
 
 // GPPG version 1.3.6
 // Machine:  DESKTOP-0FGGHDS
-// DateTime: 3/24/2020 2:35:18 PM
+// DateTime: 5/26/2020 3:32:40 PM
 // UserName: annad
 // Input file <SimpleYacc.y>
 
@@ -51,8 +51,7 @@ public abstract class ScanBase : AbstractScanner<ValueType,LexLocation> {
 public class Parser: ShiftReduceParser<ValueType, LexLocation>
 {
   // Verbatim content from SimpleYacc.y
-// Эти объявления добавляются в класс GPPGParser, представляющий собой парсер, генерируемый системой gppg
-    public BlockNode root; // Корневой узел синтаксического дерева 
+    public BlockNode root;
     public Parser(AbstractScanner<ValueType, LexLocation> scanner) : base(scanner) { }
   // End verbatim content from SimpleYacc.y
 

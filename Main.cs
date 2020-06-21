@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuite\a.txt";
+            string FileName = @"..\..\TestSuiteTxt\a.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
