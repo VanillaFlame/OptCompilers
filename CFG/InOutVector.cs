@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections;
 using SimpleLang.TAC;
@@ -7,26 +7,27 @@ namespace SimpleLang.CFG
     public class InOutVectorCreator
     {
         static List<TACInstruction> assignList;
-	
+
         public InOutVectorCreator(ThreeAddressCode a)
         {
             changeCode(a);
         }
-	    
-	public void changeCode(ThreeAddressCode a)
+
+        public void changeCode(ThreeAddressCode a)
         {
             assignList = new List<TACInstruction>();
             foreach (var instr in a.Instructions)
-                if (instr.Operation is "=")
+                if (!(instr.Result.Equals("")
+                           || instr.Result.Contains("#")))
                     assignList.Add(instr);
         }
-	    
-	public InOutVectorCreator(List<TACInstruction> aL)
+
+        public InOutVectorCreator(List<TACInstruction> aL)
         {
             changeAssignList(aL);
         }
-	    
-	public void changeAssignList(List<TACInstruction> aL)
+
+        public void changeAssignList(List<TACInstruction> aL)
         {
             assignList = aL;
         }
@@ -39,7 +40,7 @@ namespace SimpleLang.CFG
 
     public class InOutVector
     {
-	BitArray data;
+        BitArray data;
         public BitArray Data => data;
 
         public InOutVector(IEnumerable<TACInstruction> assigns, List<TACInstruction> assignList)
@@ -65,7 +66,7 @@ namespace SimpleLang.CFG
             set => data[key] = value;
         }
 
-        public static InOutVector operator+(InOutVector a, InOutVector b)
+        public static InOutVector operator +(InOutVector a, InOutVector b)
         {
             var d = a.data.Count;
             if (d != b.data.Count)
@@ -76,7 +77,7 @@ namespace SimpleLang.CFG
             return new InOutVector(c);
         }
 
-        public static InOutVector operator-(InOutVector a, InOutVector b)
+        public static InOutVector operator -(InOutVector a, InOutVector b)
         {
             var d = a.data.Count;
             if (d != b.data.Count)
@@ -87,7 +88,7 @@ namespace SimpleLang.CFG
             return new InOutVector(c);
         }
 
-        public static bool operator==(InOutVector a, InOutVector b)
+        public static bool operator ==(InOutVector a, InOutVector b)
         {
             var d = a.data.Count;
             if (d != b.data.Count)
@@ -104,7 +105,7 @@ namespace SimpleLang.CFG
             return a == -b;
         }
 
-        public static InOutVector operator-(InOutVector a)
+        public static InOutVector operator -(InOutVector a)
         {
             var d = a.data.Count;
             var c = new BitArray(d, false);
