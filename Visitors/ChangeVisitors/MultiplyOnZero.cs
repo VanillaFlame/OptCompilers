@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ProgramTree;
+using SimpleLang.Visitors.ChangeVisitors;
 
-namespace SimpleLang.Visitors.ChangeVisitors
+namespace SimpleLang.Visitors
 {
-    class MultiplyOnZero : ChangeVisitor
+    public class MultiplyOnZero : ChangeVisitor
     {
         public override void PostVisit(Node binop)
         {

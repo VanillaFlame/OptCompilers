@@ -40,7 +40,7 @@ b = 1;
                 3 {#L1}
             */
             var dict = cfg.classifyEdges();
-            Assert.True(false);
+            Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
         }
 
         [Test]
@@ -78,35 +78,44 @@ a = 5 == 2;
                 8 {#L3 f = 5}
                 9 {#L4 #t2 = 5 == 2; a = #t2}
             */
-            var baseBlocks = cfg.blocks;
-            // start -> 0
-            Assert.True(haveLink(cfg.start, baseBlocks[0]));
-            // 0 -> 2
-            Assert.True(haveLink(baseBlocks[0], baseBlocks[2]));
-            // 1 -> 2
-            Assert.True(haveLink(baseBlocks[1], baseBlocks[2]));
-            Assert.IsEmpty(baseBlocks[1].In);
-            // 2 -> 3
-            Assert.True(haveLink(baseBlocks[2], baseBlocks[3]));
-            // 3 -> 4; 3 -> 5
-            Assert.True(haveLink(baseBlocks[3], baseBlocks[4]));
-            Assert.True(haveLink(baseBlocks[3], baseBlocks[5]));
-            // 4 -> 6
-            Assert.True(haveLink(baseBlocks[4], baseBlocks[6]));
-            // 5 -> 3
-            Assert.True(haveLink(baseBlocks[5], baseBlocks[3]));
-            // 6 -> 7; 6 -> 8
-            Assert.True(haveLink(baseBlocks[6], baseBlocks[7]));
-            Assert.True(haveLink(baseBlocks[6], baseBlocks[8]));
-            // 7 -> 9
-            Assert.True(haveLink(baseBlocks[7], baseBlocks[9]));
-            // 8 -> 9
-            Assert.True(haveLink(baseBlocks[8], baseBlocks[9]));
-            // 9 -> end
-            Assert.True(haveLink(baseBlocks[9], cfg.end));
+            var dict = cfg.classifyEdges();
+            Assert.AreEqual(dict[IndexEdge.Create(1, 2)], EdgeType.Cross);
+            Assert.AreEqual(dict[IndexEdge.Create(5, 3)], EdgeType.Retreating);
+            dict.Remove(IndexEdge.Create(1, 2));
+            dict.Remove(IndexEdge.Create(5, 3));
+            Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
         }
 
-        bool haveLink(BasicBlock a, BasicBlock b)
-            => a.Out.Contains(b) && b.In.Contains(a);
+        [Test]
+        public void Test3()
+        {
+            var cfg = GenerateCFG(
+@"{
+a = 5;
+1:
+b = c;
+2:
+goto 2;
+goto 1;
+d = a;
+goto 1;
+}");
+            /*
+             *  5 блоков
+                0 {a = 5}
+                1 {1: b = c}
+                2 {2: goto 2}
+                3 {goto 1}
+                4 {d = a; goto 1}
+            */
+            var dict = cfg.classifyEdges();
+            Assert.AreEqual(dict[IndexEdge.Create(2, 2)], EdgeType.Retreating);
+            Assert.AreEqual(dict[IndexEdge.Create(4, 6)], EdgeType.Cross);
+            Assert.AreEqual(dict[IndexEdge.Create(3, 1)], EdgeType.Cross);
+            dict.Remove(IndexEdge.Create(2, 2));
+            dict.Remove(IndexEdge.Create(4, 6));
+            dict.Remove(IndexEdge.Create(3, 1));
+            Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
+        }
     }
 }
