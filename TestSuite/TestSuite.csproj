@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CFG\CFGTests.cs" />
     <Compile Include="CFG\CFGTestsBase.cs" />
+    <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="SyntaxTree\TrueConditionOptTests.cs" />
     <Compile Include="SyntaxTree\TrueIfOptTests.cs" />
     <Compile Include="TAC\AlgebraicIdentitiesTests.cs" />
-    <Compile Include="TAC\AllVisitorsOptimizationTests.cs" />
+    <Compile Include="SyntaxTree\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
     <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
     <Compile Include="TAC\TACNaturalLoopsTests.cs" />
+    <Compile Include="TAC\TACPipelineTests.cs" />
     <Compile Include="TAC\TACTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>

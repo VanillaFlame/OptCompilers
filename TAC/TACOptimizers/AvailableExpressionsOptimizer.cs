@@ -1,4 +1,5 @@
 ﻿using SimpleLang.CFG;
+using SimpleLang.TAC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +7,21 @@ using System.Text;
 
 namespace SimpleLang.TACOptimizers
 {
-    public class AvailableExpressionsOptimizer
+    public class AvailableExpressionsOptimizer : TACOptimizer
     {
         private Dictionary<BasicBlock, Gen> gens = new Dictionary<BasicBlock, Gen>();
         private Dictionary<BasicBlock, Kill> kills = new Dictionary<BasicBlock, Kill>();
 
         public Dictionary<BasicBlock, AvailableExpressionsTable> In = new Dictionary<BasicBlock, AvailableExpressionsTable>();
         public Dictionary<BasicBlock, AvailableExpressionsTable> Out = new Dictionary<BasicBlock, AvailableExpressionsTable>();
+
+        public AvailableExpressionsOptimizer()
+        {
+        }
+
+        public AvailableExpressionsOptimizer(ThreeAddressCode tac) : base(tac)
+        {
+        }
 
         private void CreateGen(BasicBlock block)
         {
@@ -46,6 +55,11 @@ namespace SimpleLang.TACOptimizers
                 }
             }
             kills.Add(block, kill);
+        }
+
+        public override void Run()
+        {
+            Run(this.Cfg, this.Blocks);
         }
 
         public void Run(ControlFlowGraph cfg, List<BasicBlock> blocks)
