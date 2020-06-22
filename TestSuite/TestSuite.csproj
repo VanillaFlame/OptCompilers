@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTree\AlwaysFalseTests.cs" />
     <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
+    <Compile Include="SyntaxTree\AlgebraicIdentityProdDivSumTests.cs" />
     <Compile Include="SyntaxTree\NullIfElseOptTests.cs" />
     <Compile Include="SyntaxTree\NumberEqualityTests.cs" />
     <Compile Include="SyntaxTree\SameAssignmentOptVisitorTests.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="SyntaxTree\WhileFalseTests.cs" />
     <Compile Include="SyntaxTree\MultiplicationOnZeroTest.cs" />
     <Compile Include="TAC\AlgebraicIdentitiesTests.cs" />
-	<Compile Include="TAC\ConstantPropagationTests.cs" />
+    <Compile Include="TAC\ConstantPropagationTests.cs" />
     <Compile Include="SyntaxTree\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
     <Compile Include="TAC\ConstantFoldingOptimizerTests.cs" />
