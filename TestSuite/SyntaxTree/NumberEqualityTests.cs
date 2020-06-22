@@ -18,6 +18,8 @@ namespace TestSuite.SyntaxTree
     class NumberEqualityTests : SyntaxTreeTestsBase
     {
         [TestCase("a = 5 > 2;", "a = true;")]
+        [TestCase("a = 2 < 3;", "a = true;")]
+        [TestCase("a = 5 < 7;", "a = true;")]
         [TestCase("a = 2 > 2;", "a = false;")]
         [TestCase("a = 5 >= 5;", "a = true;")]
         [TestCase("a = 5 < 2;", "a = false;")]
