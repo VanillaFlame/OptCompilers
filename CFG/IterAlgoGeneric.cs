@@ -1,4 +1,5 @@
 ﻿
+using SimpleLang.TACOptimizers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 namespace SimpleLang.CFG
 {
     public enum directed { forward, back }
-    public abstract class IterAlgoGeneric<T> where T : IEnumerable
+    public abstract class IterAlgoGeneric<T> : TACOptimizer where T : IEnumerable
     {
         public abstract Func<T, T, T> CollectingOperator { get; }
         public abstract Func<T, T, bool> Compare { get; }
@@ -42,7 +43,7 @@ namespace SimpleLang.CFG
             var start = directed == directed.back
                 ? graph.blocks.Last()
                 : graph.blocks.First();
-            blocks = graph.blocks.Except(new[] { start });
+            blocks = graph.blocks;/*.Except(new[] { start });*/
 
             var dataTemp = new InOutData<T>
             {

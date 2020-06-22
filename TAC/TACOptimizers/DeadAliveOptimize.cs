@@ -20,9 +20,9 @@ namespace SimpleLang.TACOptimizers
             var last = Instructions.Last();
             newInscructions.Add(last);
             assigmentInfo.Add(last.Result, false);
-            if (!int.TryParse(last.Argument1, out _) && last.Argument1 != "True" && last.Argument1 != "False")
+            if (!int.TryParse(last.Argument1, out _) && last.Argument1 != "true" && last.Argument1 != "false")
                 assigmentInfo[last.Argument1] = true;
-            if (!int.TryParse(last.Argument2, out _) && last.Argument2 != "True" && last.Argument2 != "False")
+            if (!int.TryParse(last.Argument2, out _) && last.Argument2 != "true" && last.Argument2 != "false")
                 assigmentInfo[last.Argument2] = true;
             for (int i = Instructions.Count - 2; i >= 0; i--)
             {
@@ -39,9 +39,9 @@ namespace SimpleLang.TACOptimizers
                 }
 
                 assigmentInfo[inst.Result] = false;
-                if (!int.TryParse(inst.Argument1, out _) && inst.Argument1 != "True" && inst.Argument1 != "False")
+                if (!int.TryParse(inst.Argument1, out _) && inst.Argument1 != "true" && inst.Argument1 != "false")
                     assigmentInfo[inst.Argument1] = true;
-                if (!int.TryParse(inst.Argument2, out _) && inst.Argument2 != "True" && inst.Argument2 != "False")
+                if (!int.TryParse(inst.Argument2, out _) && inst.Argument2 != "true" && inst.Argument2 != "false")
                     assigmentInfo[inst.Argument2] = true;
                 newInscructions.Add(inst);
             }

@@ -7,7 +7,7 @@ using ProgramTree;
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    class SameAssignmentOptVisitor: ChangeVisitor
+    public class SameAssignmentOptVisitor: ChangeVisitor
     {
         public override void PostVisit(Node n)
         {

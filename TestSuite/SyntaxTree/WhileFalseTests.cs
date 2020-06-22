@@ -40,8 +40,8 @@ namespace TestSuite.SyntaxTree
             var parentFiller = new FillParentsVisitor();
             parser.root.Visit(parentFiller);
 
-            var trueIfOpt = new WhileFalseVisitor();
-            parser.root.Visit(trueIfOpt);
+            var whileFalse = new WhileFalseVisitor();
+            parser.root.Visit(whileFalse);
 
             var prettyPrinter = new PrettyPrinterVisitor();
             parser.root.Visit(prettyPrinter);
