@@ -58,6 +58,7 @@ a = b + c;
 d = 3 * 2 + 1;
 e = (b + c) * d;
 c = (b + c) * 2;
+b = 2;
 goto 1;
 b = 3;
 1: r = b + c;
@@ -85,6 +86,7 @@ b = 3;
 "#t5 = #t0\n" +
 "#t6 = #t5 * 2\n" +
 "c = #t6\n" +
+"b = 2\n" +
 "goto 1",
 
 "b = 3",
@@ -98,7 +100,7 @@ b = 3;
         }
 
         [Test]
-        public void WithConstantFoldingIter()
+        public void WithConstantPropagationIter()
         {
             var sourceCode =
 @"
@@ -134,6 +136,63 @@ b = 3;
 
 "1\n" +
 "r = 3"
+            };
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void Complex()
+        {
+            var sourceCode =
+@"
+{
+a = 2;
+b = 5;
+c = 3;
+if a - 1 > b + 2
+{
+i = 1;
+j = i * i + 0;
+}
+else 
+{
+g = c + 3;
+}
+d = c;
+b = g;
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(sourceCode, 0);
+
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+            var blocks = AllTacOptimization.Optimize(parser);
+            var actual = blocks.blocks.Select(b => b.ToString().Trim()).ToList();
+
+            var expected = new List<string>()
+            {
+"a = 2\n" +
+"b = 5\n" +
+"c = 3\n" +
+"#t2 = False\n" +
+"if #t2 goto #L0",
+
+"#t3 = 3 + 3\n" +
+"g = #t3\n" +
+"goto #L1",
+
+"#L0\n" +
+"i = 1\n" +
+"j = 1",
+
+"#L1\n" +
+"d = 3\n" +
+"b = 6"
             };
 
             Assert.AreEqual(expected, actual);

@@ -48,6 +48,38 @@ namespace SimpleLang.TACOptimizers
                         c.Operation = "=";
                     }
                 }
+                else if (c.Operation.Equals("==") ||
+                    c.Operation.Equals("!=") ||
+                    c.Operation.Equals("<") ||
+                    c.Operation.Equals(">"))
+                {
+                    var arg1 = 0.0;
+                    var arg2 = 0.0;
+                    var arg1IsDigit = double.TryParse(c.Argument1, out arg1);
+                    var arg2IsDigit = double.TryParse(c.Argument2, out arg2);
+                    if (arg1IsDigit && arg2IsDigit)
+                    {
+                        bool res = false;
+                        switch (c.Operation)
+                        {
+                            case "==":
+                                res = arg1 == arg2;
+                                break;
+                            case "!=":
+                                res = arg1 != arg2;
+                                break;
+                            case "<":
+                                res = arg1 < arg2;
+                                break;
+                            case ">":
+                                res = arg1 > arg2;
+                                break;
+                        }
+                        c.Argument1 = res.ToString();
+                        c.Argument2 = "";
+                        c.Operation = "=";
+                    }
+                }
             }
         }
     }

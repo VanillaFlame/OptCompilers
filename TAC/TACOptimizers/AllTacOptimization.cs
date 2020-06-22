@@ -125,6 +125,7 @@ namespace SimpleLang.TACOptimizers
             parser.root.Visit(TACGenerator);
             var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
             TACBlocks.GenBaseBlocks();
+            //loop
             var oneBlockOptimizations = OptimizeBlock(TACBlocks);
             var allBlocksOptimizations = AllOptimization(oneBlockOptimizations); ;
             var iterAlogOptimizations = IterAlgoOptimizations(allBlocksOptimizations);

@@ -10,8 +10,8 @@ namespace SimpleLang.CFG
 
     public struct SemilatticeValue
     {
-        public SemilatticeData Type { get; private set; }
-        public string ConstValue { get; private set; }
+        public SemilatticeData Type { get; set; }
+        public string ConstValue { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -120,21 +120,21 @@ namespace SimpleLang.CFG
                     second = instrs[i].Argument2;
                     operation = instrs[i].Operation;
 
-                    if (first == "true" || second == "true" || first == "false" || second == "false" || untreatedTypes.Contains(operation))
+                    if (first == "True" || second == "True" || first == "False" || second == "False" || untreatedTypes.Contains(operation))
                     {
                         OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
                     }
-                    else if (int.TryParse(first, out var v2) && OUT[second].Type == SemilatticeData.CONST)
+                    else if (OUT.ContainsKey(second) && int.TryParse(first, out var v2) && OUT[second].Type == SemilatticeData.CONST)
                     {
                         int.TryParse(OUT[second].ConstValue, out var val2);
                         OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.CONST, FindOperations(val2, v2, operation).ToString());
                     }
-                    else if (OUT[first].Type == SemilatticeData.CONST && int.TryParse(second, out var v1))
+                    else if (OUT.ContainsKey(first) && OUT[first].Type == SemilatticeData.CONST && int.TryParse(second, out var v1))
                     {
                         int.TryParse(OUT[first].ConstValue, out var val1);
                         OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.CONST, FindOperations(val1, v1, operation).ToString());
                     }
-                    else if (OUT[first].Type == SemilatticeData.CONST && OUT[second].Type == SemilatticeData.CONST)
+                    else if (OUT.ContainsKey(first) && OUT[first].Type == SemilatticeData.CONST && OUT[second].Type == SemilatticeData.CONST)
                     {
                         int.TryParse(OUT[first].ConstValue, out var val1);
                         int.TryParse(OUT[second].ConstValue, out var val2);
@@ -142,12 +142,18 @@ namespace SimpleLang.CFG
                     }
                     else
                     {
-                        OUT[instrs[i].Result] =
-                            OUT[first].Type == SemilatticeData.UNDEF
-                            ? new SemilatticeValue(SemilatticeData.UNDEF)
-                            : OUT[first].Type == SemilatticeData.NAC || OUT[second].Type == SemilatticeData.NAC
-                            ? new SemilatticeValue(SemilatticeData.NAC)
-                            : new SemilatticeValue(SemilatticeData.UNDEF);
+                        if (OUT.ContainsKey(first) && OUT.ContainsKey(second))
+                        {
+                            OUT[instrs[i].Result] =
+                                OUT[first].Type == SemilatticeData.UNDEF
+                                ? new SemilatticeValue(SemilatticeData.UNDEF)
+                                : OUT[first].Type == SemilatticeData.NAC || OUT[second].Type == SemilatticeData.NAC
+                                ? new SemilatticeValue(SemilatticeData.NAC)
+                                : new SemilatticeValue(SemilatticeData.UNDEF);
+                        } else
+                        {
+                            OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
+                        }
                     }
                 }
 
@@ -165,7 +171,7 @@ namespace SimpleLang.CFG
                         OUT[instrs[i].Result] =
                             untreatedTypes.Contains(operation)
                             ? new SemilatticeValue(SemilatticeData.NAC)
-                            : first == "true" || first == "false"
+                            : first == "True" || first == "False"
                             ? new SemilatticeValue(SemilatticeData.NAC)
                             : OUT[first].Type == SemilatticeData.CONST
                             ? new SemilatticeValue(SemilatticeData.CONST, OUT[first].ConstValue)
@@ -199,11 +205,11 @@ namespace SimpleLang.CFG
                     if (instr.Result != "" && !instr.Result.StartsWith("#") && !instr.Result.StartsWith("L") && !variables.Contains(instr.Result))
                         variables.Add(instr.Result);
 
-                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "true"
-                        && instr.Argument1 != "false" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
+                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "True"
+                        && instr.Argument1 != "False" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
                         variables.Add(instr.Argument1);
 
-                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "true" && instr.Argument2 != "false"
+                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "True" && instr.Argument2 != "False"
                         && !int.TryParse(instr.Argument2, out var temp2) && !variables.Contains(instr.Argument2))
                         variables.Add(instr.Argument2);
                 }
@@ -280,13 +286,13 @@ namespace SimpleLang.CFG
                         variables.Add(instr.Result);
                     }
 
-                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "true"
-                        && instr.Argument1 != "false" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
+                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "True"
+                        && instr.Argument1 != "False" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
                     {
                         variables.Add(instr.Argument1);
                     }
 
-                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "true" && instr.Argument2 != "false"
+                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "True" && instr.Argument2 != "False"
                         && !int.TryParse(instr.Argument2, out var temp2) && !variables.Contains(instr.Argument2))
                     {
                         variables.Add(instr.Argument2);
@@ -307,7 +313,7 @@ namespace SimpleLang.CFG
         public override void Run()
         {
             var insOuts = Execute(Cfg);
-            var a = 1;
+            Optimize(insOuts);
         }
 
         private void Optimize(InOutData<Dictionary<string, SemilatticeValue>> insOuts)
@@ -315,9 +321,28 @@ namespace SimpleLang.CFG
             var blocks = Cfg.blocks;
             foreach (var b in blocks)
             {
+                var curIn = insOuts[b].Item1;
                 foreach (var i in b.Instructions)
                 {
-                    var curIn = insOuts[b].Item1;
+                    if (curIn.ContainsKey(i.Argument1) && curIn[i.Argument1].Type == SemilatticeData.CONST)
+                    {
+                        i.Argument1 = curIn[i.Argument1].ConstValue;
+                    }
+                    if (curIn.ContainsKey(i.Argument2) && curIn[i.Argument2].Type == SemilatticeData.CONST)
+                    {
+                        i.Argument2 = curIn[i.Argument2].ConstValue;
+                    }
+                    if (curIn.ContainsKey(i.Result) && curIn[i.Result].Type == SemilatticeData.CONST)
+                    {
+                        if (i.Argument2 == "" && int.TryParse(i.Argument1, out var temp))
+                        {
+                            curIn[i.Result] = new SemilatticeValue(SemilatticeData.CONST, temp);
+                        }
+                        else
+                        {
+                            curIn[i.Result] = new SemilatticeValue(SemilatticeData.NAC);
+                        }
+                    }
                 }
             }
         }
