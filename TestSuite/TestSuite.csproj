@@ -65,6 +65,7 @@
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
     <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
+    <Compile Include="TAC\DefUseOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
