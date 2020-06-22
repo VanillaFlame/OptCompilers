@@ -57,7 +57,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
+    <Compile Include="SyntaxTree\NullIfElseOptTests.cs" />
     <Compile Include="SyntaxTree\NumberEqualityTests.cs" />
+    <Compile Include="SyntaxTree\SameAssignmentOptVisitorTests.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeTestsBase.cs" />
     <Compile Include="SyntaxTree\TrueConditionOptTests.cs" />
     <Compile Include="SyntaxTree\TrueIfOptTests.cs" />
