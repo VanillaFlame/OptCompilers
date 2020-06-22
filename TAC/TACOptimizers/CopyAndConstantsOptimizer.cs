@@ -36,7 +36,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (!(current.Result.Equals("") || current.Result.Contains("#")))
+                if (!current.Result.Equals(""))
                 {
                     if (knownVariables.Contains(current.Argument1))
                     {
@@ -48,13 +48,22 @@ namespace SimpleLang.TACOptimizers
                         current.Argument2 = values[current.Argument2];
                     }
 
-                    var arg1 = current.Argument1;
-                    // если это буква
-                    if (current.Argument2 == "" &&
-                        (!double.TryParse(arg1, out _)) && (arg1 != "False" && arg1 != "True"))
+                    if (!current.Result.Contains("#"))
                     {
-                        knownVariables.Add(current.Result);
-                        values[current.Result] = current.Argument1;
+                        // если это буква
+                        if (current.Argument2 == "" &&
+                        !double.TryParse(current.Argument1, out _))
+                        {
+                            if (!current.Argument1.Contains("#"))
+                            {
+                                knownVariables.Add(current.Result);
+                                values[current.Result] = current.Argument1;
+                            }
+                            else
+                            {
+                                knownVariables.Remove(current.Result);
+                            }
+                        }
                     }
                 }
                 else
@@ -77,7 +86,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (!(current.Result.Equals("") || current.Result.Contains("#")))
+                if (!(current.Result.Equals("")))
                 {
                     if (knownConstants.Contains(current.Argument1))
                     {
@@ -89,7 +98,7 @@ namespace SimpleLang.TACOptimizers
                         current.Argument2 = values[current.Argument2];
                     }
 
-                    if (double.TryParse(current.Argument1, out double c1) &&
+                    /*if (double.TryParse(current.Argument1, out double c1) &&
                         double.TryParse(current.Argument2, out double c2))
                     {
                         var success = true;
@@ -107,12 +116,22 @@ namespace SimpleLang.TACOptimizers
                             current.Argument2 = "";
                             current.Operation = "="; 
                         }
-                    }
+                    }*/
 
-                    if (current.Argument2 == "" && double.TryParse(current.Argument1, out double c))
+                    if (!current.Result.Contains("#"))
                     {
-                        knownConstants.Add(current.Result);
-                        values[current.Result] = current.Argument1;
+                        if (current.Argument2 == "" && double.TryParse(current.Argument1, out double c))
+                        {
+                            if (!current.Argument1.Contains("#"))
+                            {
+                                knownConstants.Add(current.Result);
+                                values[current.Result] = current.Argument1;
+                            }
+                            else
+                            {
+                                knownConstants.Remove(current.Result);
+                            }
+                        }
                     }
                 }
                 else

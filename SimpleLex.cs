@@ -758,7 +758,7 @@ yylval.bVal = bool.Parse(yytext);
 return (int)Tokens.INTERVAL;
             break;
         case 34:
-yylval.dVal = double.Parse(yytext); 
+yylval.dVal = double.Parse(yytext, CultureInfo.InvariantCulture); 
   return (int)Tokens.RNUM;
             break;
         default:

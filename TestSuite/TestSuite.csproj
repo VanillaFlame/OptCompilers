@@ -60,6 +60,7 @@
     <Compile Include="SyntaxTree\SyntaxTreeTestsBase.cs" />
     <Compile Include="TAC\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
+    <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />

@@ -20,7 +20,7 @@ BOOLVAL	"true"|"false"
 }
 
 {REALNUM} { 
-  yylval.dVal = double.Parse(yytext); 
+  yylval.dVal = double.Parse(yytext, CultureInfo.InvariantCulture); 
   return (int)Tokens.RNUM;
 }
 
