@@ -23,8 +23,8 @@ namespace SimpleLang.TACOptimizers
             new ConstantFoldingOptimizer(temp),
             new CopyAndConstantsOptimizer(temp),
             new CommonExpressionsOptimizer(temp),
-            new RemoveEmptyInstructionsOptimizer(temp)
-            //new DeadAliveOptimize(temp) // ?
+            new RemoveEmptyInstructionsOptimizer(temp),
+            new DeadAliveOptimize(temp)
 
             };
 
@@ -33,7 +33,8 @@ namespace SimpleLang.TACOptimizers
             };
 
         private static List<TACOptimizer> IterAlgoOptimizers = new List<TACOptimizer>() {
-            new AvailableExpressionsOptimizer(temp)
+            new AvailableExpressionsOptimizer(temp),
+            new ConstantPropogationIter()
         };
 
         private static List<TACInstruction> OptimizeBlock(TACBaseBlocks BaseBlocks)
