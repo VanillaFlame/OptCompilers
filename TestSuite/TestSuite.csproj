@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="CFG\CFGTests.cs" />
     <Compile Include="CFG\CFGTestsBase.cs" />
-    <Compile Include="CFG\DominatorsTreeTest.cs" />
     <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +79,7 @@
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
     <Compile Include="TAC\TACGeneration\TACBaseBlocksTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
+    <Compile Include="TAC\TACGoTotoGoToOptimizerTests.cs" />
     <Compile Include="TAC\TACNaturalLoopsTests.cs" />
     <Compile Include="TAC\TACPipelineTests.cs" />
     <Compile Include="TAC\TACTestsBase.cs" />
