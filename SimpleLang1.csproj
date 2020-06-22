@@ -71,6 +71,7 @@
     <Compile Include="TAC\TACOptimizers\GotoOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\GoTotoGoTo_EmptyOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\ActiveVariableOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\ReachingDefinitionOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\CommonExpressionsOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\ReachingDefinitionVectorOptimizer.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Visitors\ChangeVisitors\NullIfElseOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\RemoveEmptyStatementVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\SameAssignmentOptVisitor.cs" />
-    <Compile Include="Visitors\ChangeVisitors\TreeLeverCodeVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueConditionOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\TrueIfOptVisitor.cs" />
     <Compile Include="Visitors\ChangeVisitors\WhileFalseVisitor.cs" />
