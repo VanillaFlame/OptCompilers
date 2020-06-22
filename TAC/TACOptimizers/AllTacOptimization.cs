@@ -108,14 +108,14 @@ namespace SimpleLang.TACOptimizers
                 IterAlgoOptimizers[AllOptimizationCount].Cfg = cfg;
                 IterAlgoOptimizers[AllOptimizationCount].Run();
                 
-                if (prevInstructions.SequenceEqual(TACOptimizersAllBlock[AllOptimizationCount].Instructions))
+                if (prevInstructions.SequenceEqual(IterAlgoOptimizers[AllOptimizationCount].Instructions))
                     AllOptimizationCount++;
                 else
                 {
-                    prevInstructions = TACOptimizersAllBlock[AllOptimizationCount].Instructions;
+                    prevInstructions = IterAlgoOptimizers[AllOptimizationCount].Instructions;
                     AllOptimizationCount = 0;
                 }
-            } while (AllOptimizationCount < TACOptimizersAllBlock.Count);
+            } while (AllOptimizationCount < IterAlgoOptimizers.Count);
             return prevBlocks;
         }
 
