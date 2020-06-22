@@ -59,8 +59,12 @@
     <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
     <Compile Include="SyntaxTree\NumberEqualityTests.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeTestsBase.cs" />
-    <Compile Include="TAC\AllVisitorsOptimizationTests.cs" />
+    <Compile Include="SyntaxTree\TrueConditionOptTests.cs" />
+    <Compile Include="SyntaxTree\TrueIfOptTests.cs" />
+    <Compile Include="TAC\AlgebraicIdentitiesTests.cs" />
+    <Compile Include="SyntaxTree\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
+    <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />

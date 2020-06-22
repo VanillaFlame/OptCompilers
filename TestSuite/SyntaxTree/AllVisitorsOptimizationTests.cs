@@ -341,8 +341,47 @@ namespace TestSuite.TAC
         [Test]
         public void OptimizationPipeline4()
         {
-            /*
-             * 
+            var Text =
+@"
+{
+  if (a > b) 
+  {
+    a = a;
+  }
+  c = 3;
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(Text, 0);
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+
+            AllVisitorsOptimization.Optimization(parser);
+
+            var prettyPrinter = new PrettyPrinterVisitor();
+            parser.root.Visit(prettyPrinter);
+
+            var TACGenerator = new TACGenerationVisitor();
+            parser.root.Visit(TACGenerator);
+            var TAC = TACGenerator.TAC;
+
+            var expected = new List<string>()
+            {
+                "c = 3"
+            };
+            var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        public void OptimizationPipeline5()
+        {
+            var Text =
+@"
+{
   c = 3;
   if (2 > 1) 
   {
@@ -356,15 +395,6 @@ namespace TestSuite.TAC
       a = a;
     }
   }
-  */
-            var Text =
-@"
-{
-  if (a > b) 
-  {
-    a = a;
-  }
-  c = 3;
 }
 ";
             Scanner scanner = new Scanner();
