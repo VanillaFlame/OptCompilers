@@ -96,5 +96,55 @@ b = 3;
 
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void WithConstantFoldingIter()
+        {
+            var sourceCode =
+@"
+{
+b = 3;
+if a 
+{
+goto 1;
+}
+b = 3;
+1: r = b;
+}
+";
+            Scanner scanner = new Scanner();
+            scanner.SetSource(sourceCode, 0);
+
+            Parser parser = new Parser(scanner);
+            parser.Parse();
+
+            var parentFiller = new FillParentsVisitor();
+            parser.root.Visit(parentFiller);
+            var blocks = AllTacOptimization.Optimize(parser);
+            var actual = blocks.blocks.Select(b => b.ToString().Trim()).ToList();
+
+            var expected = new List<string>()
+            {
+"#t0 = b + c\n" +
+"a = #t0\n" +
+"d = 7\n" +
+"#t3 = #t0\n" +
+"#t4 = #t3 * 7\n" +
+"e = #t4\n" +
+"#t5 = #t0\n" +
+"#t6 = #t5 * 2\n" +
+"c = #t6\n" +
+"b = 3\n" +
+"goto 1",
+
+"b = 3",
+
+"1\n" +
+"#t7 = 3 + c\n" +
+"r = #t7"
+            };
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

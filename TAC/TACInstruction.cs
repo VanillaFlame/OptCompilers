@@ -49,7 +49,13 @@ namespace SimpleLang
                 {
                     // AddInstruction(LessOrEqual, counter, end, cond, label);
                     // AddInstruction(Plus, a, b, temp, label);
-                    stringBuilder.Append(Result + " = " + Argument1 + ' ' + Operation + ' ' + Argument2);
+                    if (Argument2 != "")
+                    {
+                        stringBuilder.Append(Result + " = " + Argument1 + ' ' + Operation + ' ' + Argument2);
+                    } else
+                    {
+                        stringBuilder.Append(Result + " = " + Operation + Argument1);
+                    }
                 }
                 else
                 {

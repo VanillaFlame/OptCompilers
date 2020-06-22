@@ -14,6 +14,8 @@ namespace SimpleLang.Visitors
 
         public TACGenerationVisitor()
         {
+            tempVariableCounter = 0;
+            tempLabelCounter = 0;
             Instructions = new List<TACInstruction>();
             TAC = new ThreeAddressCode(Instructions);
         }
@@ -126,14 +128,14 @@ namespace SimpleLang.Visitors
             Instructions.Add(new TACInstruction(operation, arg1, arg2, result, label));
         }
 
-        private int tempVariableCounter = 0;
-        private string GenerateTempName()
+        private static int tempVariableCounter = 0;
+        public static string GenerateTempName()
         {
             return TEMP_NAME_PREFIX + (tempVariableCounter++);
         }
 
-        private int tempLabelCounter = 0;
-        private string GenerateTempLabel()
+        private static int tempLabelCounter = 0;
+        public static string GenerateTempLabel()
         {
             return TEMP_LABEL_PREFIX + (tempLabelCounter++);
         }

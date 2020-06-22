@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProgramTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,28 +77,28 @@ namespace SimpleLang.CFG
        
 
         public HashSet<string> untreatedTypes = new HashSet<string>() {
-            "OR",
-            "AND",
-            "EQUAL",
-            "NOTEQUAL",
-            "GREATERTHAN",
-            "LESSTHAN",
-            "GREATEROREQUAL",
-            "LESSOREQUAL",
-            "NOT"
+            "|",
+            "&",
+            "==",
+            "!=",
+            ">",
+            "<",
+            ">=",
+            "<=",
+            "!"
         };
 
         public int FindOperations(int v1, int v2, string op)
         {
             switch (op)
             {
-                case "PLUS":
+                case "+":
                     return v1 + v2;
-                case "MULT":
+                case "*":
                     return v1 * v2;
-                case "DIVIDE":
+                case "/":
                     return v1 / v2;
-                case "MULTIPLICATE":
+                case "-":
                     return v1 - v2;
             }
             return 0;
@@ -119,7 +120,7 @@ namespace SimpleLang.CFG
                     second = instrs[i].Argument2;
                     operation = instrs[i].Operation;
 
-                    if (first == "True" || second == "True" || second == "False" || second == "False" || untreatedTypes.Contains(operation))
+                    if (first == "True" || second == "True" || first == "False" || second == "False" || untreatedTypes.Contains(operation))
                     {
                         OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
                     }
@@ -164,7 +165,7 @@ namespace SimpleLang.CFG
                         OUT[instrs[i].Result] =
                             untreatedTypes.Contains(operation)
                             ? new SemilatticeValue(SemilatticeData.NAC)
-                            : first == "True" || first == "False"
+                            : first == "true" || first == "false"
                             ? new SemilatticeValue(SemilatticeData.NAC)
                             : OUT[first].Type == SemilatticeData.CONST
                             ? new SemilatticeValue(SemilatticeData.CONST, OUT[first].ConstValue)
@@ -198,11 +199,11 @@ namespace SimpleLang.CFG
                     if (instr.Result != "" && !instr.Result.StartsWith("#") && !instr.Result.StartsWith("L") && !variables.Contains(instr.Result))
                         variables.Add(instr.Result);
 
-                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "True"
-                        && instr.Argument1 != "False" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
+                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "true"
+                        && instr.Argument1 != "false" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
                         variables.Add(instr.Argument1);
 
-                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "True" && instr.Argument2 != "False"
+                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "true" && instr.Argument2 != "false"
                         && !int.TryParse(instr.Argument2, out var temp2) && !variables.Contains(instr.Argument2))
                         variables.Add(instr.Argument2);
                 }
@@ -279,13 +280,13 @@ namespace SimpleLang.CFG
                         variables.Add(instr.Result);
                     }
 
-                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "True"
-                        && instr.Argument1 != "False" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
+                    if (instr.Argument1 != "" && !instr.Argument1.StartsWith("#") && !instr.Argument1.StartsWith("L") && instr.Argument1 != "true"
+                        && instr.Argument1 != "false" && !int.TryParse(instr.Argument1, out var temp1) && !variables.Contains(instr.Argument1))
                     {
                         variables.Add(instr.Argument1);
                     }
 
-                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "True" && instr.Argument2 != "False"
+                    if (instr.Argument2 != "" && !instr.Argument2.StartsWith("#") && !instr.Argument2.StartsWith("L") && instr.Argument2 != "true" && instr.Argument2 != "false"
                         && !int.TryParse(instr.Argument2, out var temp2) && !variables.Contains(instr.Argument2))
                     {
                         variables.Add(instr.Argument2);
@@ -301,6 +302,11 @@ namespace SimpleLang.CFG
             Init = temp;
             TransferFunction = Transfer;
             return base.Execute(graph);
+        }
+
+        public override void Run()
+        {
+            Execute(Cfg);
         }
     }
 }

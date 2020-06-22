@@ -1,4 +1,5 @@
 ﻿
+using SimpleLang.TACOptimizers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 namespace SimpleLang.CFG
 {
     public enum directed { forward, back }
-    public abstract class IterAlgoGeneric<T> where T : IEnumerable
+    public abstract class IterAlgoGeneric<T> : TACOptimizer where T : IEnumerable
     {
         public abstract Func<T, T, T> CollectingOperator { get; }
         public abstract Func<T, T, bool> Compare { get; }
