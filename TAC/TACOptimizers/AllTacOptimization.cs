@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using SimpleLang.Visitors;
 using SimpleParser;
+using SimpleLang.CFG;
 
 namespace SimpleLang.TACOptimizers
 {
-    static class AllTacOptimization
+    public static class AllTacOptimization
     {
 
         private static List<TACInstruction> AllInstruction = new TACGenerationVisitor().Instructions;
@@ -19,12 +20,19 @@ namespace SimpleLang.TACOptimizers
             new DefUseOptimizer(temp),
             new AlgebraicIdentitiesOptimizer(temp),
             new ConstantFoldingOptimizer(temp),
-            //new DeadAliveOptimize(temp),
+            new CopyAndConstantsOptimizer(temp),
+            new CommonExpressionsOptimizer(temp),
+            new DeadAliveOptimize(temp) // ?
+
             };
 
         private static List<TACOptimizer> TACOptimizersAllBlock = new List<TACOptimizer>() {
             new GotoOptimizer(temp)
             };
+
+        private static List<TACOptimizer> IterAlgoOptimizers = new List<TACOptimizer>() {
+            new AvailableExpressionsOptimizer(temp)
+        };
 
         private static List<TACInstruction> OptimizeBlock(TACBaseBlocks BaseBlocks)
         {
@@ -77,7 +85,34 @@ namespace SimpleLang.TACOptimizers
                     AllOptimizationCount = 0;
                 }
             } while (AllOptimizationCount < TACOptimizersAllBlock.Count);
-            return new TACBaseBlocks(previos);
+            var res = new TACBaseBlocks(previos);
+            res.GenBaseBlocks();
+            return res;
+        }
+
+        private static TACBaseBlocks IterAlgoOptimizations(TACBaseBlocks blocks)
+        {
+            var prevInstructions = blocks.BlockMerging();
+            var prevBlocks = blocks.blocks;
+            int AllOptimizationCount = 0;
+            do
+            {
+                IterAlgoOptimizers[AllOptimizationCount].Instructions = prevInstructions;
+                IterAlgoOptimizers[AllOptimizationCount].Blocks = prevBlocks;
+                var cfg = new ControlFlowGraph(prevBlocks);
+                IterAlgoOptimizers[AllOptimizationCount].Cfg = cfg;
+                IterAlgoOptimizers[AllOptimizationCount].Run();
+                
+                if (prevInstructions.SequenceEqual(TACOptimizersAllBlock[AllOptimizationCount].Instructions))
+                    AllOptimizationCount++;
+                else
+                {
+                    prevInstructions = TACOptimizersAllBlock[AllOptimizationCount].Instructions;
+                    prevBlocks = IterAlgoOptimizers[AllOptimizationCount].Blocks;
+                    AllOptimizationCount = 0;
+                }
+            } while (AllOptimizationCount < TACOptimizersAllBlock.Count);
+            return new TACBaseBlocks(prevBlocks);
         }
 
         public static TACBaseBlocks Optimize(Parser parser)
@@ -86,8 +121,10 @@ namespace SimpleLang.TACOptimizers
             parser.root.Visit(TACGenerator);
             var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
             TACBlocks.GenBaseBlocks();
-            var preResalut = OptimizeBlock(TACBlocks);
-            return AllOptimization(preResalut);
+            var oneBlockOptimizations = OptimizeBlock(TACBlocks);
+            var allBlocksOptimizations = AllOptimization(oneBlockOptimizations); ;
+            var iterAlogOptimizations = IterAlgoOptimizations(allBlocksOptimizations);
+            return iterAlogOptimizations;
         }
     }
 }
