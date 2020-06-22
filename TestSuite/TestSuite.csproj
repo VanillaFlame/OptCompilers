@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props" Condition="Exists('..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props')" />
@@ -58,7 +57,6 @@
   <ItemGroup>
     <Compile Include="CFG\CFGTests.cs" />
     <Compile Include="CFG\CFGTestsBase.cs" />
-    <Compile Include="CFG\DominatorsTreeTest.cs" />
     <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,114 +73,8 @@
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
     <Compile Include="TAC\ConstantFoldingOptimizerTests.cs" />
     <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
-    <Compile Include="TAC\ConstantPropagationTests.cs" />
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
     <Compile Include="TAC\DeadAliveVariablesTest.cs" />
-    <Compile Include="TAC\DefUseOptimizerTests.cs" />
-    <Compile Include="TAC\ReachingDefinitionTests.cs" />
-    <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
-    <Compile Include="TAC\TACGeneration\TACBaseBlocksTests.cs" />
-    <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
-    <Compile Include="TAC\TACNaturalLoopsTests.cs" />
-    <Compile Include="TAC\TACPipelineTests.cs" />
-    <Compile Include="TAC\TACTestsBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleLang1.csproj">
-      <Project>{12b9d996-7b4a-4ee4-9ad8-2e24eaf3f574}</Project>
-      <Name>SimpleLang1</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props'))" />
-  </Target>
-=======
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props" Condition="Exists('..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props')" />
-  <Import Project="..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" />
-  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0720A9DA-4B38-4309-A31E-1BA37183C13A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>TestSuite</RootNamespace>
-    <AssemblyName>TestSuite</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunitlite, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitLite.3.12.0\lib\net45\nunitlite.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CFG\CFGTests.cs" />
-    <Compile Include="CFG\CFGTestsBase.cs" />
-    <Compile Include="CFG\EdgeTypeTests.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SyntaxTree\AlwaysFalseTests.cs" />
-    <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
-    <Compile Include="SyntaxTree\NullIfElseOptTests.cs" />
-    <Compile Include="SyntaxTree\NumberEqualityTests.cs" />
-    <Compile Include="SyntaxTree\SameAssignmentOptVisitorTests.cs" />
-    <Compile Include="SyntaxTree\SyntaxTreeTestsBase.cs" />
-    <Compile Include="SyntaxTree\TrueConditionOptTests.cs" />
-    <Compile Include="SyntaxTree\TrueIfOptTests.cs" />
-    <Compile Include="TAC\AlgebraicIdentitiesTests.cs" />
-    <Compile Include="SyntaxTree\AllVisitorsOptimizationTests.cs" />
-    <Compile Include="TAC\AvailableExpressionsTests.cs" />
-    <Compile Include="TAC\ConstantFoldingOptimizerTests.cs" />
-    <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
-    <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
     <Compile Include="TAC\DefUseOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
@@ -212,5 +104,4 @@
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props'))" />
     <Error Condition="!Exists('..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnitTestAdapter.2.3.0\build\NUnitTestAdapter.props'))" />
   </Target>
->>>>>>> 29a74f5bab9ccf0ce1c16a4b40b271e5d88d550f
 </Project>
