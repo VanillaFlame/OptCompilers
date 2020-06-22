@@ -247,6 +247,11 @@ namespace SimpleLang.TACOptimizers
 
             public static AvailableExpressionsTable Intersection(List<AvailableExpressionsTable> tables)
             {
+                if (tables.Count == 0)
+                {
+                    return NewUniversal();
+                }
+
                 var j = 0;
                 while (tables[j].IsUniversal)
                 {

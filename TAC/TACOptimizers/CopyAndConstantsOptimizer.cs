@@ -48,8 +48,8 @@ namespace SimpleLang.TACOptimizers
                         current.Argument2 = values[current.Argument2];
                     }
 
-                    if (!current.Result.Contains("#"))
-                    {
+                    //if (!current.Result.Contains("#"))
+                    //{
                         // если это буква
                         if (current.Argument2 == "" &&
                         !double.TryParse(current.Argument1, out _))
@@ -64,7 +64,7 @@ namespace SimpleLang.TACOptimizers
                                 knownVariables.Remove(current.Result);
                             }
                         }
-                    }
+                    //}
                 }
                 else
                 {
@@ -118,8 +118,8 @@ namespace SimpleLang.TACOptimizers
                         }
                     }*/
 
-                    if (!current.Result.Contains("#"))
-                    {
+                    //if (!current.Result.Contains("#"))
+                    //{
                         if (current.Argument2 == "" && double.TryParse(current.Argument1, out double c))
                         {
                             if (!current.Argument1.Contains("#"))
@@ -132,7 +132,7 @@ namespace SimpleLang.TACOptimizers
                                 knownConstants.Remove(current.Result);
                             }
                         }
-                    }
+                    //}
                 }
                 else
                 {
