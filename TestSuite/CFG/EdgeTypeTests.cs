@@ -41,6 +41,7 @@ b = 1;
             */
             var dict = cfg.classifyEdges();
             Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
+            BasicBlock.clearIndexCounter();
         }
 
         [Test]
@@ -84,6 +85,7 @@ a = 5 == 2;
             dict.Remove(IndexEdge.Create(1, 2));
             dict.Remove(IndexEdge.Create(5, 3));
             Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
+            BasicBlock.clearIndexCounter();
         }
 
         [Test]
@@ -116,6 +118,7 @@ goto 1;
             dict.Remove(IndexEdge.Create(4, 6));
             dict.Remove(IndexEdge.Create(3, 1));
             Assert.False(dict.Values.Any(type => type != EdgeType.Advancing));
+            BasicBlock.clearIndexCounter();
         }
     }
 }
