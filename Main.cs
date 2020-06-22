@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuiteTxt\d.txt";
+            string FileName = @"..\..\TestSuiteTxt\c.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -50,8 +50,15 @@ namespace SimpleCompiler
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
 
+                
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
+
+
+               var opt = new DeadAliveOptimize(new ThreeAddressCode(TACGenerator.Instructions));
+               opt.Run();
+               var a = opt.Instructions;
+
 
                 Console.WriteLine(TACBlocks);
                 Console.WriteLine("===============TACBlocks====================================================");
@@ -146,9 +153,9 @@ namespace SimpleCompiler
                 }
                 */
                 
-                var cfg = new ControlFlowGraph(TACBlocks.blocks);
-                var dt = new DominatorsTree(cfg);
-                var tr = dt.GenDominatorsTree();
+                //var cfg = new ControlFlowGraph(TACBlocks.blocks);
+                //var dt = new DominatorsTree(cfg);
+                //var tr = dt.GenDominatorsTree();
 
                
 
