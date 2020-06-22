@@ -125,23 +125,15 @@ b = 3;
 
             var expected = new List<string>()
             {
-"#t0 = b + c\n" +
-"a = #t0\n" +
-"d = 7\n" +
-"#t3 = #t0\n" +
-"#t4 = #t3 * 7\n" +
-"e = #t4\n" +
-"#t5 = #t0\n" +
-"#t6 = #t5 * 2\n" +
-"c = #t6\n" +
 "b = 3\n" +
-"goto 1",
+"#t0 = !a\n" +
+"#t1 = !#t0\n" +
+"if #t1 goto 1",
 
 "b = 3",
 
 "1\n" +
-"#t7 = 3 + c\n" +
-"r = #t7"
+"r = 3"
             };
 
             Assert.AreEqual(expected, actual);

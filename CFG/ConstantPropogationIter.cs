@@ -120,7 +120,7 @@ namespace SimpleLang.CFG
                     second = instrs[i].Argument2;
                     operation = instrs[i].Operation;
 
-                    if (first == "True" || second == "True" || first == "False" || second == "False" || untreatedTypes.Contains(operation))
+                    if (first == "true" || second == "true" || first == "false" || second == "false" || untreatedTypes.Contains(operation))
                     {
                         OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
                     }
@@ -306,7 +306,20 @@ namespace SimpleLang.CFG
 
         public override void Run()
         {
-            Execute(Cfg);
+            var insOuts = Execute(Cfg);
+            var a = 1;
+        }
+
+        private void Optimize(InOutData<Dictionary<string, SemilatticeValue>> insOuts)
+        {
+            var blocks = Cfg.blocks;
+            foreach (var b in blocks)
+            {
+                foreach (var i in b.Instructions)
+                {
+                    var curIn = insOuts[b].Item1;
+                }
+            }
         }
     }
 }
