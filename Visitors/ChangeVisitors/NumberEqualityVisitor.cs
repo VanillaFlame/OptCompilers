@@ -2,7 +2,7 @@
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    class NumberEqualityVisitor : ChangeVisitor
+    public class NumberEqualityVisitor : ChangeVisitor
     {
         public override void Visit(BinExprNode binExpr)
         {

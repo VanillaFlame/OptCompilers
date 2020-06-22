@@ -2,7 +2,7 @@
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    class AlwaysIfOrElseVisitor : ChangeVisitor
+    public class AlwaysIfOrElseVisitor : ChangeVisitor
     {
         public override void Visit(IfNode ifnode)
         {

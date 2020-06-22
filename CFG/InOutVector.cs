@@ -55,7 +55,7 @@ namespace SimpleLang.CFG
             data = new BitArray(c, false);
         }
 
-        InOutVector(BitArray a)
+        public InOutVector(BitArray a)
         {
             data = a;
         }

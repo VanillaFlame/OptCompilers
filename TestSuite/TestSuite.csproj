@@ -53,9 +53,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxTree\AlwaysIfOrElseTests.cs" />
+    <Compile Include="SyntaxTree\NumberEqualityTests.cs" />
+    <Compile Include="SyntaxTree\SyntaxTreeTestsBase.cs" />
     <Compile Include="TAC\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
+    <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
     <Compile Include="TAC\TACNaturalLoopsTests.cs" />
     <Compile Include="TAC\TACTestsBase.cs" />
@@ -70,9 +74,7 @@
       <Name>SimpleLang1</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SyntaxTree\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

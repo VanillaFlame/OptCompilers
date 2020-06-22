@@ -66,6 +66,7 @@
     <Compile Include="TAC\TACOptimizers\AvailableExpressionsOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\ReachingDefinitionOptimizer.cs" />
     <Compile Include="TAC\TACOptimizers\CommonExpressionsOptimizer.cs" />
+    <Compile Include="TAC\TACOptimizers\ReachingDefinitionVectorOptimizer.cs" />
     <Compile Include="TAC\TACUtils.cs" />
     <Compile Include="TAC\ThreeAddressCode.cs" />
     <Compile Include="Visitors\ChangeVisitors\AllVisitorsOptimization.cs" />
