@@ -22,6 +22,7 @@ namespace TestSuite.CFG
         [Test]
         public void SimpleTest1()
         {
+            BasicBlock.clearIndexCounter();
             var cfg = GenerateCFG(
 @"{
 goto 1;
@@ -62,6 +63,7 @@ a = 5 == 2;
         [Test]
         public void SimpleTest2()
         {
+            BasicBlock.clearIndexCounter();
             var cfg = GenerateCFG(
 @"{
 a = 5;
@@ -86,9 +88,11 @@ goto 1;
             Assert.IsTrue(ReducibleGraph.IsReducible(cfg, dominators));
         }
 
+        
         [Test]
         public void SimpleTest3()
         {
+            BasicBlock.clearIndexCounter();
             var cfg = GenerateCFG(
 @"{
 a = 5;
@@ -111,7 +115,38 @@ else
             */
 
             var dominators = (new DominatorsTree(cfg)).GenDominatorsTree();
+            Assert.IsTrue(ReducibleGraph.IsReducible(cfg, dominators));
+        }
+ 
+        [Test]
+        public void Test4()
+        {
+            BasicBlock.clearIndexCounter();
+            var cfg = GenerateCFG(
+@"{
+n = 4;
+if b
+{
+1: a = 1;
+}
+else
+{
+b = 5;
+}
+s = 8;
+goto 1;
+}");
+            /*
+             *  4 блокa
+                0 {a = 5; b = c; #t0 = a < b; goto #L0}
+                1 {2: a = c; goto #L1}
+                2 {#L0: goto 2}
+                3 {#L1}
+            */
+
+            var dominators = (new DominatorsTree(cfg)).GenDominatorsTree();
             Assert.IsFalse(ReducibleGraph.IsReducible(cfg, dominators));
+            
+        }
         }
     }
-}
