@@ -82,5 +82,15 @@ namespace SimpleLang.TAC
             result.AddBlock(edge.Item2);
             return result;
         }
+
+        public static List<TACInstruction> Copy(this List<TACInstruction> list)
+        {
+            var copy = new List<TACInstruction>();
+            foreach (var i in list)
+            {
+                copy.Add(new TACInstruction(i.Operation, i.Argument1, i.Argument2, i.Result, i.Label));
+            }
+            return copy;
+        } 
     }
 }

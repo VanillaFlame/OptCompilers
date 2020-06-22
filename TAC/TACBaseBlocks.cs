@@ -18,6 +18,19 @@ namespace SimpleLang.TAC
             blocks = new List<BasicBlock>();
         }
 
+        public TACBaseBlocks(List<BasicBlock> blocks)
+        {
+            this.blocks = blocks;
+            instructions = new List<TACInstruction>();
+            foreach (var block in blocks)
+            {
+                foreach (var instr in block.Instructions)
+                {
+                    instructions.Add(instr);
+                }
+            }
+        }
+
         public void GenBaseBlocks()
         {
             var list = new List<int>();

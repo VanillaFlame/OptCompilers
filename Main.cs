@@ -150,6 +150,9 @@ namespace SimpleCompiler
                 var dt = new DominatorsTree(cfg);
                 var tr = dt.GenDominatorsTree();
 
+                var ConstantPropogation = new ConstantPropogationIter();
+                var a = ConstantPropogation.Execute(cfg);
+
                 //var availableExprOptimizer = new AvailableExpressionsOptimizer();
                 //availableExprOptimizer.Run(cfg, TACBlocks.blocks);
                 //Console.WriteLine(TACBlocks.ToString());
