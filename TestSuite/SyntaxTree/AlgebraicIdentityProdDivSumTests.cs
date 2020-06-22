@@ -71,17 +71,14 @@ q = c + 0;
                 "a = 1",
                 "b = 1",
                 "c = 0",
-                "#t0 = c / c",
-                "c = #t0",
-                "#t1 = a + b",
-                "if #t1 goto #L0",
+                "c = c / c",
+                "#t0 = a + b",
+                "if #t0 goto #L0",
                 "goto #L1",
                 "#L0",
-                "#t2 = a * b",
-                "c = #t2",
+                "c = a * b",
                 "#L1",
-                "#t3 = a + 5",
-                "q = #t3",
+                "q = a + 5",
                 "q = c"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
