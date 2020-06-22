@@ -61,6 +61,7 @@
     <Compile Include="CFG\InOutVector.cs" />
     <Compile Include="CFG\Ostov Tree.cs" />
     <Compile Include="CFG\TransferFuncReachingDef.cs" />
+    <Compile Include="Compiler.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\NaturalLoop.cs" />
     <Compile Include="TAC\TACBaseBlocks.cs" />

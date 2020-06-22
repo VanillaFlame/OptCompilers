@@ -77,23 +77,19 @@ b = 3;
 
             var expected = new List<string>()
             {
-"#t0 = b + c\n" +
-"a = #t0\n" +
+"a = b + c\n" +
 "d = 7\n" +
-"#t3 = #t0\n" +
-"#t4 = #t3 * 7\n" +
-"e = #t4\n" +
-"#t5 = #t0\n" +
-"#t6 = #t5 * 2\n" +
-"c = #t6\n" +
+"#t3 = a * 7\n" +
+"e = #t3\n" +
+"#t5 = a * 2\n" +
+"c = #t5\n" +
 "b = 2\n" +
 "goto 1",
 
 "b = 3",
 
 "1\n" +
-"#t7 = b + c\n" +
-"r = #t7"
+"r = b + c"
             };
 
             Assert.AreEqual(expected, actual);
@@ -182,8 +178,7 @@ b = g;
 "#t2 = False\n" +
 "if #t2 goto #L0",
 
-"#t3 = 3 + 3\n" +
-"g = #t3\n" +
+"g = 3 + 3\n" +
 "goto #L1",
 
 "#L0\n" +

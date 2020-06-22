@@ -1,7 +1,6 @@
 {
   1: a = b + c;
   f = 12;
-  write(3);
   d = b + c;
   b = b + c;
   t = b + c;
@@ -12,7 +11,7 @@
   }
 
   3: o = d * e;
-  a = d * e;
+  q = d * e;
   if y
   {
     goto 3;

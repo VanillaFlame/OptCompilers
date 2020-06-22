@@ -71,8 +71,7 @@ namespace TestSuite.TAC
             {
                "a = b",
                "b = c",
-               "#t0 = x + y",
-               "c = #t0"
+               "c = x + y"
             };
             var actual = optimizer.TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);
@@ -95,10 +94,8 @@ namespace TestSuite.TAC
             var expected = new List<string>()
             {
                "",
-               "",
                "b = c",
-               "#t1 = b + d",
-               "a = #t1"
+               "a = b + d"
             };
             var actual = optimizer.TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

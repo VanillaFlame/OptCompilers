@@ -78,8 +78,7 @@ a = b*0;
             {
                 "c = 4",
                 "b = 5",
-                "#t0 = 0 + 0",
-                "a = #t0"
+                "a = 0 + 0"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

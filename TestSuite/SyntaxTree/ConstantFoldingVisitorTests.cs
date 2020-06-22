@@ -107,8 +107,7 @@ namespace TestSuite.TAC
             {
                 "x = 10",
                 "y = 0", 
-                "#t0 = y * 4",
-                "x = #t0"
+                "x = y * 4"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

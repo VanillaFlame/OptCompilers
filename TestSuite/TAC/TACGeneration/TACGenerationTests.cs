@@ -34,8 +34,7 @@ x = x + x;
                 "#t1 = 2 * #t0",
                 "#t2 = #t1 - c",
                 "y = #t2",
-                "#t3 = x + x",
-                "x = #t3"
+                "x = x + x"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);
@@ -63,8 +62,7 @@ x = x + x;
                 "if #t0 goto #L0",
                 "goto #L1",
                 "#L0",
-                "#t1 = x + 1",
-                "x = #t1",
+                "x = x + 1",
                 "#L1"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
@@ -89,8 +87,7 @@ x = x + x;
                 "i = 0",
                 "#L0\t#t0 = i > a",
                 "if #t0 goto #L1",
-                "#t1 = x + 1",
-                "x = #t1",
+                "x = x + 1",
                 "i = i + 1",
                 "goto #L0",
                 "#L1"
@@ -120,8 +117,7 @@ x = x + x;
                 "#t2 = #t1 - 3",
                 "#L0\t#t3 = i > #t2",
                 "if #t3 goto #L1",
-                "#t4 = x + 1",
-                "x = #t4",
+                "x = x + 1",
                 "i = i + 1",
                 "goto #L0",
                 "#L1"
@@ -153,10 +149,9 @@ x = x + x;
                 "i = 0",
                 "#L0\t#t0 = i > a",
                 "if #t0 goto #L1",
-                "#t1 = x + 1",
-                "x = #t1",
-                "#t2 = x > a",
-                "if #t2 goto #L2",
+                "x = x + 1",
+                "#t1 = x > a",
+                "if #t1 goto #L2",
                 "goto #L3",
                 "#L2",
                 "goto 777",
@@ -165,8 +160,7 @@ x = x + x;
                 "goto #L0",
                 "#L1",
                 "777",
-                "#t3 = x + 1",
-                "x = #t3"
+                "x = x + 1"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);
@@ -194,8 +188,7 @@ x = x + x;
                 "if #t0 goto #L1",
                 "goto #L2",
                 "#L1",
-                "#t1 = x + 1",
-                "x = #t1",
+                "x = x + 1",
                 "goto #L0",
                 "#L2"
             };

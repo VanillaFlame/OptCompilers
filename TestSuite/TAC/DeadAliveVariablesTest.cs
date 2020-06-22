@@ -38,8 +38,7 @@ namespace TestSuite.TAC
                 new TACInstruction("Empty",null,null,null,"x"),
                 new TACInstruction("=","e","","a",""),
                 new TACInstruction("=","b","","x",""),
-                new TACInstruction("+","x","z","#t0",""),
-                new TACInstruction("=","#t0","","y",""),
+                new TACInstruction("+","x","z","y","")
         };
             Assert.AreEqual(actual, expected);
         }

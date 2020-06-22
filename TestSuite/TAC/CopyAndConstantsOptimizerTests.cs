@@ -73,7 +73,7 @@ k = 0 + a;
 ");
             var cAndC = new CopyAndConstantsOptimizer(TAC);
             cAndC.Run();
-            Assert.AreEqual(cAndC.TAC.ToString(), expectedTac.ToString());
+            Assert.AreEqual(expectedTac.ToString(), cAndC.TAC.ToString());
         }
 
         [Test]

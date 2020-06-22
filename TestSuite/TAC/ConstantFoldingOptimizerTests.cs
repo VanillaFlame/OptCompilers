@@ -28,12 +28,9 @@ namespace TestSuite.TAC
             optimizer.Run();
             var expected = new List<string>()
             {
-                "#t0 = 15",
-                "x = #t0",
-                "#t1 = 18",
-                "y = #t1",
-                "#t2 = 1",
-                "z = #t2"
+                "x = 15",
+                "y = 18",
+                "z = 1"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);
@@ -80,8 +77,7 @@ namespace TestSuite.TAC
                 "#t1 = 2",
                 "#t2 = #t0 - #t1",
                 "y = #t2",
-                "#t3 = y * 4",
-                "x = #t3"
+                "x = y * 4"
             };
             var actual = TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);

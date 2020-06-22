@@ -38,9 +38,9 @@ t = z + y;
 
             //{ "t = #t1", "u = x", "x = #t0"};
             var expected = new List<string>() {
-"t = #t1",
+"t = z + y",
 "u = x",
-"x = #t0"
+"x = z + y"
             };
             var actual = optimizer.OUT[cfg.blocks[0]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
@@ -70,9 +70,9 @@ t = z + y;
 
             //{ "t = #t2", "u = x", "x = #t0"};
             var expected = new List<string>() {
-"t = #t2",
+"t = z + y",
 "u = x",
-"x = #t0"  
+"x = z + y"
             };
             var actual = optimizer.OUT[cfg.blocks[0]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
@@ -108,7 +108,7 @@ t = z + y;
             Assert.AreEqual(optimizer.IN[cfg.blocks[0]].Count, 0);
             Assert.AreEqual(optimizer.OUT[cfg.blocks[0]].Count, 2);
             var expected = new List<string>() {
-"c = #t0",
+"c = n + 5",
 "n = 4"
             };
             var actual = optimizer.OUT[cfg.blocks[0]].Select(x => x.ToString().Trim()).ToList();
@@ -118,7 +118,7 @@ t = z + y;
             Assert.AreEqual(optimizer.OUT[cfg.blocks[1]].Count, 3);
 
             expected = new List<string>() {
-"c = #t0",
+"c = n + 5",
 "n = 4"
             };
             actual = optimizer.IN[cfg.blocks[1]].Select(x => x.ToString().Trim()).ToList();
@@ -126,7 +126,7 @@ t = z + y;
 
             expected = new List<string>() {
 "b = 5",
-"c = #t0",
+"c = n + 5",
 "n = 4"
             };
             actual = optimizer.OUT[cfg.blocks[1]].Select(x => x.ToString().Trim()).ToList();
@@ -136,15 +136,15 @@ t = z + y;
             Assert.AreEqual(optimizer.OUT[cfg.blocks[2]].Count, 3);
 
             expected = new List<string>() {
-"c = #t0",
+"c = n + 5",
 "n = 4"
             };
             actual = optimizer.IN[cfg.blocks[2]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
 
             expected = new List<string>() {
-"a = #t4",
-"c = #t0",
+"a = a + 3",
+"c = n + 5",
 "n = 4"
             };
             actual = optimizer.OUT[cfg.blocks[2]].Select(x => x.ToString().Trim()).ToList();
@@ -155,9 +155,9 @@ t = z + y;
 
             expected = new List<string>() {
 "b = 5",
-"c = #t0",
+"c = n + 5",
 "n = 4",
-"a = #t4"
+"a = a + 3"
             };
             actual = optimizer.IN[cfg.blocks[3]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
@@ -165,9 +165,9 @@ t = z + y;
             expected = new List<string>() {
 "s = 8",
 "b = 5",
-"c = #t0",
+"c = n + 5",
 "n = 4",
-"a = #t4"
+"a = a + 3"
             };
             actual = optimizer.OUT[cfg.blocks[3]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
@@ -211,7 +211,7 @@ if b
             var expected = new List<string>() {
 "a = u1",
 "j = n",
-"i = #t0"
+"i = m - 1"
             };
             var actual = optimizer.OUT[cfg.blocks[0]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
@@ -223,17 +223,17 @@ if b
             expected = new List<string>() {
 "a = u1",
 "j = n",
-"i = #t0",
+"i = m - 1",
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u2"
             };
             actual = optimizer.IN[cfg.blocks[1]].Select(x => x.ToString().Trim()).ToList();
             Assert.AreEqual(actual, expected);
 
             expected = new List<string>() {
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 "a = u1",
 "a = u2",
             };
@@ -245,8 +245,8 @@ if b
             Assert.AreEqual(optimizer.OUT[cfg.blocks[2]].Count, 4);
 
             expected = new List<string>() {
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 "a = u1",
 "a = u2",
             };
@@ -254,8 +254,8 @@ if b
             Assert.AreEqual(actual, expected);
 
             expected = new List<string>() {
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 "a = u1",
 "a = u2", 
             };
@@ -267,8 +267,8 @@ if b
             Assert.AreEqual(optimizer.OUT[cfg.blocks[3]].Count, 3);
 
             expected = new List<string>() {
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 "a = u1",
 "a = u2",
             };
@@ -277,8 +277,8 @@ if b
 
             expected = new List<string>() {
 "a = u2",
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 
             };
             actual = optimizer.OUT[cfg.blocks[3]].Select(x => x.ToString().Trim()).ToList();
@@ -289,8 +289,8 @@ if b
             Assert.AreEqual(optimizer.OUT[cfg.blocks[4]].Count, 4);
 
             expected = new List<string>() {
-"j = #t2",
-"i = #t1",
+"j = j - 1",
+"i = i + 1",
 "a = u1",
 "a = u2",
             };
@@ -299,7 +299,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2"
             };
@@ -312,7 +312,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2",
             };
@@ -321,7 +321,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2"
             };
@@ -334,7 +334,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2",
             };
@@ -343,7 +343,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2"
             };
@@ -356,7 +356,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2",
             };
@@ -365,7 +365,7 @@ if b
 
             expected = new List<string>() {
 "i = u3",
-"j = #t2",
+"j = j - 1",
 "a = u1",
 "a = u2"
             };

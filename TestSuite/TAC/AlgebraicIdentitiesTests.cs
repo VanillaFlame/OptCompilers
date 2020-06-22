@@ -30,14 +30,10 @@ namespace TestSuite.TAC
             var expected = new List<string>()
             {
                 "x = 7",
-                "#t0 = x",
-                "x = #t0",
-                "#t1 = 1",
-                "x = #t1",
-                "#t2 = 0",
-                "x = #t2",
-                "#t3 = x",
-                "x = #t3"
+                "x = x",
+                "x = 1",
+                "x = 0",
+                "x = x"
             };
             var actual = AIOptimizer.TAC.Instructions.Select(instruction => instruction.ToString().Trim());
             CollectionAssert.AreEqual(expected, actual);
@@ -66,12 +62,9 @@ namespace TestSuite.TAC
                 "if #t0 goto #L0",
                 "goto #L1",
                 "#L0",
-                "#t1 = x",
-                "x = #t1",
-                "#t2 = 0",
-                "x = #t2",
-                "#t3 = x",
-                "x = #t3",
+                "x = x",
+                "x = 0",
+                "x = x",
                 "#L1"
             };
             var actual = AIOptimizer.TAC.Instructions.Select(instruction => instruction.ToString().Trim());
@@ -114,10 +107,8 @@ namespace TestSuite.TAC
 
             var expected = new List<string>()
             {
-                "#t0 = x",
-                "x = #t0",
-                "#t1 = x",
-                "x = #t1"
+                "x = x",
+                "x = x"
             };
 
             var actual = AIOptimizer.TAC.Instructions.Select(instruction => instruction.ToString().Trim());

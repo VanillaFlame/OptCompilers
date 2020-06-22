@@ -25,8 +25,54 @@ namespace SimpleLang.Visitors
 
         public override void Visit(AssignNode node)
         {
-            var tmp = GenerateTACExpr(node.Expr);
-            AddInstruction(node.AssOp.ToFriendlyString(), tmp, "", node.Id.Name);
+            if (node.Expr is BinExprNode bin
+                && !(bin.Left is BinExprNode)
+                && !(bin.Right is BinExprNode)
+                && !(bin.Left is UnoExprNode)
+                && !(bin.Right is UnoExprNode))
+            {
+                string leftArg = "";
+                if (bin.Left is IdNode id)
+                {
+                    leftArg = id.Name;
+                } 
+                else if (bin.Left is FloatNumNode f)
+                {
+                    leftArg = f.Num.ToString();
+                }
+                else if (bin.Left is BoolValNode b)
+                {
+                    leftArg = b.Val.ToString();
+                }
+                else if (bin.Left is IntNumNode i)
+                {
+                    leftArg = i.Num.ToString();
+                }
+
+                string rightArg = "";
+                if (bin.Right is IdNode id2)
+                {
+                    rightArg = id2.Name;
+                }
+                else if (bin.Right is FloatNumNode f2)
+                {
+                    rightArg = f2.Num.ToString();
+                }
+                else if (bin.Right is BoolValNode b2)
+                {
+                    rightArg = b2.Val.ToString();
+                }
+                else if (bin.Right is IntNumNode i2)
+                {
+                    rightArg = i2.Num.ToString();
+                }
+                AddInstruction(bin.OpType.ToFriendlyString(), leftArg, rightArg, node.Id.Name);
+            }
+            else
+            {
+                var tmp = GenerateTACExpr(node.Expr);
+                AddInstruction(node.AssOp.ToFriendlyString(), tmp, "", node.Id.Name);
+            }
         }
 
         public override void Visit(IfNode node)

@@ -167,17 +167,22 @@ namespace SimpleLang.CFG
                     {
                         var operation = instrs[i].Operation;
                         var first = instrs[i].Argument1;
-
-                        OUT[instrs[i].Result] =
-                            untreatedTypes.Contains(operation)
-                            ? new SemilatticeValue(SemilatticeData.NAC)
-                            : first == "True" || first == "False"
-                            ? new SemilatticeValue(SemilatticeData.NAC)
-                            : OUT[first].Type == SemilatticeData.CONST
-                            ? new SemilatticeValue(SemilatticeData.CONST, OUT[first].ConstValue)
-                            : OUT[first].Type == SemilatticeData.NAC
-                            ? new SemilatticeValue(SemilatticeData.NAC)
-                            : new SemilatticeValue(SemilatticeData.UNDEF);
+                        if (OUT.ContainsKey(first))
+                        {
+                            OUT[instrs[i].Result] =
+                                untreatedTypes.Contains(operation)
+                                ? new SemilatticeValue(SemilatticeData.NAC)
+                                : first == "True" || first == "False"
+                                ? new SemilatticeValue(SemilatticeData.NAC)
+                                : OUT[first].Type == SemilatticeData.CONST
+                                ? new SemilatticeValue(SemilatticeData.CONST, OUT[first].ConstValue)
+                                : OUT[first].Type == SemilatticeData.NAC
+                                ? new SemilatticeValue(SemilatticeData.NAC)
+                                : new SemilatticeValue(SemilatticeData.UNDEF);
+                        } else
+                        {
+                            OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
+                        }
                     }
                 }
             }

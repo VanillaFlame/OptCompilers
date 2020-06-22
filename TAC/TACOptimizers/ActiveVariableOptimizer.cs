@@ -9,8 +9,6 @@ using SimpleLang.Visitors.ChangeVisitors;
 using SimpleLang.TACOptimizers;
 using SimpleLang.CFG;
 
-
-
 namespace SimpleLang.TACOptimizers
 {
     class ActiveVariableOptimizer
@@ -20,6 +18,7 @@ namespace SimpleLang.TACOptimizers
         Dictionary<int, List<string>> use_B = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> def_B = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> all_B = new Dictionary<int, List<string>>();
+
         ActiveVariableOptimizer(ControlFlowGraph cfg)
         {
             var cur_b = cfg.start;

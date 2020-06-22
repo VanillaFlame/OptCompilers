@@ -38,6 +38,13 @@ namespace SimpleLang.TACOptimizers
             {
                 if (!current.Result.Equals(""))
                 {
+                    // данной переменной больше нельзя пользоваться
+                    if (knownVariables.Contains(current.Result))
+                    {
+                        knownVariables.Remove(current.Result);
+                        values.Remove(current.Result);
+                    }
+
                     if (knownVariables.Contains(current.Argument1))
                     {
                         current.Argument1 = values[current.Argument1];

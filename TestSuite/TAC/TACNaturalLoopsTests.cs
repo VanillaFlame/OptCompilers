@@ -143,12 +143,11 @@ i = 3;
 ");
             var expected = new string[] {
 "1\n" +
-"#t0 = n + 5\n" +
-"c = #t0\n" +
-"#t1 = a + 3\n" +
-"#t2 = 4 * 2\n" +
-"#t3 = #t1 > #t2\n" +
-"if #t3 goto #L0",
+"c = n + 5\n" +
+"#t0 = a + 3\n" +
+"#t1 = 4 * 2\n" +
+"#t2 = #t0 > #t1\n" +
+"if #t2 goto #L0",
 
 "#L1\n" +
 "s = 8\n" +
@@ -158,8 +157,7 @@ i = 3;
 "goto #L1",
 
 "#L0\n" +
-"#t4 = a + 3\n" +
-"a = #t4"
+"a = a + 3"
             };
             Assert.IsTrue(actual.Count == 1, "Loops are not equal");
             Assert.IsTrue(RawLoopsAreEqual(actual[0], expected), "Loops are not equal");
@@ -200,12 +198,11 @@ i = 3;
 
             var loop2 = new string[] {
 "1\n" +
-"#t0 = n + 5\n" +
-"c = #t0\n" +
-"#t1 = a + 3\n" +
-"#t2 = 4 * 2\n" +
-"#t3 = #t1 > #t2\n" +
-"if #t3 goto #L2",
+"c = n + 5\n" +
+"#t0 = a + 3\n" +
+"#t1 = 4 * 2\n" +
+"#t2 = #t0 > #t1\n" +
+"if #t2 goto #L2",
 
 "#L3\n" +
 "s = 8\n" +
@@ -215,8 +212,7 @@ i = 3;
 "goto #L3",
 
 "#L2\n" +
-"#t4 = a + 3\n" +
-"a = #t4"
+"a = a + 3"
             };
 
             Assert.IsTrue(actual.Count == 2, "Loops are not equal");

@@ -38,8 +38,7 @@ x = x + x;
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3"
+                    "x = x + x"
                 }
             };
             var actual = blocks.blocks.Select(block => block.Instructions.Select(instr => instr.ToString().Trim())).ToList();
@@ -71,8 +70,7 @@ x = x + x;
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3"
+                    "x = x + x"
                 }
             };
             var actual = blocks.blocks.Select(block => block.Instructions.Select(instr => instr.ToString().Trim())).ToList();
@@ -108,10 +106,9 @@ if x == 2
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3",
-                    "#t4 = x == 2",
-                    "if #t4 goto #L0"
+                    "x = x + x",
+                    "#t3 = x == 2",
+                    "if #t3 goto #L0"
                 },
                 new List<string>() {
                     "goto #L1"
@@ -158,10 +155,9 @@ if x == 2
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3",
-                    "#t4 = x == 2",
-                    "if #t4 goto #L0"
+                    "x = x + x",
+                    "#t3 = x == 2",
+                    "if #t3 goto #L0"
                 },
                 new List<string>() {
                     "goto #L1"
@@ -203,8 +199,7 @@ x = x + x;
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3"
+                    "x = x + x"
             };
             var actual = blocks.BlockMerging().Select(instructions => instructions.ToString().Trim());
             Assert.AreEqual(expected, actual);
@@ -238,10 +233,9 @@ if x == 2
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3",
-                    "#t4 = x == 2",
-                    "if #t4 goto #L0",
+                    "x = x + x",
+                    "#t3 = x == 2",
+                    "if #t3 goto #L0",
                     "goto #L1",
                     "#L0",
                     "4",
@@ -283,8 +277,7 @@ goto 2;
                     "#t1 = 2 * #t0",
                     "#t2 = #t1 - c",
                     "y = #t2",
-                    "#t3 = x + x",
-                    "x = #t3",
+                    "x = x + x",
                     "goto 2"
                     }
             };
