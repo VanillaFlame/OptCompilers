@@ -89,7 +89,7 @@ namespace SimpleLang.TACOptimizers
                         if (flag_useble && !use_B[cur_b.Index].Contains(cur_arg))
                         {
                             if (cur_arg.Length > 0)
-                                def_B[cur_b.Index].Add(cur_arg);
+                                use_B[cur_b.Index].Add(cur_arg);
                         }
                     }
 
