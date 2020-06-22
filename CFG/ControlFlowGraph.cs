@@ -4,7 +4,7 @@ using System;
 
 namespace SimpleLang.CFG
 {
-    public class IndexEdge
+    public struct IndexEdge
     {
         public IndexEdge(int s, int e)
         {
@@ -13,20 +13,10 @@ namespace SimpleLang.CFG
         }
         public int start;
         public int end;
-    }
-
-    public class BlockEdge
-    {
-        public BlockEdge(BasicBlock s, BasicBlock e)
+        public static IndexEdge Create(int s, int e)
         {
-            start = s;
-            end = e;
+            return new IndexEdge(s, e);
         }
-        public BasicBlock start;
-        public BasicBlock end;
-
-        public static BlockEdge Create(BasicBlock s, BasicBlock e)
-            => new BlockEdge(s, e);
     }
 
     public class ControlFlowGraph
@@ -107,12 +97,8 @@ namespace SimpleLang.CFG
                 }                
             }
 
-            // если в конце последнего блока безусловный goto, то это бесконечный цикл
-            if (!(blocks[blocks.Count - 1].Instructions.Last().Operation is "goto"))
-            {
-                end.In.Add(blocks[blocks.Count - 1]);
-                blocks[blocks.Count - 1].Out.Add(end);
-            }
+            end.In.Add(blocks[blocks.Count - 1]);
+            blocks[blocks.Count - 1].Out.Add(end);
         }
     }
 }
