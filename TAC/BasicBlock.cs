@@ -93,5 +93,13 @@ namespace SimpleLang
             }
             return builder.ToString();
         }
+
+        /// <summary>
+        /// Обнуляет внутренный статический счетчик индексов
+        /// </summary>
+        public static void clearIndexCounter()
+        {
+            index = 0;
+        }
     }
 }

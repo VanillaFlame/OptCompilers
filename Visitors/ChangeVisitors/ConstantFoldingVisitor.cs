@@ -31,6 +31,30 @@ namespace SimpleLang.Visitors.ChangeVisitors
                     {
                         ReplaceExpr(node, new IntNumNode(leftInt.Num + rightInt.Num));
                     }
+                    if (node.OpType == BinOpType.Less)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num < rightInt.Num));
+                    }
+                    if (node.OpType == BinOpType.Greater)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num > rightInt.Num));
+                    }
+                    if (node.OpType == BinOpType.LessOrEqual)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num <= rightInt.Num));
+                    }
+                    if (node.OpType == BinOpType.GreaterOrEqual)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num >= rightInt.Num));
+                    }
+                    if (node.OpType == BinOpType.Equal)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num == rightInt.Num));
+                    }
+                    if (node.OpType == BinOpType.NotEqual)
+                    {
+                        ReplaceExpr(node, new BoolValNode(leftInt.Num != rightInt.Num));
+                    }
                 }
             }
         }

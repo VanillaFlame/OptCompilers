@@ -17,7 +17,7 @@ namespace SimpleCompiler
         public static void Main()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            string FileName = @"..\..\TestSuiteTxt\e.txt";
+            string FileName = @"..\..\TestSuiteTxt\c.txt";
             try
             {
                 string Text = File.ReadAllText(FileName);
@@ -40,7 +40,7 @@ namespace SimpleCompiler
                 var parentFiller = new FillParentsVisitor();
                 parser.root.Visit(parentFiller);
 
-                AllVisitorsOptimization.Optimization(parser);
+               // AllVisitorsOptimization.Optimization(parser);
                 
                 var prettyPrinter = new PrettyPrinterVisitor();
                 parser.root.Visit(prettyPrinter);
@@ -50,16 +50,23 @@ namespace SimpleCompiler
                 var TACGenerator = new TACGenerationVisitor();
                 parser.root.Visit(TACGenerator);
 
+                
                 var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
                 TACBlocks.GenBaseBlocks();
+
+
+               var opt = new DeadAliveOptimize(new ThreeAddressCode(TACGenerator.Instructions));
+               opt.Run();
+               var a = opt.Instructions;
+
 
                 Console.WriteLine(TACBlocks);
                 Console.WriteLine("===============TACBlocks====================================================");
 
-                var BaseBlock = AllTacOptimization.Optimize(parser);
-                BaseBlock.GenBaseBlocks();
-                Console.WriteLine(BaseBlock);
-                Console.WriteLine("================================================================================");
+                //var BaseBlock = AllTacOptimization.Optimize(parser);
+                //BaseBlock.GenBaseBlocks();
+                //Console.WriteLine(BaseBlock);
+                //Console.WriteLine("================================================================================");
 
                 /*
                 // Tree optimizations
@@ -146,12 +153,11 @@ namespace SimpleCompiler
                 }
                 */
                 
-                var cfg = new ControlFlowGraph(TACBlocks.blocks);
-                var dt = new DominatorsTree(cfg);
-                var tr = dt.GenDominatorsTree();
+                //var cfg = new ControlFlowGraph(TACBlocks.blocks);
+                //var dt = new DominatorsTree(cfg);
+                //var tr = dt.GenDominatorsTree();
 
-                var ConstantPropogation = new ConstantPropogationIter();
-                var a = ConstantPropogation.Execute(cfg);
+               
 
                 //var availableExprOptimizer = new AvailableExpressionsOptimizer();
                 //availableExprOptimizer.Run(cfg, TACBlocks.blocks);

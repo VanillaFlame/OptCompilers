@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.960
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLang1", "SimpleLang1.csproj", "{12B9D996-7B4A-4EE4-9AD8-2E24EAF3F574}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "TestSuite\TestSuite.csproj", "{0720A9DA-4B38-4309-A31E-1BA37183C13A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B22C0CB-39AF-492C-94A7-06FC6A4522A6}"
-	ProjectSection(SolutionItems) = preProject
-		iterative algorithm\ActiveVarieble.cs = iterative algorithm\ActiveVarieble.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,16 +11,16 @@ using SimpleLang.CFG;
 
 
 
-    namespace SimpleLang.iterative_algorithm
+namespace SimpleLang.TACOptimizers
 {
-    class ActiveVarieble
+    class ActiveVariableOptimizer
     {
         Dictionary<int, List<string>> In_Akt_Ver = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> Out_Akt_Ver = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> use_B = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> def_B = new Dictionary<int, List<string>>();
         Dictionary<int, List<string>> all_B = new Dictionary<int, List<string>>();
-        ActiveVarieble(ControlFlowGraph cfg)
+        ActiveVariableOptimizer(ControlFlowGraph cfg)
         {
             var cur_b = cfg.start;
             List<int> cheked = new List<int>();
@@ -30,7 +30,7 @@ using SimpleLang.CFG;
 
         void Find_Atktiv_Ver(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked)
         {
-            if(cur_b!= cfg.end)
+            if (cur_b != cfg.end)
             {
                 if (cur_b != cfg.start && !cheked.Contains(cur_b.Index))
                 {
@@ -44,7 +44,7 @@ using SimpleLang.CFG;
             }
         }
 
-            void Filling(BasicBlock cur_b)
+        void Filling(BasicBlock cur_b)
         {
             all_B[cur_b.Index] = new List<string>();
             for (int i = 0; i < cur_b.Instructions.Count; ++i)

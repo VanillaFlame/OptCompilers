@@ -34,7 +34,7 @@ namespace SimpleLang.TACOptimizers
 
         private static List<TACOptimizer> IterAlgoOptimizers = new List<TACOptimizer>() {
             new AvailableExpressionsOptimizer(temp),
-            new ConstantPropogationIter()
+            new ConstantPropagationIter()
         };
 
         private static List<TACInstruction> OptimizeBlock(TACBaseBlocks BaseBlocks)
@@ -125,6 +125,7 @@ namespace SimpleLang.TACOptimizers
             parser.root.Visit(TACGenerator);
             var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
             TACBlocks.GenBaseBlocks();
+            //loop
             var oneBlockOptimizations = OptimizeBlock(TACBlocks);
             var allBlocksOptimizations = AllOptimization(oneBlockOptimizations); ;
             var iterAlogOptimizations = IterAlgoOptimizations(allBlocksOptimizations);
