@@ -135,13 +135,16 @@ b = 5;
 }
 s = 8;
 goto 1;
+b = 2;
 }");
             /*
-             *  4 блокa
-                0 {a = 5; b = c; #t0 = a < b; goto #L0}
-                1 {2: a = c; goto #L1}
-                2 {#L0: goto 2}
-                3 {#L1}
+             *  5 блоков
+                0 {n = 4; if b goto #L0}
+                1 {b = 5; goto #L1}
+                2 {#L0}
+                3 {1: a = 1}
+                4 {#L1: s = 8; goto 1}
+                5 {b = 2}
             */
 
             var dominators = (new DominatorsTree(cfg)).GenDominatorsTree();

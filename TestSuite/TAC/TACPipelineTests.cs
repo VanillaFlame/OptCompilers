@@ -178,7 +178,7 @@ b = g;
 "#t2 = False\n" +
 "if #t2 goto #L0",
 
-"g = 3 + 3\n" +
+"g = 6\n" +
 "goto #L1",
 
 "#L0\n" +

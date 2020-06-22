@@ -12,6 +12,7 @@ namespace SimpleLang.TACOptimizers
 {
     public static class AllTacOptimization
     {
+        private static int GlobalOptimizationCount = 0;
 
         private static List<TACInstruction> AllInstruction = new TACGenerationVisitor().Instructions;
 
@@ -61,8 +62,10 @@ namespace SimpleLang.TACOptimizers
                     {
                         previos = TACOptimizersOnBlock[CountOptimization].Instructions;
                         CountOptimization = 0;
+                        GlobalOptimizationCount = 0;
                     }
                 } while (CountOptimization < TACOptimizersOnBlock.Count);
+                ++GlobalOptimizationCount;
                 newTacInstruction.AddRange(previos);
                 blockCount++;
             }
@@ -86,8 +89,10 @@ namespace SimpleLang.TACOptimizers
                 {
                     previos = TACOptimizersAllBlock[AllOptimizationCount].Instructions;
                     AllOptimizationCount = 0;
+                    GlobalOptimizationCount = 0;
                 }
             } while (AllOptimizationCount < TACOptimizersAllBlock.Count);
+            ++GlobalOptimizationCount;
             var res = new TACBaseBlocks(previos);
             res.GenBaseBlocks();
             return res;
@@ -114,8 +119,10 @@ namespace SimpleLang.TACOptimizers
                 {
                     prevInstructions = IterAlgoOptimizers[AllOptimizationCount].Instructions;
                     AllOptimizationCount = 0;
+                    GlobalOptimizationCount = 0;
                 }
             } while (AllOptimizationCount < IterAlgoOptimizers.Count);
+            ++GlobalOptimizationCount;
             return prevBlocks;
         }
 
@@ -125,10 +132,14 @@ namespace SimpleLang.TACOptimizers
             parser.root.Visit(TACGenerator);
             var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
             TACBlocks.GenBaseBlocks();
-            var oneBlockOptimizations = OptimizeBlock(TACBlocks);
-            var allBlocksOptimizations = AllOptimization(oneBlockOptimizations); ;
-            var iterAlogOptimizations = IterAlgoOptimizations(allBlocksOptimizations);
-            return iterAlogOptimizations;
+            TACBaseBlocks result = TACBlocks;
+            do
+            {
+                var oneBlockOptimizations = OptimizeBlock(result);
+                result = AllOptimization(oneBlockOptimizations); ;
+                result = IterAlgoOptimizations(result);
+            } while (GlobalOptimizationCount < 3);
+            return result;
         }
     }
 }

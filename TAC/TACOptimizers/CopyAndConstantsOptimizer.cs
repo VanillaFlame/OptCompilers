@@ -59,7 +59,7 @@ namespace SimpleLang.TACOptimizers
                     //{
                         // если это буква
                         if (current.Argument2 == "" &&
-                        !double.TryParse(current.Argument1, out _))
+                        !double.TryParse(current.Argument1, out _) && current.Operation.Equals("="))
                         {
                             if (!current.Argument1.Contains("#"))
                             {
