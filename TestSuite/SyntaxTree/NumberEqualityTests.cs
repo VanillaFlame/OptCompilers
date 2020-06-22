@@ -25,6 +25,8 @@ namespace TestSuite.SyntaxTree
         [TestCase("a = 5 <= 5;", "a = true;")]
         [TestCase("a = 5 == 2;", "a = false;")]
         [TestCase("a = 5 == 5;", "a = true;")]
+        [TestCase("a = 5.123 == 5.123;", "a = true;")]
+        [TestCase("a = 5.124 == 5.123;", "a = false;")]
         public void OneLineTests(string line, string expected)
         {
             var parser = GenerateTree(@"{" + $"\n{line}\n" + @"}");
