@@ -75,6 +75,7 @@
     <Compile Include="TAC\ConstantFoldingOptimizerTests.cs" />
     <Compile Include="TAC\ConstantFoldingVisitorTests.cs" />
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
+    <Compile Include="TAC\DeadAliveVariablesTest.cs" />
     <Compile Include="TAC\DefUseOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
