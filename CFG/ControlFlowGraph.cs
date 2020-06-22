@@ -4,6 +4,31 @@ using System;
 
 namespace SimpleLang.CFG
 {
+    public class IndexEdge
+    {
+        public IndexEdge(int s, int e)
+        {
+            start = s;
+            end = e;
+        }
+        public int start;
+        public int end;
+    }
+
+    public class BlockEdge
+    {
+        public BlockEdge(BasicBlock s, BasicBlock e)
+        {
+            start = s;
+            end = e;
+        }
+        public BasicBlock start;
+        public BasicBlock end;
+
+        public static BlockEdge Create(BasicBlock s, BasicBlock e)
+            => new BlockEdge(s, e);
+    }
+
     public class ControlFlowGraph
     {
         /// <summary>
