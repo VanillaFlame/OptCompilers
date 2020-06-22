@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="CFG\CFGTests.cs" />
     <Compile Include="CFG\CFGTestsBase.cs" />
+    <Compile Include="CFG\DominatorsTreeTest.cs" />
     <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
