@@ -72,7 +72,7 @@ namespace SimpleLang.CFG
         }
     }
 
-    public class ConstantPropogationIter : IterAlgoGeneric<Dictionary<string, SemilatticeValue>>
+    public class ConstantPropagationIter : IterAlgoGeneric<Dictionary<string, SemilatticeValue>>
     {
        
 
@@ -332,7 +332,7 @@ namespace SimpleLang.CFG
                     {
                         i.Argument2 = curIn[i.Argument2].ConstValue;
                     }
-                    if (curIn.ContainsKey(i.Result) && curIn[i.Result].Type == SemilatticeData.CONST)
+                    if (curIn.ContainsKey(i.Result) && (curIn[i.Result].Type == SemilatticeData.CONST || curIn[i.Result].Type == SemilatticeData.UNDEF))
                     {
                         if (i.Argument2 == "" && int.TryParse(i.Argument1, out var temp))
                         {

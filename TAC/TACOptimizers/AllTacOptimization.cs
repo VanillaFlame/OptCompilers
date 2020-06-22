@@ -34,7 +34,7 @@ namespace SimpleLang.TACOptimizers
 
         private static List<TACOptimizer> IterAlgoOptimizers = new List<TACOptimizer>() {
             new AvailableExpressionsOptimizer(temp),
-            new ConstantPropogationIter()
+            new ConstantPropagationIter()
         };
 
         private static List<TACInstruction> OptimizeBlock(TACBaseBlocks BaseBlocks)

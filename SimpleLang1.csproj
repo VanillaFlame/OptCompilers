@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CFG\ConstantPropogationIter.cs" />
+    <Compile Include="CFG\ConstantPropagationIter.cs" />
     <Compile Include="CFG\IterAlgoGeneric.cs" />
     <Compile Include="CFG\EdgeType.cs" />
     <Compile Include="CFG\ControlFlowGraph.cs" />
