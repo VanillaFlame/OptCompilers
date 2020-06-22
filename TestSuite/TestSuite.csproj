@@ -68,6 +68,7 @@
     <Compile Include="TAC\CopyAndConstantsOptimizerTests.cs" />
     <Compile Include="TAC\ReachingDefinitionTests.cs" />
     <Compile Include="TAC\ReachingDefinitionVectorTests.cs" />
+    <Compile Include="TAC\TACGeneration\TACBaseBlocksTests.cs" />
     <Compile Include="TAC\TACGeneration\TACGenerationTests.cs" />
     <Compile Include="TAC\TACNaturalLoopsTests.cs" />
     <Compile Include="TAC\TACTestsBase.cs" />
