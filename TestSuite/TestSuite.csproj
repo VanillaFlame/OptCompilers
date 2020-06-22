@@ -62,7 +62,7 @@
     <Compile Include="CFG\CFGTestsBase.cs" />
     <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="CFG\DominatorsTreeTest.cs" />
-    <Compile Include="CFG\TransferFuncForIterativeAlgorithm.cs" />
+    <Compile Include="CFG\TransferFuncForIterativeAlgorithmTests.cs" />
     <Compile Include="CFG\ReducibleGraphTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
