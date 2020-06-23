@@ -14,23 +14,23 @@
         {
           a = a + 2;
         }
-        read(c);
+        a = 1;
       }
     }
     else 
     {
-      write(c);
+      b = 1;
     }
   }
   if a > a
   {
-    read(c);
+    b = 2;
   }
   else 
   {
     if a == a
     {
-      read(a);
+      b = 3;
     }
   }
 }

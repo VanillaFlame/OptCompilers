@@ -106,6 +106,7 @@ namespace SimpleLang.TACOptimizers
             do
             {
                 IterAlgoOptimizers[AllOptimizationCount].Instructions = prevInstructions.Copy();
+                BasicBlock.clearIndexCounter();
                 prevBlocks = new TACBaseBlocks(IterAlgoOptimizers[AllOptimizationCount].Instructions);
                 prevBlocks.GenBaseBlocks();
                 IterAlgoOptimizers[AllOptimizationCount].Blocks = prevBlocks.blocks;

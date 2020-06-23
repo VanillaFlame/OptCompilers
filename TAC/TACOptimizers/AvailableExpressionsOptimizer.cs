@@ -59,7 +59,12 @@ namespace SimpleLang.TACOptimizers
 
         public override void Run()
         {
-            Run(this.Cfg, this.Blocks);
+        gens = new Dictionary<BasicBlock, Gen>();
+        kills = new Dictionary<BasicBlock, Kill>();
+
+        In = new Dictionary<BasicBlock, AvailableExpressionsTable>();
+        Out = new Dictionary<BasicBlock, AvailableExpressionsTable>();
+        Run(this.Cfg, this.Blocks);
         }
 
         public void Run(ControlFlowGraph cfg, List<BasicBlock> blocks)
@@ -73,7 +78,10 @@ namespace SimpleLang.TACOptimizers
 
         private void CalculateInOut(ControlFlowGraph cfg, List<BasicBlock> blocks)
         {
-            Out.Add(cfg.start, AvailableExpressionsTable.NewEmpty());
+            if (!Out.ContainsKey(cfg.start))
+            {
+                Out.Add(cfg.start, AvailableExpressionsTable.NewEmpty());
+            }
             foreach (var block in blocks)
             {
                 CreateGen(block);

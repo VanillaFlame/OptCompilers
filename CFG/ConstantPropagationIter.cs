@@ -185,6 +185,10 @@ namespace SimpleLang.CFG
                         }
                     }
                 }
+                else
+                {
+                    OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
+                }
             }
             var temp_keys = OUT.Keys.Where(x => x.StartsWith("#")).ToList();
             foreach (var k in temp_keys)
@@ -262,7 +266,10 @@ namespace SimpleLang.CFG
             var result = new Dictionary<string, SemilatticeValue>(first.Count, first.Comparer);
             foreach (var elem in second)
             {
-                result[elem.Key] = first[elem.Key].collecting(elem.Value);
+                if (first.ContainsKey(elem.Key))
+                {
+                    result[elem.Key] = first[elem.Key].collecting(elem.Value);
+                }
             }
 
             return result;
