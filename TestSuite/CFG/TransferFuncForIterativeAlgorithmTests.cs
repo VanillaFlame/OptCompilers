@@ -23,6 +23,7 @@ namespace TestSuite.CFG
         {
             var TAC = GenerateTAC(program);
             var TACBlocks = new TACBaseBlocks(TAC.Instructions);
+            TACBlocks.GenBaseBlocks();
             var cfg = new ControlFlowGraph(TACBlocks.blocks);
             var inOutInfo = new SampleClassIterAlgoForTransferFunc().Execute(cfg);
             return (TACBlocks.blocks, inOutInfo);
