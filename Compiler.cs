@@ -23,19 +23,19 @@ namespace SimpleLang
                 scanner.SetSource(Text, 0);
 
                 Parser parser = new Parser(scanner);
+                var parentVisitor = new FillParentsVisitor();
 
                 var b = parser.Parse();
                 if (!b)
                     Console.WriteLine("Parsing error");
-                else
-                {
-                    Console.WriteLine("Syntax tree has been built");
-                }
 
-                AllVisitorsOptimization.Optimization(parser);
-                var blocks = AllTacOptimization.Optimize(parser);
+                parser.root.Visit(parentVisitor);
+
+                AllVisitorsOptimization.Optimization(parser, true);
+                var blocks = AllTacOptimization.Optimize(parser, true);
                 var instructions = blocks.BlockMerging();
 
+                Console.WriteLine("=====================Final Result=====================");
                 foreach (var instruction in instructions)
                 {
                     Console.WriteLine(instruction);

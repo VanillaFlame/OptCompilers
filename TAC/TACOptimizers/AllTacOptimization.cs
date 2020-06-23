@@ -65,10 +65,10 @@ namespace SimpleLang.TACOptimizers
                         GlobalOptimizationCount = 0;
                     }
                 } while (CountOptimization < TACOptimizersOnBlock.Count);
-                ++GlobalOptimizationCount;
                 newTacInstruction.AddRange(previos);
                 blockCount++;
             }
+            ++GlobalOptimizationCount;
             return newTacInstruction;
         }
 
@@ -126,20 +126,47 @@ namespace SimpleLang.TACOptimizers
             return prevBlocks;
         }
 
-        public static TACBaseBlocks Optimize(Parser parser)
+        public static TACBaseBlocks Optimize(Parser parser, bool debugInfo = false)
         {
             var TACGenerator = new TACGenerationVisitor();
             parser.root.Visit(TACGenerator);
             var TACBlocks = new TACBaseBlocks(TACGenerator.Instructions);
             TACBlocks.GenBaseBlocks();
             TACBaseBlocks result = TACBlocks;
+            var i = 1;
             do
             {
                 var oneBlockOptimizations = OptimizeBlock(result);
-                result = AllOptimization(oneBlockOptimizations); ;
+                if (debugInfo)
+                {
+                    Console.WriteLine("===============TAC EachBlockOpt: Stage {0}===============", i.ToString());
+                    PrintInstructions(oneBlockOptimizations);
+                    ++i;
+                }
+                result = AllOptimization(oneBlockOptimizations);
+                if (debugInfo)
+                {
+                    Console.WriteLine("===============TAC AllBlocksOpt: Stage {0}===============", i.ToString());
+                    PrintInstructions(result.BlockMerging());
+                    ++i;
+                }
                 result = IterAlgoOptimizations(result);
+                if (debugInfo)
+                {
+                    Console.WriteLine("=================TAC IterAlgs: Stage {0}=================", i.ToString());
+                    PrintInstructions(result.BlockMerging());
+                    ++i;
+                }
             } while (GlobalOptimizationCount < 3);
             return result;
+        }
+
+        private static void PrintInstructions(List<TACInstruction> instructions)
+        {
+            foreach (var instruction in instructions)
+            {
+                Console.WriteLine(instruction);
+            }
         }
     }
 }

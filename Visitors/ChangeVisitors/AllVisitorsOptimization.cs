@@ -17,6 +17,7 @@ namespace SimpleLang.Visitors.ChangeVisitors
             new MinusSelf(),
             new FindFalseVisitor(),
             new WhileFalseVisitor(),
+            new AlwaysIfOrElseVisitor(),
             new MultiplyOnZero(),
             new MultiplyOnZero2(),
             new TrueConditionOptVisitor(),
@@ -29,8 +30,9 @@ namespace SimpleLang.Visitors.ChangeVisitors
             new AlgebraicIdentitySum0Visitor()
         };
 
-        public static void Optimization(Parser parser)
+        public static void Optimization(Parser parser, bool debugInfo = false)
         {
+            var prettyPrinter = new PrettyPrinterVisitor();
             int countOptimization = 0;
             while (countOptimization < ChangeVisitorsOptimization.Count)
             {
@@ -41,6 +43,12 @@ namespace SimpleLang.Visitors.ChangeVisitors
                     countOptimization = 0;
                 }
                 else countOptimization++;
+            }
+            if (debugInfo)
+            {
+                parser.root.Visit(prettyPrinter);
+                Console.WriteLine("==================Visitors Optimizations==================");
+                Console.WriteLine(prettyPrinter.FormattedProgram);
             }
         }
     }

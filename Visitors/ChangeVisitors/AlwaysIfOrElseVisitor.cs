@@ -15,14 +15,14 @@ namespace SimpleLang.Visitors.ChangeVisitors
                 }
                 else
                 {
-                    Visit(ifnode.ElseStat);
-                    ReplaceStatement(ifnode, ifnode.ElseStat);
+                    if (ifnode.ElseStat != null)
+                    {
+                        Visit(ifnode.ElseStat);
+                        ReplaceStatement(ifnode, ifnode.ElseStat);
+                    }
                 }
-            }     
-            else
-            {
-                base.Visit(ifnode);
             }
+            base.Visit(ifnode);
         }
     }
 }

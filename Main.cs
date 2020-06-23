@@ -22,12 +22,6 @@ namespace SimpleCompiler
             var compiler = new Compiler();
             compiler.Compile(fileName);
 
-            // AllVisitorsOptimization.Optimization(parser);
-            /*
-            var prettyPrinter = new PrettyPrinterVisitor();
-            parser.root.Visit(prettyPrinter);
-            Console.WriteLine(prettyPrinter.FormattedProgram);
-            */
             Console.ReadLine();
         }
     }
