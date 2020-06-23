@@ -62,6 +62,7 @@
     <Compile Include="CFG\Ostov Tree.cs" />
     <Compile Include="CFG\ReducibleGraph.cs" />
     <Compile Include="CFG\TransferFuncReachingDef.cs" />
+	<Compile Include="CFG\SampleClassIterAlgoForTransferFunc.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="TAC\BasicBlock.cs" />
     <Compile Include="TAC\NaturalLoop.cs" />
