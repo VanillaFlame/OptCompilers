@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimpleLang.Visitors.ChangeVisitors
 {
-    class AlgebraicIdentitySum0Visitor : ChangeVisitor
+    public class AlgebraicIdentitySum0Visitor : ChangeVisitor
     {
         public override void Visit(BinExprNode BinOp)
         {

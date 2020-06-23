@@ -13,32 +13,65 @@ using SimpleLang.CFG;
 
 namespace SimpleLang.TACOptimizers
 {
-    class ActiveVariableOptimizer
+    public class ActiveVariableOptimizer
     {
-        Dictionary<int, List<string>> In_Akt_Ver = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> Out_Akt_Ver = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> use_B = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> def_B = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> all_B = new Dictionary<int, List<string>>();
-        ActiveVariableOptimizer(ControlFlowGraph cfg)
-        {
-            var cur_b = cfg.start;
-            List<int> cheked = new List<int>();
-            Find_Atktiv_Ver(cur_b, cfg, cheked);
+        public Dictionary<int, List<string>> In_Akt_Ver = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<string>> Out_Akt_Ver = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<string>> use_B = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<string>> def_B = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<string>> all_B = new Dictionary<int, List<string>>();
 
+
+        public void Find_Atktiv_Ver(ControlFlowGraph cfg)
+        {
+            bool flag = false;
+            foreach (var blok in cfg.blocks)
+            {
+                In_Akt_Ver.Add(blok.Index, new List<string>());
+                Out_Akt_Ver.Add(blok.Index, new List<string>());
+            }
+            do
+            {
+                flag = true;
+                foreach (var blok in cfg.blocks)
+                {
+                    var in_ = new List<string>();
+                    foreach (var s in use_B[blok.Index])
+                        in_.Add(s);
+                    foreach (var s in Out_Akt_Ver[blok.Index])
+                        if(!def_B[blok.Index].Contains(s)&& !in_[blok.Index].Contains(s))
+                            in_.Add(s);
+                    foreach (var s in in_)
+                        flag &= In_Akt_Ver[blok.Index].Contains(s);
+                    foreach (var s in In_Akt_Ver[blok.Index])
+                        flag &= in_.Contains(s);
+                    In_Akt_Ver[blok.Index] = in_;
+                    var Out_ = new List<string>();
+                    foreach (var chld in blok.Out)
+                    {
+                        foreach (var s in In_Akt_Ver[chld.Index])
+                            if (!Out_.Contains(s))
+                                Out_.Add(s);
+                    }
+                    Out_Akt_Ver[blok.Index] = Out_;
+
+                }
+            }
+            while (!flag);
         }
 
-        void Find_Atktiv_Ver(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked)
+        public void Find_usedef(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked)
         {
-            if (cur_b != cfg.end)
+            if (cur_b.Index != cfg.end.Index)
             {
-                if (cur_b != cfg.start && !cheked.Contains(cur_b.Index))
+
+                if (cur_b.Index != cfg.start.Index && !cheked.Contains(cur_b.Index))
                 {
                     Filling(cur_b);
                     cheked.Add(cur_b.Index);
                     foreach (var blok in cur_b.Out)
                     {
-                        Find_Atktiv_Ver(blok, cfg, cheked);
+                        Find_usedef(blok, cfg, cheked);
                     }
                 }
             }
@@ -95,6 +128,13 @@ namespace SimpleLang.TACOptimizers
 
                 }
             }
+        }
+        public ActiveVariableOptimizer(ControlFlowGraph cfg)
+        {
+            var cur_b = cfg.start;
+            List<int> cheked = new List<int>();
+            Find_usedef(cur_b, cfg, cheked);
+            Find_Atktiv_Ver(cfg);
         }
     }
 
