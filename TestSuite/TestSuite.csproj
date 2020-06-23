@@ -62,9 +62,10 @@
     <Compile Include="CFG\CFGTestsBase.cs" />
     <Compile Include="CFG\EdgeTypeTests.cs" />
     <Compile Include="CFG\DominatorsTreeTest.cs" />
+    <Compile Include="CFG\SpanningTreeTests.cs" />
     <Compile Include="CFG\TransferFuncForIterativeAlgorithmTests.cs" />
     <Compile Include="CFG\ReducibleGraphTests.cs" />
-	<Compile Include="CFG\IterAlgoGenericTests.cs" />
+    <Compile Include="CFG\IterAlgoGenericTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTree\AlwaysFalseTests.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="SyntaxTree\WhileFalseTests.cs" />
     <Compile Include="SyntaxTree\MultiplicationOnZeroTest.cs" />
     <Compile Include="TAC\AlgebraicIdentitiesTests.cs" />
+    <Compile Include="TAC\CommonExpressionsOptimizerTests.cs" />
     <Compile Include="TAC\ConstantPropagationTests.cs" />
     <Compile Include="SyntaxTree\AllVisitorsOptimizationTests.cs" />
     <Compile Include="TAC\AvailableExpressionsTests.cs" />

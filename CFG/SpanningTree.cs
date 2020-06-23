@@ -4,17 +4,17 @@ using System.Collections;
 using SimpleLang.TAC;
 namespace SimpleLang.CFG
 {
-    public class Ostov_Tree
+    public class SpanningTree
     {
         public List<IndexEdge> dfst = new List<IndexEdge>();//Остовное дерево
         Dictionary<int, bool> p = new Dictionary<int, bool>();// флаги для обхода узлов в алгоритме Traverse
         public Dictionary<int, int> dfn = new Dictionary<int, int>();// Нумерация блоков в остовном дереве
         int c;//общее количество блоков
-        public Ostov_Tree(ControlFlowGraph cfg)
+        public SpanningTree(ControlFlowGraph cfg)
         {
             var cur_b = cfg.start;
             List<int> cheked = new List<int>();
-            c =Block_Cheking(cur_b, cfg, cheked);//считаем количество блоков в ГПУ
+            c =BlockChecking(cur_b, cfg, cheked);//считаем количество блоков в ГПУ
             foreach (var block in cfg.blocks)
                 p[block.Index] = false;
             p[cfg.end.Index] = false;
@@ -33,7 +33,7 @@ namespace SimpleLang.CFG
             return c;
         }
 
-        private int Block_Cheking(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked, int kol=0)
+        private int BlockChecking(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked, int kol=0)
         {
             if (cur_b != cfg.end)
             {
@@ -43,7 +43,7 @@ namespace SimpleLang.CFG
                     kol += 1;
                     foreach (var blok in cur_b.Out)
                     {
-                        kol += Block_Cheking(blok, cfg, cheked);
+                        kol += BlockChecking(blok, cfg, cheked);
                     }
                 }                
             }

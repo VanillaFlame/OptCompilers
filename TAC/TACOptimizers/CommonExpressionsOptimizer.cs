@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SimpleLang.TACOptimizers
 {
-    class CommonExpressionsOptimizer : TACOptimizer
+    public class CommonExpressionsOptimizer : TACOptimizer
     {
         public CommonExpressionsOptimizer(ThreeAddressCode tac) : base(tac)
         {

@@ -16,7 +16,7 @@ using ProgramTree;
 
 namespace TestSuite.CFG
 {
-    class CFGTestsBase
+    public class CFGTestsBase
     {
         protected ControlFlowGraph GenerateCFG(string sourceCode)
         {

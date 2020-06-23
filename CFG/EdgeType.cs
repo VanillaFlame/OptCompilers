@@ -46,7 +46,7 @@ namespace SimpleLang.CFG
         public static Dictionary<IndexEdge, EdgeType> classifyEdges(this ControlFlowGraph c)
         {
             var types = new Dictionary<IndexEdge, EdgeType>();
-            var ostovTree = new Ostov_Tree(c);
+            var ostovTree = new SpanningTree(c);
 
             var edges = new HashSet<IndexEdge>();
             edges.Add(new IndexEdge(c.start.Index, c.blocks[0].Index));
