@@ -36,7 +36,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (!current.Result.Equals(""))
+                if (current.Result != null && !current.Result.Equals(""))
                 {
                     // данной переменной больше нельзя пользоваться
                     if (knownVariables.Contains(current.Result))
@@ -93,7 +93,7 @@ namespace SimpleLang.TACOptimizers
             var values = new Dictionary<string, string>();
             foreach (var current in Instructions)
             {
-                if (!(current.Result.Equals("")))
+                if (current.Result != null && !(current.Result.Equals("")))
                 {
                     if (knownConstants.Contains(current.Argument1))
                     {

@@ -112,8 +112,10 @@ namespace SimpleLang.CFG
             {
                 if (instrs[i].Result.StartsWith("#"))
                 {
-                    OUT.Add(instrs[i].Result, new SemilatticeValue(SemilatticeData.UNDEF));
-
+                    if (!OUT.ContainsKey(instrs[i].Result))
+                    {
+                        OUT.Add(instrs[i].Result, new SemilatticeValue(SemilatticeData.UNDEF));
+                    }
                     string first, second, operation;
 
                     first = instrs[i].Argument1;
@@ -187,6 +189,7 @@ namespace SimpleLang.CFG
                 }
                 else
                 {
+                    IN[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
                     OUT[instrs[i].Result] = new SemilatticeValue(SemilatticeData.NAC);
                 }
             }
@@ -259,7 +262,7 @@ namespace SimpleLang.CFG
         public override directed directed => directed.forward;
 
         public override Func<Dictionary<string, SemilatticeValue>, Dictionary<string, SemilatticeValue>, bool> Compare
-            => (a, b) => !a.Where(entry => b[entry.Key] != entry.Value).Any();
+            => (a, b) => !a.Where(entry => b.ContainsKey(entry.Key) ? (b[entry.Key] != entry.Value) : false).Any();
 
         public static Dictionary<string, SemilatticeValue> Collect(Dictionary<string, SemilatticeValue> first, Dictionary<string, SemilatticeValue> second)
         {

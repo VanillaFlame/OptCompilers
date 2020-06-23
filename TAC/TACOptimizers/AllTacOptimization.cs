@@ -23,7 +23,6 @@ namespace SimpleLang.TACOptimizers
             new AlgebraicIdentitiesOptimizer(temp),
             new ConstantFoldingOptimizer(temp),
             new CopyAndConstantsOptimizer(temp),
-            new CommonExpressionsOptimizer(temp),
             new RemoveEmptyInstructionsOptimizer(temp),
             new DeadAliveOptimize(temp)
 
@@ -75,7 +74,12 @@ namespace SimpleLang.TACOptimizers
 
         private static TACBaseBlocks AllOptimization(List<TACInstruction> Instructions)
         {
-
+            if (TACOptimizersAllBlock.Count == 0)
+            {
+                var r = new TACBaseBlocks(Instructions);
+                r.GenBaseBlocks();
+                return r;
+            }
             List<TACInstruction> previos;
             previos = Instructions;
             int AllOptimizationCount = 0;
