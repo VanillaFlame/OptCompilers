@@ -63,6 +63,35 @@
 
 Проект выполнен на языке C#.
 ### Синтаксис языка <a name="syntax"></a>
+
+|№|  Инструкция|
+|-|-|
+|1| a = b; |
+|2| { a = l; c = d;} |
+|3| read(a) |
+|4| write(a,b,c); writeln(a,b,c); |
+|5| if ( a < b) { <операторы>} else { <операторы>} |
+|6| goto 123; 123: a =123; |
+|7| for i=1..5 {write(i,' ');} |
+|8| while a < b { a = a + 1;} |
+|9| int/bool/float a,b,c; |
+|10| if a != b I a == b { <операторы> }|
+|11| if (a != b I a == b) & b == 7 { <операторы> }|
+Пример продукции списка выражений
+---
+```
+exprlist    : expr
+                {
+                    $$ = new ListExprNode($1);
+                }
+            | exprlist COMMA expr
+                {
+                    $1.Add($3);
+                    $$ = $1;
+                }
+            ;
+```
+---
 --
 ### Оптимизации по синтаксическому дереву <a name = "syntax_tree"></a>
 На этом этапе оптимизации используется такая форма представления программы, которая более приспособленна для анализа, дальнейших преобразований и генерации кода. Мы будем переводить текст программы в так называемое синтаксическое дерево. Если синтаксическое дерево построено, то программа синтаксически правильная, и ее можно подвергать дальнейшей обработке.
@@ -628,7 +657,7 @@ public void OneLineTests(string line, string expected)
 
 3. **Аннотация**
 
-Данная задача основывается на использовании визиторов <??????????????????????>
+Данная задача основывается на использовании визиторов и решается путем замены в узле условного оператора оператора равенства двух чисел на булеву константу false. Помимо указанного 2 == 4, были учтены все остальные варианты операторы сравнения двух чисел (>=, <=, !=, >, <).
 
 4. **Теория**
 
@@ -897,26 +926,21 @@ if (false)
 
 ---
 ```Csharp
-    public class FindFalseVisitor : ChangeVisitor
-    {
-        public override void Visit(BinExprNode node)
-        {
-            if (node.Left is IdNode leftIdNode && node.Right is IdNode rightIdNode
-                && leftIdNode.Name.Equals(rightIdNode.Name)
-                && (node.OpType == BinOpType.Greater
-                    || node.OpType == BinOpType.Less
-                    || node.OpType == BinOpType.NotEqual))
-            {
-                ReplaceExpr(node, new BoolValNode(false));
-                IsChanged = true;
-            } 
-            else
-            {
-                IsChanged = false;
-                base.Visit(node);
-            }
-        }
-    }
+if (node.Left is IdNode leftIdNode 
+        && node.Right is IdNode rightIdNode
+        && leftIdNode.Name.Equals(rightIdNode.Name)
+        && (node.OpType == BinOpType.Greater
+        || node.OpType == BinOpType.Less
+        || node.OpType == BinOpType.NotEqual))
+{
+    ReplaceExpr(node, new BoolValNode(false));
+    IsChanged = true;
+} 
+else
+{
+    IsChanged = false;
+    base.Visit(node);
+}
 ```
 ---
 
@@ -1202,7 +1226,39 @@ st2;
 
 ---
 ```Csharp
-<КОД???>
+if (node.Condition is BoolValNode bv && !bv.Val)
+{
+    if (node.ElseStat != null)
+    {
+        Visit(node.ElseStat);
+        ReplaceStatement(node, node.ElseStat);
+    } 
+    else
+    {
+        ReplaceStatement(node, new EmptyStatement());
+    }
+    IsChanged = true;
+}
+else
+{
+    IsChanged = false;
+    base.Visit(node);
+}
+```
+---
+Так же для данной оптимизации прописан PostVisit
+---
+```Csharp
+public override void PostVisit(Node n)
+{
+    if (n is BlockNode bl)
+    {
+        bl.StList = bl.StList.Where(x => !(x is EmptyStatement)).ToList();
+    }
+}
+```
+---
+
 ```
 ---
 
@@ -1469,9 +1525,9 @@ while (false)
 ```
 ---
 
-### Генерация трехадресного кода. Построение базовых блоков и ControlFlowGraph, задачи для интеграции. Для интеграции задач в общий проект, необходимо было решить следующие задачи. <a name = "[[](#TAC)]"></a>
+### Генерация трехадресного кода. Построение базовых блоков и ControlFlowGraph, задачи для интеграции. Для интеграции задач в общий проект, необходимо было решить следующие задачи. <a name = "TAC"></a>
 
-#### Список задач <a name = "[[](#TACTasks)]"></a>
+#### Список задач <a name = "TACTasks"></a>
 
 | № | Задания |
 |-|---|
@@ -1760,7 +1816,10 @@ public void SimpleGeneration()
 мощью методов генерации трехадресного кода (ThreeAddressCode.cs).
 
 5. **Реализация**
+
 Исходя из определений, приведенных в источнике Дж. Ульман, А. Ахо "Компиляторы: принципы, технологии и инструментарий", была реализована структура в виде классов, содержащих связь ББл и CFG:
+
+---
 ```csharp
 public class BasicBlock
     {
@@ -1860,6 +1919,8 @@ public class BasicBlock
         }
     }
 ```
+---
+
 6. **Интеграция в общий проект**
 
 Команада, реализовавшая алгоритм разбиения программы на ББл, воспользовалась алгоритмом определения структуры ББл. Данная задача является опорной, поскольку от её качества реализации зависел в целом результат выполнения заданий остальными командами.
@@ -1867,6 +1928,8 @@ public class BasicBlock
 7. **Тесты**
 
 Также необходимая архитектура тестов была имплементирована и задокументирована: 
+
+---
 ```csharp
 public class TACTestsBase
     {
@@ -1892,6 +1955,7 @@ public class TACTestsBase
         }
     }
 ```
+---
 
 ### 4. Разбиение на ББл + слияние ББл <a name = "TAC_4"></a>
 
@@ -2691,12 +2755,26 @@ k = c + a;
 
 В том случае, если  в каких то присваиваниях в трех адресном коде присутсвуют одинаковые подвыражения, то вместо последующего повторения подвыражения производиться подстановка переменной, которой уже присвоили искомое значение. Исключения:случаи когда переменные участвующие в расчетах, изменяют свои значения между такими расчетами.
 
+---
+```
+До:
+a = b + c
+b = a - d
+c = b + c
+d = a - d 
+После:
+a = b + c
+b = a - d
+c = a
+d = b
+```
+---
+
 4. **Теория**
 
-<Проверить!!!>
-
 **Абстрактное синтаксическое дерево (АСД)** — конечное помеченное ориентированное дерево, в котором внутренние вершины сопоставлены (помечены) с операторами языка программирования, а листья — с соответствующими операндами. Таким образом, листья являются пустыми операторами и представляют только переменные и константы. 
-Один визитор - одна группа действий, позволяющая выполнять простейшую оптимизацию, над узлами дерева. Контекст в данной задаче не важен.
+Трехадресный код принято хранить в виде списка трехадресных инструкций. При этом, трехадресная инструкция представляет собой пятерку: метку инструкции, операцию, первый аргумент, второй аргумент и возможная переменная-результат.
+Выражение Е называется общим подвыражением, если Е было ранее вычислено и значение переменных в Е с того времени не изменилось.
 
 5. **Реализация**
 
@@ -2824,8 +2902,8 @@ r = a + b;
 Следующий тест необходим для предусмотрения того случая, когда оптимизация не срабатывает:
 ```csharp
 [Test]
-        public void CantPropagate()
-        {
+public void CantPropagate()
+{
             var TAC = GenerateTAC(
 @"
 {
@@ -2836,7 +2914,7 @@ a = 3;
 r = a + b;
 }
 "
-            );
+	    );
             var optimizer = new CommonExpressionsOptimizer(TAC);
             optimizer.Run();
 
@@ -2852,6 +2930,7 @@ r = a + b;
             Assert.AreEqual(expected, actual);
         }
 ```
+---
 
 ### 5. Устранение переходов через переходы <a name = "BBL_5"></a>
 1. **Команда, реализующая задачу**
@@ -3563,7 +3642,9 @@ private  void Optimize(InOutData<Dictionary<string, SemilatticeValue>> insOuts)
 ```
 ---
 
-6. **Интеграция** -- <Вставить тест>
+6. **Интеграция**
+
+Поскольку данный оптимизатор представляет собой обособленный класс, который наследуется от абстрактного класса оптимизаций, для интеграции в общий проект необходимо просто добавить создание его экземпляра в классе конвейера оптимизаций по трехадресному коду.
 
 7. **Тесты**
 
@@ -3836,118 +3917,96 @@ public  void Operations()
 ---
 
 ### 4. Активные переменные <a name = "Iter_4"></a>
-1. **Команда, реализующая задачу** Османян В., Маслова О.
+1. **Команда, реализующая задачу** 
+Османян В., Маслова О.
 2. **Зависимые и предшествующие задачи**
-
-Предшествующие:
-* Построение AST
-* Живые и мертвые переменные, удаление неиспользуемого кода
-Зависимые:
-* Передаточные функции
-* Вычисление передаточной функции для достигающих определений композицией передаточных функций команд.
+    Предшествующие: 
+* Построение CFG;
+    Зависимые:  -
 3. **Аннотация**
-
-Некоторые улучшающие код преобразования зависят от информации, вычисляемой в направлении, противоположном потоку управления программы; в качестве примера выступает отпимизация - анализ переменных. В анализе активных переменных (live variable analysis) для переменной t и точки р мы хотим выяснить, может ли значение х из точки р использоваться вдоль некоторого пути в графе потока, начинающемся в точке р. Если может, то мы говорим, что переменная т активна
-(жива) в точке р, если нет — неактивна (мертва).
+В данной задаче необходимо при прямом проходе алгоритма определить активные переменные для каждого ББл.  Для этой задачи также потребуются определения множеств def и use.
 4. **Теория**
-
-Мы определим уравнения потока данных непосредственно в терминах IN(В)
-и OUT(B), которые представляют собой множества активных переменных в точках непосредственно перед блоком В и после него соответственно. Эти уравнения могут быть также выведены путем определения передаточных функций для отдельных инструкций с последующей их композицией для получения передаточной функции блока в целом. Определения:
-![Ахо](CSEOsmDefUse.png)
-Взяты из: 
-"Компиляторы: принципы, технологии и инструментарий. Авт.: Дж. Ульман, Р. Сети, М. Лам, А. Ахо"
-5 **Реализация**
-Данная задача была реализована и успешно интегрирована в проект, код для активных переменных приведен ниже:
-```csharp
-class ActiveVariableOptimizer
-    {
-        Dictionary<int, List<string>> In_Akt_Ver = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> Out_Akt_Ver = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> use_B = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> def_B = new Dictionary<int, List<string>>();
-        Dictionary<int, List<string>> all_B = new Dictionary<int, List<string>>();
-
-        ActiveVariableOptimizer(ControlFlowGraph cfg)
-        {
-            var cur_b = cfg.start;
-            List<int> cheked = new List<int>();
-            Find_Atktiv_Ver(cur_b, cfg, cheked);
-
-        }
-
-        void Find_Atktiv_Ver(BasicBlock cur_b, ControlFlowGraph cfg, List<int> cheked)
-        {
-            if (cur_b != cfg.end)
-            {
-                if (cur_b != cfg.start && !cheked.Contains(cur_b.Index))
-                {
-                    Filling(cur_b);
-                    cheked.Add(cur_b.Index);
-                    foreach (var blok in cur_b.Out)
-                    {
-                        Find_Atktiv_Ver(blok, cfg, cheked);
-                    }
-                }
-            }
-        }
-
-        void Filling(BasicBlock cur_b)
-        {
-            all_B[cur_b.Index] = new List<string>();
-            for (int i = 0; i < cur_b.Instructions.Count; ++i)
-            {
-                var arg1 = cur_b.Instructions[i].Argument1;
-                var arg2 = cur_b.Instructions[i].Argument2;
-                var res = cur_b.Instructions[i].Result;
-                if (!all_B[cur_b.Index].Contains(arg1))
-                {
-                    if (arg1.Length > 0)
-                        all_B[cur_b.Index].Add(arg1);
-                }
-                if (!all_B[cur_b.Index].Contains(arg2))
-                {
-                    if (arg2.Length > 0)
-                        all_B[cur_b.Index].Add(arg2);
-                }
-                if (!all_B[cur_b.Index].Contains(res))
-                {
-                    if (arg1.Length > 0)
-                        all_B[cur_b.Index].Add(res);
-                }
-            }
-            for (int i = 0; i < all_B[cur_b.Index].Count; ++i)
-            {
-                bool flag_useble = true;
-                var cur_arg = all_B[cur_b.Index][i];
-                for (int k = cur_b.Instructions.Count - 1; k >= 0; --k)
-                {
-                    if ((cur_b.Instructions[k].Operation == "=") && ((cur_b.Instructions[k].Argument2 == cur_arg) ||
-                        (cur_b.Instructions[k].Argument1 == cur_arg)))
-                    {
-                        flag_useble = false;
-                    }
-                    if ((cur_b.Instructions[k].Operation == "=") && (cur_b.Instructions[k].Result == cur_arg))
-                    {
-                        if (!def_B[cur_b.Index].Contains(cur_arg))
-                        {
-                            if (cur_arg.Length > 0)
-                                def_B[cur_b.Index].Add(cur_arg);
-                        }
-                        if (flag_useble && !use_B[cur_b.Index].Contains(cur_arg))
-                        {
-                            if (cur_arg.Length > 0)
-                                use_B[cur_b.Index].Add(cur_arg);
-                        }
-                    }
-
-                }
-            }
-        }
+Переменная x активна в точке p, если значение x из точки p может использоваться вдоль некоторого пути.
+use[B] - множество переменных, значения которых могут использоваться в B до любого их определения.
+Пример:
+![](https://sun9-72.userapi.com/c857320/v857320566/1c34fa/Sl9fESVAyTA.jpg)
+Любая переменная из use[B] - активная на входе в B.
+---
+***Алгоритм***:
+	**Вход**: граф потока управления, в котором для каждого ББл вычислены def[B] и use[B].
+	**Выход**: множества переменных, активных на входе IN[B] и на выходе OUT[B] для всех ББл B.
 ```
-6 **Интеграция**
-Архитекор проекта интегрировал класс ActiveVariableOptimizer в общий конвейер - AllOptimizer класс, при написании тестов для зависимых задач, данный алгоритм выполнял свою работу.
-7 **Тесты**
+IN[Выход] = ∅;
+for (каждый блок B, кроме входного)
+    IN[B] = ∅;
+while (IN изменяется)
+	for (каждый блок B, кроме входного)
+		OUT[B] = ∪ IN[S] ; // где S - приемник B
+		IN[B] = use[B] U (OUT[B] - def[B]);
+```
+---
+5. **Реализация**
+Алгоритм итеративно работает на всех блоках. 
+Конструируется множество all_B ,простым перебором всех инструкций в блоке. Для каждого элемента из all_B , производятся следующие манипуляции: 
+Происходит перебор инструкций с конца к началу в обратном порядке. 
+Если не встречено ни одного использования, и встречено определение переменной, то оно добавляется в use_B .
+Если встречено, определение переменной, то оно добавляется во множество def_B .
+Функция, отвечающая за сбор usedef информации, является рекурсивной и ее содержимое выглядит следующим образом:
+---
+```Csharp
+if (cur_b != cfg.end)
+{
+    if (cur_b != cfg.start && !cheked.Contains(cur_b.Index))
+    {
+        Filling(cur_b);
+        cheked.Add(cur_b.Index);
+        foreach (var blok in cur_b.Out)
+        {
+            Find_usedef(blok, cfg, cheked);
+        }
+    }
+}
+```
+---
+Далее, согласно вышеизложенному алгоритму, циклически производятся вычисления. После остановки вычислений имеем 2 множества In_Akt_Ver(IN[B]) и Out_Akt_Ver(OUT[B]) . Переменные активные на входе и выходе из каждого блока.
+Основной участок кода для нахождения активных переменных выглядит следующим образом:
+---
+```Csharp
+do
+{
+    flag = true;
+    foreach (var blok in cfg.blocks)
+    {
+      	var in_ = new List<string>();
+        foreach (var s in use_B[blok.Index])
+            in_.Add(s);
+        foreach (var s in Out_Akt_Ver[blok.Index])
+            if(!def_B[blok.Index].Contains(s)
+            	&& !in_[blok.Index].Contains(s))
+                    in_.Add(s);
+        foreach (var s in in_)
+            flag &= In_Akt_Ver[blok.Index].Contains(s);
+        foreach (var s in In_Akt_Ver[blok.Index])
+            flag &= in_.Contains(s);
+        In_Akt_Ver[blok.Index] = in_;
+        var Out_ = new List<string>();
+        foreach (var chld in blok.Out)
+        {
+            foreach (var s in In_Akt_Ver[chld.Index])
+                if (!Out_.Contains(s))
+                    Out_.Add(s);
+        }
+        Out_Akt_Ver[blok.Index] = Out_;
+    }
+}
+while (!flag);
+```
+---
+6. **Интеграция**
+В процессе сборки проекта объекту класса ActiveVariableOptimizer, Подается на вход Граф Потока Управления. По полученному ГПУ производиться  расчет активных переменных, к которым можно обратиться в других файлах проекта.
+7. **Тесты**
 Для тестирования сначала исходный код теста подается на вход парсеру, после чего генерируется трехадресный код. Далее оптимизатору на вход подается список команд трехадресного кода, который оптимизируется при запуске функции Run(). Полученный результат сравнивается с предполагаемым ответом. Ниже приведен пример простейшего из вариантов:
+---
 ```csharp
 var TAC = GenerateTAC(
 @"
@@ -3964,6 +4023,7 @@ var expected = new List<string>()
     "a = b + 1"
 };
 ```
+---
 
 ### 5. Достигающие определения <a name = "Iter5"></a>
 1. **Команда, реализующая задачу** 
@@ -4107,7 +4167,83 @@ t = z + y;
 ----------
 
 ### 6. Передаточная функция в структуре распространения констант <a name = "Iter6"></a>
-<Нет документации>
+1. **Команда, реализующая задачу**
+Гарьковенко А., Руднев. Д.
+2. **Зависимые и предшествующие задачи**
+    Предшествующие: 
+* разбиение на базовые блоки;
+* построение Control Flow Graph;
+* итерационный алгоритм.
+    Зависимые: -.
+3. **Аннотация**
+Для выполнения данной задачи требуется описать передаточную функцию в структуре распространения констант.
+4. **Теория**
+Замена константы может быть произведена только в том случае, когда ни по какому из путей не происходит переопределение.
+![](https://sun9-57.userapi.com/c854428/v854428841/23c16f/OAXiZwFZR-Y.jpg)
+Для одной переменной xi – значения в полурешётке Vi:
+* все константы данного типа
+* NAC (Not A Constant) – либо переменной было присвоена не константа, либо по разным веткам – разные константы
+* UNDEF (неизвестно пока, является ли константой)
+Рассмотрим передаточную функцию одной команды:
+![](https://sun9-30.userapi.com/c854428/v854428841/23c176/yfsil9p0YZ8.jpg)
+* Если s − не присваивание, то fs − тождественная: fs(m) = m
+* Если s: x := ... , то ∀v ≠ x	m′(v) = m(v), а m′(x) определяется так:
+    * если x := c, то m′(x) = c
+    * если x := y + z, то ![](https://sun9-33.userapi.com/c854428/v854428841/23c17e/iXifsqjWuhw.jpg)
+    * если x := g(... ), то m′(x) = NAC (консервативно)
+5. **Реализация**
+За передаточную функцию в структуре распространения констант отвечает следующий участок кода:
+---
+```Csharp
+OUT[instrs[i].Result] = OUT[first].Type == SemilatticeData.UNDEF
+        ? new SemilatticeValue(SemilatticeData.UNDEF)
+        : OUT[first].Type == SemilatticeData.NAC 
+        || OUT[second].Type == SemilatticeData.NAC
+        ? new SemilatticeValue(SemilatticeData.NAC)
+        : new SemilatticeValue(SemilatticeData.UNDEF);
+```
+---
+6. **Интеграция в общий проект**
+Данная функция используется в итерационном алгоритме распространения констант.
+7. **Тесты**
+Тестирование функции проходило вместе с тестированием самого алгоритма. Пример такого теста представлен ниже:
+---
+```Csharp
+[Test]
+public void Simple()
+{
+    var TAC = GenerateTAC(
+@"
+{
+a = 3;
+b = 3;
+c = a + b;
+a = d;
+e = a;
+}
+");
+    var blocks = new TACBaseBlocks(TAC.Instructions);
+    blocks.GenBaseBlocks();
+    var cfg = new ControlFlowGraph(blocks.blocks);
+    var optimizer = new ConstantPropagationIter();
+    optimizer.Cfg = cfg;
+    optimizer.Instructions = TAC.Instructions;
+    optimizer.Blocks = blocks.blocks;
+    optimizer.Run();
+    var actual = optimizer.Instructions.Select(i => i.ToString().Trim()).ToList();
+    var expected = new List<string>()
+    {
+        "a = 3",
+        "b = 3",
+        "c = 3 + 3",
+        "a = d",
+        "e = a"
+    };
+    Assert.AreEqual(expected, actual);
+}
+```
+---
+
 ### 7. Итерационный алгоритм в обобщённой структуре <a name = "Iter7"></a>
 1. **Команда, реализующая задачу** 
 Манукян Г. А.
@@ -4472,16 +4608,16 @@ int Traverse(BasicBlock n,int c)
 
 ---
 ```Csharp
-public Ostov_Tree(ControlFlowGraph cfg)
-{
-    var cur_b = cfg.start;
-    List<int> cheked = new List<int>();
-    c = Block_Cheking(cur_b, cfg, cheked);
-    foreach (var block in cfg.blocks)
-        p[block.Index] = false;
-    p[cfg.end.Index] = false;
-    Traverse(cur_b, c);
-}
+public SpanningTree(ControlFlowGraph cfg)
+        {
+            var cur_b = cfg.start;
+            List<int> cheked = new List<int>();
+            c = Block_Cheking(cur_b, cfg, cheked);
+            foreach (var block in cfg.blocks)
+                p[block.Index] = false;
+            p[cfg.end.Index] = false;
+            Traverse(cur_b, c);
+        }
 ```
 ---
 
@@ -4491,7 +4627,32 @@ public Ostov_Tree(ControlFlowGraph cfg)
 
 7. **Тесты**
 
-<Добавить тест>
+При тестировании исходный текст программы подавался на вход генератору CFG. После этого по полученному графу строилось остовное дерево. Далее ребра полученного дерева сравнивались с предполагаемым ответом. Ниже приведен пример теста без циклов в исходном коде:
+---
+```Csharp
+[Test]
+        public void Simple()
+        {
+            BasicBlock.clearIndexCounter();
+            var cfg = GenerateCFG(
+@"
+{
+a = 3;
+b = 2;
+c = a + b;
+}
+");
+            var spanningTree = new SpanningTree(cfg);
+            var actual = spanningTree.dfst;
+            var expected = new List<IndexEdge>()
+            {
+                new IndexEdge(1, 0),
+                new IndexEdge(0, 2)
+            };
+            Assert.AreEqual(expected, actual);
+        }
+```
+---
 
 ### 3. Классификация ребер в CFG: наступающие, отступающие, поперечные (по остовному дереву) <a name = "Loops_3"></a>
 1. **Команда, реализующая задачу**
